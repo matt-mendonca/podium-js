@@ -8,6 +8,10 @@ var fs = require('fs'),
           socket = null,
           slides = {},
 
+          init = function () {
+            fs.readFile(__dirname + '/config.json', loadConfig);
+          }(),
+
           loadConfig = function (err, data) {
             if (err) {
               throw err;
@@ -52,26 +56,51 @@ var fs = require('fs'),
             main();
           },
 
+          main = function () {
+            app.get('/', function (req, res) {
+              res.render('index', {slides: slides});
+            });
+
+            app.get('/controller', function (req, res) {
+              res.render('controller', {slides: slides});
+            });
+
+            //Map out all of the routes for the slide decks
+            for (var route in slides) {
+              app.use(express.static(__dirname + slides[route].location + 'public'));
+
+              app.get(route, function (req, res) {
+                res.sendfile(__dirname + slides[route].location+'index.html');
+              });
+            }
+
+            io.on('connection', socketConnect);
+          },
+
+          socketConnect = function (sock) {
+            socket = sock;
+
+            socket.on('requestDeck', socketRequestSlideDeck);
+            
+            socket.on('command', sockectOnCommand);
+          },
+
           socketRequestSlideDeck = function(data) {
             if(slides[data.route]) {
-              console.log('sending init presentation data ' + JSON.stringify(slides[data.route]) );
-              socket.emit('initdata', slides[data.route]);
+              console.log('Sending initial deck data: ' + JSON.stringify(slides[data.route]) );
+              socket.emit('initalData', slides[data.route]);
             }
           },
 
           sockectOnCommand = function(command) {
             var route = command.route,
-                // command can be 'up', 'down', 'left', 'right'
                 command = command.text,   
                 currentDeck = null;
 
-            console.log("receive command " + JSON.stringify(command) );
-
-            // TODO: future might need a way to tell how many slides there are
+            console.log("Received command: " + JSON.stringify(command) );
 
             if(slides[route]) {
               currentDeck = slides[route];
-              // update ppt information
 
               switch(command) {
                 case 'up':
@@ -98,46 +127,9 @@ var fs = require('fs'),
               
               slides[route] = currentDeck;
               
-              // send the new data for update
-              socket.broadcast.emit('updatedata', currentDeck);
+              socket.broadcast.emit('updateData', currentDeck);
             }
-          },
-
-          socketConnect = function (sock) {
-            socket = sock;
-
-            // once connected need to broadcast the cur slide data
-            socket.on('request_presentation', socketRequestSlideDeck);
-            
-            // send commands to make slide go previous/ next/etc
-            // this should be triggered from the remote controller
-            socket.on('command', sockectOnCommand);
-          },
-
-          main = function () {
-            app.get('/', function (req, res) {
-              res.render('index', {slides: slides});
-            });
-
-            app.get('/controller', function (req, res) {
-              res.render('controller', {slides: slides});
-            });
-
-            //Map out all of the routes for the slide decks
-            for (var route in slides) {
-              app.use(express.static(__dirname + slides[route].location + 'public'));
-
-              app.get(route, function (req, res) {
-                res.sendfile(__dirname + slides[route].location+'index.html');
-              });
-            }
-
-            io.on('connection', socketConnect);
-          },
-
-          init = function () {
-            fs.readFile(__dirname + '/config.json', loadConfig);
-          }();
+          };
 
       return {
         config: config
