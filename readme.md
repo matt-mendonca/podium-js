@@ -8,10 +8,10 @@ Mimic keynote - I like how I can control my laptop's slides (which is being disp
 
 why not fork
 --------------
-The hung did great work, and full credit goes to him for the original idea. I came across his project and initially I was going to fork his code. However, I decided to create a new code base due to the tight coupling of and lack of activity on the original (last updated 2 years ago as of July 2014):
+The hung did great work, and full credit goes to him for the original idea. I came across his project and initially I was going to fork his code. However, I decided to create a new code base due to the tight coupling of and lack of activity on his project (last updated 2 years ago as of July 2014):
 
 - The reveal js code is mixed in with the remote code.
-- Adding a new presentation requires you to edit the code in several places
+- Adding a new presentation requires you to edit the remote code in several places
   - After initial setup, I wanted as few steps as possible to add a new deck
 - There are places were things are hard coded.
 - Also, I wanted to use
