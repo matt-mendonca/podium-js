@@ -36,5 +36,7 @@ getting started
 - Create a directory called public in your reveal js directory and place all of your static assets into it (e.g. css files, js files)
 - Include the socket io and podium js files in your markup.
   - Since both of those files are in podium's public folder, you should only need to add the following script tags before the closing body tag
-    - <script src="/socket.io/socket.io.js"></script>
-    - <script src="podium.js"></script>
+  
+```html
+  <script src="/socket.io/socket.io.js"></script>
+  <script src="podium.js"></script>
