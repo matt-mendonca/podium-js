@@ -3,14 +3,25 @@ body {
 }
 
 .title {
-  margin-bottom: 0.5em;
+  margin-bottom: 0;
+}
+
+.slide-view,
+.home-button {
+  padding: 0.3em 0.5em;
+  font-size: 18px;
 }
 
 .home-button,
 .slide-decks {
   float: left;
-  width: 47%;
+  width: 46%;
   margin-bottom: 1.5em;
+}
+
+.slide-view {
+  display: block;
+  margin: 1em 0 1.5em;
 }
 
 .slide-decks {
@@ -24,8 +35,7 @@ body {
 
 .home-button {
   padding: 0.3em 0.5em;
-  margin-right: 6%;
-  font-size: 18px;
+  margin-right: 8%;
 }
 
 .nav-buttons {

@@ -83,11 +83,12 @@ var fs = require('fs'),
             // setting podium.socket so that it is availible to other lambda functions
             socket = sock;
 
-            socket.on('requestDeck', socketRequestSlideDeck);
+            socket.on('requestDeck', socketOnRequestSlideDeck);
             socket.on('command', sockectOnCommand);
+            socket.on('slideChanged', sockectOnSlideChanged);
           },
 
-          socketRequestSlideDeck = function(data) {
+          socketOnRequestSlideDeck = function(data) {
             if(slides[data.route]) {
               console.log('Sending initial deck data: ' + JSON.stringify(slides[data.route]) );
               socket.emit('initalData', slides[data.route]);
@@ -99,7 +100,7 @@ var fs = require('fs'),
                 command = controllerCommand.text,   
                 currentDeck = null;
 
-            console.log("Received command: " + JSON.stringify(command) );
+            console.log("Received command: " + JSON.stringify(command));
 
             if(slides[route]) {
               currentDeck = slides[route];
@@ -131,6 +132,15 @@ var fs = require('fs'),
               
               socket.broadcast.emit('updateData', currentDeck);
             }
+          },
+
+          sockectOnSlideChanged = function(data) {
+            console.log("Received slide change: " + JSON.stringify(data));
+              
+            slides[data.route].indexh = data.indexh;
+            slides[data.route].indexv = data.indexv;
+
+            socket.broadcast.emit('recievedSlideChange', data);
           },
 
           init = function () {

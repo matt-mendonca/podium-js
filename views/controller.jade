@@ -10,11 +10,13 @@ html.no-js(lang="en")
     link(rel="stylesheet" href="main.css")
     link(rel="stylesheet" href="deck_controller.css")
   body
-    h3.title presentation controller
+    h3.title controller
+
+    a.button.slide-view(href="#") control in presentation
 
     a.button.home-button(href="/") home
 
-    select.slide-decks(name="slides-deck")
+    select.slide-decks(name="slide-decks")
       each slideDeck, route in slides
         option(value=route) 
           =slideDeck.name
