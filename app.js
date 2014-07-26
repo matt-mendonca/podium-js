@@ -8,10 +8,6 @@ var fs = require('fs'),
           socket = null,
           slides = {},
 
-          init = function () {
-            fs.readFile(__dirname + '/config.json', loadConfig);
-          }(),
-
           loadConfig = function (err, data) {
             if (err) {
               throw err;
@@ -135,7 +131,12 @@ var fs = require('fs'),
               
               socket.broadcast.emit('updateData', currentDeck);
             }
-          };
+          },
+
+          init = function () {
+            //self calling function, this kicks everything off
+            fs.readFile(__dirname + '/config.json', loadConfig);
+          }();
 
       return {
         config: config
