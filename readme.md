@@ -4,7 +4,7 @@ podium js is a presentation platform framework (wat?) for [reveal js](http://rev
 
 what it does
 --------------
-podium js is a frame work to make presenting your reveal js slides easier. It allows you to drop in your already made reveal slides and control them with the built in remote. 
+podium js is a frame work to make presenting (read: when standing in front of a crowd) your reveal js slides easier. It allows you to drop in your already made reveal slides and control them with the built in remote. 
 
 why
 ----
