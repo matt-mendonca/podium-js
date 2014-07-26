@@ -20,9 +20,10 @@ The hung did great work, and full credit goes to him for the original idea. I ca
   - After initial setup, I wanted as few steps as possible to add a new deck
 - There are places were things are hard coded.
   - E.g. the select list for the remote
-- Using the latest version of express and socket
-- Jade instead of ejs
-- We have different coding styles (a shallow point, I know)
+- Also, I wanted to use
+  - the latest version of express and socket.io (and reveal js)
+  - Jade instead of ejs
+- Lastly, we have different coding styles (a shallow point, I know)
 
 In short, hung's rps is like an app - you change it to create and present your presentation. podium is a framework - you use to present the presentation you created.
 
