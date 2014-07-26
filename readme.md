@@ -75,7 +75,6 @@ FIRST (order matters), on yor laptop:
 THEN, on your phone:
 
 - navigate to [http://localhost:3000/ or http://laptopIpAddress:3000/](http://localhost:3000/)
-- click the launch controller button
-  - [launch controller](http://localhost:3000/controller)
+- click the [launch controller](http://localhost:3000/controller) button
 - select the correct deck from the select list
 - use the arrow buttons to navigate
