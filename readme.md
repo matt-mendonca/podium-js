@@ -2,6 +2,10 @@ podium js
 ========
 podium js is a presentation platform framework (wat?) for [reveal js](http://revealjs.com/) slide decks. It is built on top of [express js](http://expressjs.com/) and [node js](http://nodejs.org/). It is inspired by [thehung111's remote presentation controller](https://github.com/thehung111/remote-presentation-controller) (most of the remote code is logically the same) - more on that in a bit.
 
+what it does
+--------------
+podium js is a frame work to make presenting your reveal js slides easier. It allows you to drop in your already made reveal slides and control them with the built in remote. 
+
 why
 ----
 Mimic keynote - I like how I can control my laptop's slides (which are likely being displayed on a big screen) from my phone. It allows me freedom of movement.
@@ -17,11 +21,7 @@ The hung did great work, and full credit goes to him for the original idea. I ca
 - I wanted to use
   - the latest version of express and socket.io (and reveal js)
   - Jade instead of ejs
-- We have different coding styles (a shallow point, I know)
-
-what it does
---------------
-podium js is a frame work to make presenting your reveal js slides easier. It allows you to drop in your already made reveal slides and control them with the built in remote.  
+- We have different coding styles (a shallow point, I know) 
 
 requirements
 -----------------
