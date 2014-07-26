@@ -1,6 +1,5 @@
 var fs = require('fs'),
     express = require('express'),
-    ejs = require('ejs'),
     app = express(),
     server = require('http').Server(app),
     io = require('socket.io')(server),
