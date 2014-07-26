@@ -8,8 +8,6 @@ Mimic keynote - I like how I can control my laptop's slides (which is being disp
 
 why not fork
 --------------
-#### subtext: why be a jerk
-
 The hung did great work, and full credit goes to him for the original idea. I came across his project and initially I was going to fork his code. However, I decided to create a new code base due to the tight coupling of and lack of activity on the original (last updated 2 years ago as of July 2014):
 
 - The reveal js code is mixed in with the remote code.
