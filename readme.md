@@ -12,18 +12,14 @@ why not fork
 
 The hung did great work, and full credit goes to him for the original idea. I came across his project and initially I was going to fork his code. However, I decided to create a new code base due to the tight coupling of and lack of activity on the original (last updated 2 years ago as of July 2014):
 
-- The version of reveal js is mixed in with the remote code.
-  - I wanted to update reveal js, but it proved messy 
+- The reveal js code is mixed in with the remote code.
 - Adding a new presentation requires you to edit the code in several places
   - After initial setup, I wanted as few steps as possible to add a new deck
 - There are places were things are hard coded.
-  - E.g. the select list for the remote
 - Also, I wanted to use
   - the latest version of express and socket.io (and reveal js)
   - Jade instead of ejs
 - Lastly, we have different coding styles (a shallow point, I know)
-
-In short, hung's rps is like an app - you change it to create and present your presentation. podium is a framework - you use to present the presentation you created.
 
 what it does
 --------------
