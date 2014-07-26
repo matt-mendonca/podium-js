@@ -65,19 +65,13 @@ a:focus {
 }
 
 .title {
-  margin: 0 0 0.25em;
+  margin: 0 0 0.65em;
 }
 
-.sub-title,
 .body-title {
   margin-bottom: 0.5em;
 }
 
-.sub-text,
 .slide-decks {
   margin-top: 0.5em;
-}
-
-.slide-decks {
-  margin-bottom: 1.5em;
 }

@@ -10,33 +10,32 @@ html.no-js(lang="en")
     link(rel="stylesheet" href="podium.css")
     link(rel="stylesheet" href="controller.css")
   body
-    .controller
-      h3.title presentation controller
+    h3.title presentation controller
 
-      a.button.home-button(href="/") home
+    a.button.home-button(href="/") home
 
-      select.slides-deck(name="slides-deck")
-        each slideDeck, route in slides
-          option(value=route) 
-            =slideDeck.name
-          
-      table.nav-buttons
-        tr
-          td
-          td
-            span.button.up(data-command="up") ▲
-          td
-        tr
-          td
-            span.button.left(data-command="left") ◀
-          td.nav-middle
-          td
-            span.button.right(data-command="right") ▶
-        tr
-          td
-          td
-            span.button.down(data-command="down") ▼
-          td
+    select.slides-deck(name="slides-deck")
+      each slideDeck, route in slides
+        option(value=route) 
+          =slideDeck.name
+        
+    table.nav-buttons
+      tr
+        td
+        td
+          span.button.up(data-command="up") ▲
+        td
+      tr
+        td
+          span.button.left(data-command="left") ◀
+        td.nav-middle
+        td
+          span.button.right(data-command="right") ▶
+      tr
+        td
+        td
+          span.button.down(data-command="down") ▼
+        td
 
     script(src="jquery-2.1.1.min.js")
     script(src="/socket.io/socket.io.js")

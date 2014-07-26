@@ -5,8 +5,8 @@
   socket.on('connect', function () {
     console.log("controller connected.");
     
-    $('.controller .nav-buttons .button').click(function() {
-      var slidesDeck = $('.slides-deck').val(),
+    $('.nav-buttons .button').click(function() {
+      var slidesDeck = $('.slide-decks').val(),
           command = $(this).attr('data-command');
     
       // send command to server
