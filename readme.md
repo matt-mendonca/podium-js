@@ -45,6 +45,7 @@ loading a reveal js deck into podium
 ```html
   <script src="/socket.io/socket.io.js"></script>
   <script src="podium.js"></script>
+```
 
 podium will wire everything else up for you.
 
