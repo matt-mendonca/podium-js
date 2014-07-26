@@ -1,0 +1,72 @@
+body {
+  font-size: 32px;
+}
+
+.controller {
+  text-align: center; 
+}
+
+.title {
+  margin-bottom: 0.5em;
+}
+
+.home-button,
+.slides-deck {
+  float: left;
+  width: 47%;
+  margin-bottom: 1.5em;
+}
+
+.slides-deck {
+  border: 1px solid #aaa;
+  height: 1.5em;
+  line-height: 1.5em;
+  font-size: 0.65em;
+  color: #333;
+  font-weight: 100;
+}
+
+.home-button {
+  padding: 0.3em 0.5em;
+  margin-right: 6%;
+  font-size: 18px;
+}
+
+.nav-buttons {
+  margin: 0.75em auto 0;
+}
+
+.nav-middle {
+  width: 100px;
+  height: 125px;
+}
+
+.nav-buttons .button {
+  display: inline-block;
+  height: 64px;
+  width: 70px;
+  border-radius: 6px;
+  box-shadow: 0 1px 0 #0090CC, 0 7px 0 #005D83, 0 6px 6px #000;
+  padding: 10px 15px;
+
+  background: linear-gradient(to bottom, #00B4FF 0%, #0090CC 100%);
+
+  font-size: 1.1em;
+  color: #ccc;
+  text-shadow: 0 -1px 0 #333;
+  cursor: pointer;
+  
+  transition: all 150ms ease;
+}
+
+.nav-buttons .button:hover, 
+.nav-buttons .button:focus,
+.nav-buttons .button:active {
+  color: #fff;
+  text-shadow: 0 0 5px #ffd, 0 0 8px #fff; 
+}
+  
+.nav-buttons .button:active {
+  box-shadow: 0 1px 0 #0090CC, 0 2px 0 #005D83, 0 2px 2px #000;
+  transform: translateY(3px);
+}

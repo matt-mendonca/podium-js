@@ -1,0 +1,32 @@
+doctype html
+html.no-js(lang="en")
+  head
+    meta(charset="utf-8")
+    meta(http-equiv="X-UA-Compatible" content="IE=edge")
+    meta(name="description" content="")
+    meta(name="viewport" content="width=device-width, initial-scale=1")
+
+    title Podium
+    link(rel="stylesheet" href="podium.css")
+  body
+    h1.title podium js
+      
+    //
+      h3.sub-title 
+        | the 
+        a(href="http://revealjs.com/") reveal js 
+        | presentation framework powered by 
+        a(href="http://expressjs.com/") express 
+        | and 
+        a(href="http://nodejs.org/") node
+      h6.sub-text (it's a framework, built on a framework, made to present another framework - like, woah)
+
+    h4.body-title Here are your presentations:
+
+    ul.slide-decks
+      each slideDeck, route in slides
+        li
+          a(href=route)
+            =slideDeck.name
+
+    a.button(href="/controller") launch controller

@@ -1,0 +1,57 @@
+doctype html
+html.no-js(lang="en")
+  head
+    meta(charset="utf-8")
+    meta(http-equiv="X-UA-Compatible" content="IE=edge")
+    meta(name="description" content="")
+    meta(name="viewport" content="width=device-width, initial-scale=1")
+
+    title Podium
+    link(rel="stylesheet" href="podium.css")
+    link(rel="stylesheet" href="controller.css")
+  body
+    .controller
+      h3.title presentation controller
+
+      a.button.home-button(href="/") home
+
+      select.slides-deck(name="slides-deck")
+        each slideDeck, route in slides
+          option(value=route) 
+            =slideDeck.name
+          
+      table.nav-buttons
+        tr
+          td
+          td
+            span.button.up(data-command="up") ▲
+          td
+        tr
+          td
+            span.button.left(data-command="left") ◀
+          td.nav-middle
+          td
+            span.button.right(data-command="right") ▶
+        tr
+          td
+          td
+            span.button.down(data-command="down") ▼
+          td
+
+    script(src="jquery-2.1.1.min.js")
+    script(src="/socket.io/socket.io.js")
+    script.
+      // connect
+      var socket = io.connect('/'); 
+      
+      socket.on('connect', function () {
+        console.log("controller connected.");
+        
+        $('.controller .button').click(function() {
+          var slidesDeck = $('.slides-deck').val(),
+              command = $(this).attr('data-command');
+        
+          // send command to server
+          socket.emit('command', {'route' : slidesDeck, 'text': command } );
+        }); 
+      });

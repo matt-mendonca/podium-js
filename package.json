@@ -1,0 +1,11 @@
+{
+  "name": "podium",
+  "description": "Reveal JS Slides management / presentation framework",
+  "version": "0.0.1",
+  "private": true,
+  "dependencies": {
+    "express": "4.x",
+    "jade": "1.x",
+    "socket.io": "1.x"
+  }
+}
