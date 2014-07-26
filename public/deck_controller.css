@@ -32,17 +32,25 @@ body {
   margin: 0.75em auto 0;
 }
 
-.nav-middle {
-  width: 100px;
-  height: 125px;
+.row {
+  margin-bottom: 0.5em;
 }
 
+
+.nav-middle,
 .nav-buttons .button {
   display: inline-block;
   height: 64px;
+}
+
+.nav-middle {
+  width: 105px;
+}
+
+.nav-buttons .button {
+  vertical-align: top;
   width: 70px;
   padding: 10px 15px;
-  
   font-size: 1.1em;
   text-shadow: 0 -1px 0 #333;
   cursor: pointer;
