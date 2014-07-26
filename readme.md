@@ -1,10 +1,10 @@
 podium js
 ========
-podium js is a presentation platform framework (wat?) for [reveal js](http://revealjs.com/) slide decks. It is built on top of [express js](http://expressjs.com/) and [node js](http://nodejs.org/). It is inspired by [thehung111's remote presentation controller](https://github.com/thehung111/remote-presentation-controller) (most of the remote code is logically the same) - more on that in a bit.
+podium js is a presentation platform framework (wat?) for [reveal js](http://revealjs.com/) slide decks. It is built on top of [express js](http://expressjs.com/) and [node js](http://nodejs.org/). It is inspired by [thehung111's remote presentation controller](https://github.com/thehung111/remote-presentation-controller) (much of the remote code is logically the same) - more on that in a bit.
 
 what it does
 --------------
-podium js is a frame work to make presenting (read: when standing in front of a crowd) your reveal js slides easier. It allows you to drop in your already made reveal slides and control them with the built in remote. 
+podium js is a frame work to make presenting (read: when standing in front of a crowd) your reveal js slides easier. It allows you to drop in your already made reveal slides and control them with the built in controller. 
 
 why
 ----
@@ -14,10 +14,11 @@ why not fork
 --------------
 The hung did great work, and full credit goes to him for the original idea. I came across his project and initially I was going to fork his code. However, I decided to create a new code base due to the tight coupling of and lack of activity on his project (last updated 2 years ago as of July 2014):
 
-- The reveal js code is mixed in with the remote code.
+- The reveal js code is mixed in with the remote code
 - Adding a new presentation requires you to edit the remote code in several places
   - After initial setup, I wanted as few steps as possible to add a new deck
-- There are places were things are hard coded.
+- There are places were things are hard coded
+- I wanted to be able to control the slides while viewing them from the controller
 - I wanted to use
   - the latest version of express and socket.io (and reveal js)
   - Jade instead of ejs
@@ -80,3 +81,4 @@ Finally, on your phone:
 - click the [launch controller](http://localhost:3000/controller) button
 - select the correct deck from the select list
 - use the arrow buttons to navigate
+- OR click the [control in presentation](http://localhost:3000/example?controller=true) button to control the slides while viewing them
