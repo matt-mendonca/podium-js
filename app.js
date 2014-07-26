@@ -17,7 +17,6 @@ var fs = require('fs'),
             server.listen(config.port);
             app.set('views', __dirname + '/views');
             app.set('view engine', 'jade');
-            app.use(express.static(__dirname + '/public'));
             console.log('podium server listening on port '+config.port);
             fs.readdir(__dirname + '/slides', scanSlidesDir);
           },
@@ -59,24 +58,46 @@ var fs = require('fs'),
           },
 
           main = function () {
-            app.get('/', function (req, res) {
-              res.render('index', {slides: slides});
-            });
+            // Front controller
+            app.use(express.static(__dirname + '/public'));
 
-            app.get('/controller', function (req, res) {
-              res.render('controller', {slides: slides});
-            });
-
-            //Map out all of the routes for the slide decks
             for (var route in slides) {
               app.use(express.static(__dirname + slides[route].location + 'public'));
-
-              app.get(route, function (req, res) {
-                res.sendfile(__dirname + slides[route].location+'index.html');
-              });
             }
 
+
+            app.get('/*', function (req, res) {
+              switch(req.url) {
+                case '/' :
+                  podiumRoute(req, res, 'index');
+                  break;
+                case '/controller' :
+                  podiumRoute(req, res, 'controller');
+                  break;
+                default :
+                  deckRoute(req, res);
+                  break;
+              }
+            });
+
+            app.get('/ex', function (req, res) {
+              res.sendfile(__dirname + '/slides/example/index.html');
+            });
+
             io.on('connection', socketConnect);
+          },
+
+          podiumRoute = function(req, res, path) {
+            res.render(path, {slides: slides});
+          },
+
+          deckRoute = function(req, res) {
+            var deck = null;
+
+            if(slides[req.url]) {
+              deck = slides[req.url];
+              res.sendfile(__dirname + deck.location + 'index.html');
+            }
           },
 
           socketConnect = function (sock) {
