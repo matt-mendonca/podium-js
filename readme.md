@@ -1,10 +1,10 @@
 podium js
 ========
-podium js is a presentation framework for [reveal js](http://revealjs.com/) slide decks. It is built on top of [express js](http://expressjs.com/) and [node js](http://nodejs.org/). It is inspired by [thehung111's remote presentation controller](https://github.com/thehung111/remote-presentation-controller) (most of the remote code is logically the same) - more on that in a bit.
+podium js is a presentation framework (wat?) for [reveal js](http://revealjs.com/) slide decks. It is built on top of [express js](http://expressjs.com/) and [node js](http://nodejs.org/). It is inspired by [thehung111's remote presentation controller](https://github.com/thehung111/remote-presentation-controller) (most of the remote code is logically the same) - more on that in a bit.
 
 why
 ----
-Mimic keynote - I like how I can control my laptop's slides (which is being displayed on a big screen) from my phone. Controlling my slides from my phone allows me the freedom to move around will speaking.
+Mimic keynote - I like how I can control my laptop's slides (which are likely being displayed on a big screen) from my phone. It allows me freedom of movement.
 
 why not fork
 --------------
@@ -14,10 +14,10 @@ The hung did great work, and full credit goes to him for the original idea. I ca
 - Adding a new presentation requires you to edit the remote code in several places
   - After initial setup, I wanted as few steps as possible to add a new deck
 - There are places were things are hard coded.
-- Also, I wanted to use
+- I wanted to use
   - the latest version of express and socket.io (and reveal js)
   - Jade instead of ejs
-- Lastly, we have different coding styles (a shallow point, I know)
+- We have different coding styles (a shallow point, I know)
 
 what it does
 --------------
@@ -45,20 +45,24 @@ podium will wire everything else up for you.
 
 using podium
 ------------
-High level:
+####High level:
 
-- Fire up the podium node app on your laptop
-- Go to the to node app on your phone
+1. Laptop
+  - Fire up the node app
+  - Go to the app in a browser
+  - Choose the slides in the app
+2. Phone
+  - Go to the to app in a browser
+  - Launch the controller
+  - Pick the correct slides
 
-Low level:
+####Low level:
 
 podium comes with an example reveal deck - for this section we will be presenting it.
 
-To use podium:
+To start, connect your laptop and phone to the same network. I'd recommend setting up a local network only you can get to (lest someone mess with the slides during your presentation - authentication coming soon). E.g. [http://www.tuaw.com/2009/09/25/mac-101-create-a-wireless-network-between-mac-and-iphone/](http://www.tuaw.com/2009/09/25/mac-101-create-a-wireless-network-between-mac-and-iphone/).
 
-Connect your laptop and phone to the same network. I'd recommend setting up a local network only you can get to (lest someone mess with the slides - authentication coming soon). E.g. [http://www.tuaw.com/2009/09/25/mac-101-create-a-wireless-network-between-mac-and-iphone/](http://www.tuaw.com/2009/09/25/mac-101-create-a-wireless-network-between-mac-and-iphone/)
-
-FIRST (order matters), on yor laptop:
+Then, on yor laptop (order matters - you must open the slides before connecting the remote):
 
 - run the app.js file in node 
   - on OSX this mean
@@ -70,7 +74,7 @@ FIRST (order matters), on yor laptop:
 - click the link for the deck you want to present
   - e.g. [example](http://localhost:3000/example)
 
-THEN, on your phone:
+Finally, on your phone:
 
 - navigate to [http://localhost:3000/ or http://laptopIpAddress:3000/](http://localhost:3000/)
 - click the [launch controller](http://localhost:3000/controller) button
