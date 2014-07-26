@@ -21,6 +21,8 @@ body {
   padding: 0.5em 1em;
   background: #333;
   background: linear-gradient(to bottom, #333 0%, #222 100%);
+  background-repeat: no-repeat;
+  background-attachment: fixed;
   text-align: center;
   font-size: 22px;
   font-family: "Helvetica Neue", "Helvetica", Helvetica, Arial, sans-serif !important;
