@@ -1,7 +1,7 @@
 podium js
 ========
 
-podium js is a presentation framework for [reveal js](http://revealjs.com/) slide decks. It is built on top of [express js](http://expressjs.com/) and [node js](http://nodejs.org/). It is inspired by [thehung111's presentation remote](https://github.com/thehung111/remote-presentation-controller) - more on that in a bit.
+podium js is a presentation framework for [reveal js](http://revealjs.com/) slide decks. It is built on top of [express js](http://expressjs.com/) and [node js](http://nodejs.org/). It is inspired by [thehung111's remote presentation controller](https://github.com/thehung111/remote-presentation-controller) - more on that in a bit.
 
 why
 ----
