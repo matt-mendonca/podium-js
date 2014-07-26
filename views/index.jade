@@ -1,22 +1,14 @@
-doctype html
-html.no-js(lang="en")
-  head
-    meta(charset="utf-8")
-    meta(http-equiv="X-UA-Compatible" content="IE=edge")
-    meta(name="description" content="")
-    meta(name="viewport" content="width=device-width, initial-scale=1")
+extends ./layout.jade
 
-    title Podium
-    link(rel="stylesheet" href="main.css")
-  body
-    h1.title podium js
+block content
+  h1.title podium js
 
-    a.button.controller-button(href="/controller") launch controller
+  a.button.controller-button(href="/controller") launch controller
 
-    h4.body-title your presentations:
+  h4.body-title your presentations:
 
-    ul.slide-decks
-      each slideDeck, route in slides
-        li
-          a(href=route)
-            =slideDeck.name
+  ul.slide-decks
+    each slideDeck, route in slides
+      li
+        a(href=route)
+          =slideDeck.name
