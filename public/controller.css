@@ -41,14 +41,9 @@ body {
   display: inline-block;
   height: 64px;
   width: 70px;
-  border-radius: 6px;
-  box-shadow: 0 1px 0 #0090CC, 0 7px 0 #005D83, 0 6px 6px #000;
   padding: 10px 15px;
-
-  background: linear-gradient(to bottom, #00B4FF 0%, #0090CC 100%);
-
+  
   font-size: 1.1em;
-  color: #ccc;
   text-shadow: 0 -1px 0 #333;
   cursor: pointer;
   
@@ -58,11 +53,5 @@ body {
 .nav-buttons .button:hover, 
 .nav-buttons .button:focus,
 .nav-buttons .button:active {
-  color: #fff;
   text-shadow: 0 0 5px #ffd, 0 0 8px #fff; 
-}
-  
-.nav-buttons .button:active {
-  box-shadow: 0 1px 0 #0090CC, 0 2px 0 #005D83, 0 2px 2px #000;
-  transform: translateY(3px);
 }
