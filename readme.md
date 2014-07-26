@@ -24,7 +24,7 @@ The hung did great work, and full credit goes to him for the original idea. I ca
 - Jade instead of ejs
 - We have different coding styles (a shallow point, I know)
 
-In short, hung's rps is like an app - you change it to create your presentation. podium is a framework - you use to present the presentation you created.
+In short, hung's rps is like an app - you change it to create and present your presentation. podium is a framework - you use to present the presentation you created.
 
 what it does
 --------------
@@ -34,7 +34,6 @@ podium js is a frame work to make presenting your reveal js slides easier. It al
 requirements
 -----------------
 - nodejs
-- npm 
 
 loading a reveal js deck into podium
 ------------------------------------
