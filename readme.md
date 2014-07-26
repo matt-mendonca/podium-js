@@ -1,7 +1,7 @@
 podium js
 ========
 
-podium js is a presentation framework for [reveal js](http://revealjs.com/) slide decks. It is built on top of [express js](http://expressjs.com/) and [node js](http://nodejs.org/). It is inspired by [thehung111's remote presentation controller](https://github.com/thehung111/remote-presentation-controller) - more on that in a bit.
+podium js is a presentation framework for [reveal js](http://revealjs.com/) slide decks. It is built on top of [express js](http://expressjs.com/) and [node js](http://nodejs.org/). It is inspired by [thehung111's remote presentation controller](https://github.com/thehung111/remote-presentation-controller) (most of the remote code is logically the same) - more on that in a bit.
 
 why
 ----
@@ -12,7 +12,7 @@ why not fork
 --------------
 #### subtext: why be a jerk
 
-The hung did great work, and full credit goes to him for the original idea. I came across his project and initially I was going to fork his code. However, I decided to start fresh due to the tight coupling and age of the code base (last updated 2 years ago as of July 2014):
+The hung did great work, and full credit goes to him for the original idea. I came across his project and initially I was going to fork his code. However, I decided to create a new code base due to the tight coupling of and lack of activity on the original (last updated 2 years ago as of July 2014):
 
 - The version of reveal js is mixed in with the remote code.
   - I wanted to update reveal js, but it proved messy 
