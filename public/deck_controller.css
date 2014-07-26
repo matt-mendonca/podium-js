@@ -55,3 +55,7 @@ body {
 .nav-buttons .button:active {
   text-shadow: 0 0 5px #ffd, 0 0 8px #fff; 
 }
+
+.nav-buttons .button:active {
+  background: #0070aa;
+}
