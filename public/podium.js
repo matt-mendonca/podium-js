@@ -3,26 +3,22 @@
       deck_route = window.location.pathname;
       
   socket.on('connect', function () {
-    console.log("client connected. Sending cur slide request");
+    console.log("Client connected. Requesting current deck data.");
         
-    // on connect send presentation request
-    socket.emit('request_presentation', {'route': deck_route} );
+    socket.emit('requestDeck', {'route': deck_route} );
       
-    // init data
-    socket.on('initdata', function(data) {
-      console.log("Init data: " + JSON.stringify(data) );
+    socket.on('initialData', function(data) {
+      console.log("Initial deck data: " + JSON.stringify(data) );
 
       if(data.route == deck_route) {
-        // go to the respective slide
         Reveal.navigateTo(data.indexh, data.indexv);
       }
     });
         
-    socket.on('updatedata', function(data) {
-      console.log("Receive update data: " + JSON.stringify(data) );
+    socket.on('updateData', function(data) {
+      console.log("Received updated data: " + JSON.stringify(data) );
           
       if(data.route == deck_route) {
-        // go to the respective slide
         Reveal.navigateTo(data.indexh, data.indexv);
       }
     });     
