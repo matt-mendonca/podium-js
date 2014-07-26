@@ -24,6 +24,8 @@ The hung did great work, and full credit goes to him for the original idea. I ca
 - Jade instead of ejs
 - We have different coding styles (a shallow point, I know)
 
+In short, hung's rps is like an app - you change it to create your presentation. podium is a framework - you use to present the presentation you created.
+
 what it does
 --------------
 
@@ -65,7 +67,7 @@ FIRST (order matters), on yor laptop:
     - open up a terminal window
     - node path/to/podium/app.js
   - everyone else, check out the node docs
-- you should see a log message saying 'Podium Express server listening on port 3000' (port number can be configured in the config.json file)  
+- you should see a log message saying 'podium server listening on port 3000' (port number can be configured in the config.json file)  
 - navigate to [http://localhost:3000/ or http://laptopIpAddress:3000/](http://localhost:3000/)
 - click the link for the deck you want to present
   - e.g. [example](http://localhost:3000/example)
