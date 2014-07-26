@@ -39,6 +39,12 @@ var fs = require('fs'),
                       fs.readFileSync(__dirname + "/slides/"+slides_directory+"/podium.json")
                     );
 
+                /* 
+                  Note: route is both the key and a property this 
+                  is so we can identify the slide by the client's 
+                  window.location.pathname (key) and access it as 
+                  a property for templating (property - clean this out?) 
+                 */
                 slides[slideDeck.route] = {
                   name: slideDeck.name,
                   location: location = "/slides/"+slides_directory+"/",
@@ -78,10 +84,10 @@ var fs = require('fs'),
           },
 
           socketConnect = function (sock) {
+            // setting podium.socket so that it is availible to other lambda functions
             socket = sock;
 
             socket.on('requestDeck', socketRequestSlideDeck);
-            
             socket.on('command', sockectOnCommand);
           },
 
