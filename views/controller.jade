@@ -14,7 +14,7 @@ html.no-js(lang="en")
 
     a.button.home-button(href="/") home
 
-    select.slides-deck(name="slides-deck")
+    select.slide-decks(name="slides-deck")
       each slideDeck, route in slides
         option(value=route) 
           =slideDeck.name
