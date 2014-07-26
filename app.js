@@ -1,4 +1,5 @@
 var fs = require('fs'),
+    url = require('url'),
     express = require('express'),
     app = express(),
     server = require('http').Server(app),
@@ -67,21 +68,13 @@ var fs = require('fs'),
 
 
             app.get('/*', function (req, res) {
-              switch(req.url) {
-                case '/' :
-                  podiumRoute(req, res, 'index');
-                  break;
-                case '/controller' :
-                  podiumRoute(req, res, 'controller');
-                  break;
-                default :
-                  deckRoute(req, res);
-                  break;
+              if (req.url === '/' ) {
+                podiumRoute(req, res, 'index');
+              } else if (req.url === '/controller' ) {
+                podiumRoute(req, res, 'controller');
+              } else {
+                deckRoute(req, res);
               }
-            });
-
-            app.get('/ex', function (req, res) {
-              res.sendfile(__dirname + '/slides/example/index.html');
             });
 
             io.on('connection', socketConnect);
@@ -92,11 +85,15 @@ var fs = require('fs'),
           },
 
           deckRoute = function(req, res) {
-            var deck = null;
+            var deck = null,
+                route = url.parse(req.url).pathname;
 
-            if(slides[req.url]) {
-              deck = slides[req.url];
+            if(slides[route]) {
+              deck = slides[route];
               res.sendfile(__dirname + deck.location + 'index.html');
+            } else {
+              console.log("\nWarning: no matching slide deck found for request "+route);
+              res.render('404', {slides: slides});
             }
           },
 

@@ -1,0 +1,14 @@
+extends ./layout.jade
+
+block content
+  h1.title request not found
+
+  a.button.controller-button(href="/controller") launch controller
+
+  h4.body-title your presentations:
+
+  ul.slide-decks
+    each slideDeck, route in slides
+      li
+        a(href=route)
+          =slideDeck.name
