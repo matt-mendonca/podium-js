@@ -16,7 +16,7 @@ body {
 
 body {
   margin: 0 auto;
-  max-width: 780px;
+  max-width: 500px;
   height: 100%;
   padding: 0.5em 1em;
   background: #333;
@@ -84,4 +84,14 @@ a:focus {
 
 .slide-decks li {
   margin-top: 0.25em;
+}
+
+@media all and (max-width: 500px) {
+  body {
+    color: #fff;  
+  }
+  
+  .button {
+    font-weight: 300;
+  }
 }
