@@ -18,7 +18,7 @@ var fs = require('fs'),
             app.set('views', __dirname + '/views');
             app.set('view engine', 'jade');
             app.use(express.static(__dirname + '/public'));
-            console.log('Podium Express server listening on port '+config.port);
+            console.log('podium server listening on port '+config.port);
             fs.readdir(__dirname + '/slides', scanSlidesDir);
           },
 
