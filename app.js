@@ -94,9 +94,9 @@ var fs = require('fs'),
             }
           },
 
-          sockectOnCommand = function(command) {
-            var route = command.route,
-                command = command.text,   
+          sockectOnCommand = function(controllerCommand) {
+            var route = controllerCommand.route,
+                command = controllerCommand.text,   
                 currentDeck = null;
 
             console.log("Received command: " + JSON.stringify(command) );
