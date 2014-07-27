@@ -6,6 +6,12 @@ what it does
 --------------
 podium js is a frame work to make presenting (read: when standing in front of a crowd) your reveal js slides easier. It allows you to drop in your already made reveal slides and control them with the built in controller. 
 
+so what *it* podium js
+----------------------
+podium js is an express socket server, controller app, and a client js library. The controller app or client library sends slide state data (current slide, slide changes, view mode changes) to the server. The server then process and broadcasts that data out to all of the actively connected presentations. 
+
+It wires up all of the pieces to make your pre made reveal slides remote controllable.
+
 why
 ----
 Mimic keynote - I like how I can control my laptop's slides (which are likely being displayed on a big screen) from my phone. It allows me freedom of movement.
