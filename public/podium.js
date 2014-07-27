@@ -1,10 +1,10 @@
 ;(function() {
   var socket = io.connect('/'),
       deckRoute = window.location.pathname,
-      queryString = window.location.search.replace('?', '').split('&'),
+      queryString = window.location.search.replace('?', '').split('&') || [],
       // this var is used to determine is the current client viewing slides
       // can also control the slides for everyone else
-      controller = false,
+      controller = false;
 
   // Iterate over the querystring properties to see if controller is true 
   // i.e. ?controller=true
