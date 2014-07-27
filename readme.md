@@ -1,23 +1,23 @@
 podium js
-========
+=========
 podium js is a presentation platform framework (wat?) for [reveal js](http://revealjs.com/) slide decks. It is built on top of [express js](http://expressjs.com/) and [node js](http://nodejs.org/). It is inspired by [thehung111's remote presentation controller](https://github.com/thehung111/remote-presentation-controller) (much of the remote code is logically the same) - more on that in a bit.
 
-what it does
---------------
+### what it does
+
 podium js is a frame work to make presenting (read: when standing in front of a crowd) your reveal js slides easier. It allows you to drop in your already made reveal slides and control them with the built in controller. 
 
-so what *is* podium js
-----------------------
+### so what *is* podium js
+
 podium js is an express socket server, controller app, and a client js library. The controller app or client library sends slide state data (current slide, slide changes, view mode changes) to the server. The server then process and broadcasts that data out to all of the actively connected presentations. 
 
 It wires up all of the pieces to make your pre made reveal slides remote controllable.
 
-why
-----
+### why
+
 Mimic keynote - I like how I can control my laptop's slides (which are likely being displayed on a big screen) from my phone. It allows me freedom of movement.
 
-why not fork
---------------
+### why not fork
+
 The hung did great work, and full credit goes to him for the original idea. I came across his project and initially I was going to fork his code. However, I decided to create a new code base due to the tight coupling of and lack of activity on his project (last updated 2 years ago as of July 2014):
 
 - The reveal js code is mixed in with the remote code
@@ -32,14 +32,14 @@ The hung did great work, and full credit goes to him for the original idea. I ca
 - We have different coding styles (a shallow point, I know) 
 
 getting started
-===============
+---------------
 
-requirements
------------------
+### requirements
+
 - nodejs
 
-loading a reveal js deck into podium
-------------------------------------
+### loading a reveal js deck into podium
+
 - Place your reveal js directory into podium's slides directory
 - Create a podium.json file in the reveal js directory that specifies the name of the presentation and what route (url) you want to associate it with
 - Create a directory in the reveal js directory called public and place all of your static assets into it (e.g. css files, js files)
@@ -56,9 +56,9 @@ podium will wire everything else up for you. You can reference the example slide
 
 Note: podium will try to load your slides from an index.html file from within your slides directory.
 
-using podium
-------------
-####High level:
+### using podium
+
+#####High level:
 
 1. Laptop
   - Fire up the node app
@@ -69,7 +69,7 @@ using podium
   - Launch the controller
   - Pick the correct slides
 
-####Low level:
+#####Low level:
 
 podium comes with an example reveal deck - for this section we will be presenting it.
 
