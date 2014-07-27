@@ -145,10 +145,10 @@ var fileSystem = require('fs'),
             // When client deck in controller mode changes slides
             socket.on('slideChanged', sockectOnSlideChanged);
 
-            // When client deck in controller goes to overview mode
+            // When client deck in controller mode goes to overview mode
             socket.on('overviewShown', sockectOnOverviewShown);
 
-            // When client deck in controller leaves overview mode
+            // When client deck in controller mode leaves overview mode
             socket.on('overviewHidden', sockectOnOverviewHidden);
           },
 
