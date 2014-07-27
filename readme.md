@@ -31,6 +31,9 @@ The hung did great work, and full credit goes to him for the original idea. I ca
   - Jade instead of ejs
 - We have different coding styles (a shallow point, I know) 
 
+getting started
+===============
+
 requirements
 -----------------
 - nodejs
