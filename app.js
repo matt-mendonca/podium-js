@@ -100,7 +100,7 @@ var fileSystem = require('fs'),
                 podiumRoute(req, res, 'controller');
               } else {
                 // everything else is assumed to be a slide deck
-                // 404's handled in this deckRoute
+                // 404's handled in deckRoute()
                 deckRoute(req, res);
               }
             });
@@ -109,8 +109,8 @@ var fileSystem = require('fs'),
             io.on('connection', socketConnect);
           },
 
-          podiumRoute = function(req, res, path) {
-            res.render(path, {slides: slides});
+          podiumRoute = function(req, res, view) {
+            res.render(view, {slides: slides});
           },
 
           deckRoute = function(req, res) {
@@ -125,9 +125,9 @@ var fileSystem = require('fs'),
               // send the index.html file for the slides
               res.sendfile(__dirname + slides[route].location + 'index.html');
             } else {
-              // 404 everything else
+              // not found everything else
               console.log("\nWarning: no matching slide deck found for request "+route);
-              res.render('404', {slides: slides});
+              res.render('not_found', {slides: slides});
             }
           },
 
