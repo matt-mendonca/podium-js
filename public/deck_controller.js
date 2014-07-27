@@ -1,16 +1,16 @@
 ;(function($) {
   var socket = io.connect('/'),
-      deckRoute = $('.slide-decks').val(),
+      // helper function to set the url of the 'control in presentation' button 
+      // when ever the slides select changes value
       setSlideViewRoute = function(deckRoute) {
         $('.slide-view').attr('href', deckRoute+'?controller=true');
       };
 
-  setSlideViewRoute(deckRoute);  
+  // set it initally
+  setSlideViewRoute($('.slide-decks').val());  
 
   $('.slide-decks').change(function(event) {
-    deckRoute = $(this).val();
-
-    setSlideViewRoute(deckRoute);
+    setSlideViewRoute($(this).val());
   });
   
   socket.on('connect', function () {
