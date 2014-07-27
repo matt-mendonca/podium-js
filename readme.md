@@ -82,3 +82,4 @@ Finally, on your phone:
 - select the correct deck from the select list
 - use the arrow buttons to navigate
 - OR click the [control in presentation](http://localhost:3000/example?controller=true) button to control the slides while viewing them
+- You can also control while viewing the presentation by adding ?controller=true to the end of the slides url. E.g. [localhost:3000/example?controller=true](http://localhost:3000/example?controller=true).
