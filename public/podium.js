@@ -30,6 +30,10 @@
 
       if(data.route == deckRoute) {
         Reveal.navigateTo(data.indexh, data.indexv);
+
+        if(data.overview && !Reveal.isOverview()) {
+          Reveal.toggleOverview();
+        }
       }
     });
         
@@ -57,6 +61,14 @@
         );
       });
 
+      Reveal.addEventListener('overviewshown', function( event ) {
+        socket.emit('overviewShown', {'route' : deckRoute });
+      });
+
+      Reveal.addEventListener('overviewhidden', function( event ) {
+        socket.emit('overviewHidden', {'route' : deckRoute });
+      });
+
     // only update slides from slideChanged if we aren't controlling
     } else {
       socket.on('recievedSlideChange', function(data) {
@@ -65,7 +77,23 @@
         if(data.route == deckRoute) {
           Reveal.navigateTo(data.indexh, data.indexv);
         }
-      });  
+      });
+
+      socket.on('recievedOverviewShown', function(data) {
+        console.log("Received overview shown data: " + JSON.stringify(data) );
+            
+        if(!Reveal.isOverview()) {
+          Reveal.toggleOverview();
+        }
+      });
+
+      socket.on('recievedOverviewHidden', function(data) {
+        console.log("Received overview hidden data: " + JSON.stringify(data) );
+            
+        if(Reveal.isOverview()) {
+          Reveal.toggleOverview();
+        }
+      }); 
     }     
   });
 })();

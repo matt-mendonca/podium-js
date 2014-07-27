@@ -69,7 +69,9 @@ var fileSystem = require('fs'),
                   // initial slide horizontal index
                   indexh : 0,  
                   // initial slide veriticlal index
-                  indexv : 0  
+                  indexv : 0,
+                  // if the slides are in overview mode
+                  overview: false  
                 };
               } else {
                 console.log("\nWarning: There is no podium config file in /slides/"+slidesDirectory+"/");
@@ -142,6 +144,12 @@ var fileSystem = require('fs'),
 
             // When client deck in controller mode changes slides
             socket.on('slideChanged', sockectOnSlideChanged);
+
+            // When client deck in controller goes to overview mode
+            socket.on('overviewShown', sockectOnOverviewShown);
+
+            // When client deck in controller leaves overview mode
+            socket.on('overviewHidden', sockectOnOverviewHidden);
           },
 
           socketOnRequestSlideDeck = function(data) {
@@ -197,6 +205,22 @@ var fileSystem = require('fs'),
             slides[data.route].indexv = data.indexv;
 
             socket.broadcast.emit('recievedSlideChange', data);
+          },
+
+          sockectOnOverviewShown = function(data) {
+            console.log("Received overview shown: " + JSON.stringify(data));
+              
+            slides[data.route].overview = true;
+
+            socket.broadcast.emit('recievedOverviewShown', data);
+          },
+
+          sockectOnOverviewHidden = function(data) {
+            console.log("Received overview hidden: " + JSON.stringify(data));
+              
+            slides[data.route].overview = false;
+
+            socket.broadcast.emit('recievedOverviewHidden', data);
           },
 
           init = function () {
