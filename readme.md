@@ -23,6 +23,7 @@ The hung did great work, and full credit goes to him for the original idea. I ca
 - The reveal js code is mixed in with the remote code
 - Adding a new presentation requires you to edit the remote code in several places
   - After initial setup, I wanted as few steps as possible to add a new deck
+  - Also be able to drop in an existing deck
 - There are places were things are hard coded
 - I wanted to be able to control the slides while viewing them from the controller
 - I wanted to use
