@@ -35,7 +35,7 @@ loading a reveal js deck into podium
 - Create a directory in the reveal js directory called public and place all of your static assets into it (e.g. css files, js files)
   - You shouldn't have to change any of the paths in your reveal js markup thanks to Express's static middleware routing magic
 - Include the socket io and podium js files in your reveal js markup
-  - Since both of those files are in podium's public folder, you should only need to add the following script tags before the closing body tag
+  - Since both of those files are accesible through express's static middleware, you should only need to add the following script tags before the closing body tag. Don't worry about changing the paths in your reaveal js deck markup.
 
 ```html
   <script src="/socket.io/socket.io.js"></script>
@@ -43,6 +43,8 @@ loading a reveal js deck into podium
 ```
 
 podium will wire everything else up for you.
+
+Note: podium try to load your slides from an index.html file from within your slides directory.
 
 using podium
 ------------
