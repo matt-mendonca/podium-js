@@ -37,21 +37,21 @@ requirements
 
 loading a reveal js deck into podium
 ------------------------------------
-- Place your reveal js directory into the slides directory
+- Place your reveal js directory into podium's slides directory
 - Create a podium.json file in the reveal js directory that specifies the name of the presentation and what route (url) you want to associate it with
 - Create a directory in the reveal js directory called public and place all of your static assets into it (e.g. css files, js files)
   - You shouldn't have to change any of the paths in your reveal js markup thanks to Express's static middleware routing magic
 - Include the socket io and podium js files in your reveal js markup
-  - Since both of those files are accesible through express's static middleware, you should only need to add the following script tags before the closing body tag. Don't worry about changing the paths in your reaveal js deck markup.
+  - Since both of those files are accesible through express's static middleware, you should only need to add the following script tags before the closing body tag.
 
 ```html
   <script src="/socket.io/socket.io.js"></script>
   <script src="podium.js"></script>
 ```
 
-podium will wire everything else up for you.
+podium will wire everything else up for you. You can reference the example slides directory included with podium.
 
-Note: podium try to load your slides from an index.html file from within your slides directory.
+Note: podium will try to load your slides from an index.html file from within your slides directory.
 
 using podium
 ------------
@@ -72,23 +72,23 @@ podium comes with an example reveal deck - for this section we will be presentin
 
 To start, connect your laptop and phone to the same network. I'd recommend setting up a local network only you can get to (lest someone mess with the slides during your presentation - authentication coming soon). E.g. [http://www.tuaw.com/2009/09/25/mac-101-create-a-wireless-network-between-mac-and-iphone/](http://www.tuaw.com/2009/09/25/mac-101-create-a-wireless-network-between-mac-and-iphone/).
 
-Then, on yor laptop (order matters - you must open the slides before connecting the remote):
+Then, on yor laptop (order matters - you must open the slides before connecting the remote - for now):
 
-- run the app.js file in node 
-  - on OSX this mean
-    - open up a terminal window
-    - node path/to/podium/app.js
-  - everyone else, check out the node docs
-- you should see a log message saying 'podium server listening on port 3000' (port number can be configured in the config.json file)  
-- navigate to [http://localhost:3000/ or http://laptopIpAddress:3000/](http://localhost:3000/)
-- click the link for the deck you want to present
-  - e.g. [example](http://localhost:3000/example)
+- Run the app.js file in node 
+  - On OSX this mean
+    - Open up a terminal window
+    - Node path/to/podium/app.js
+  - Everyone else, check out the node docs
+- You should see a log message saying 'podium server listening on port 3000' (port number can be configured in the config.json file)  
+- Navigate to [http://localhost:3000/ or http://laptopIpAddress:3000/](http://localhost:3000/)
+- Click the link for the deck you want to present
+  - E.g. [example](http://localhost:3000/example)
 
-Finally, on your phone:
+Lastly, on your phone:
 
-- navigate to [http://localhost:3000/ or http://laptopIpAddress:3000/](http://localhost:3000/)
-- click the [launch controller](http://localhost:3000/controller) button
-- select the correct deck from the select list
-- use the arrow buttons to navigate
+- Navigate to [http://localhost:3000/ or http://laptopIpAddress:3000/](http://localhost:3000/)
+- Click the [launch controller](http://localhost:3000/controller) button
+- Select the correct deck from the select list
+- Use the arrow buttons to navigate
 - OR click the [control in presentation](http://localhost:3000/example?controller=true) button to control the slides while viewing them
 - You can also control while viewing the presentation by adding ?controller=true to the end of the slides url. E.g. [localhost:3000/example?controller=true](http://localhost:3000/example?controller=true).
