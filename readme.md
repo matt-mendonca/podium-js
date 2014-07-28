@@ -36,7 +36,13 @@ getting started
 
 ### requirements
 
-- nodejs
+- node js
+- npm
+
+### setup
+
+- Download
+- run npm install on the podium directory
 
 ### loading a reveal js deck into podium
 
