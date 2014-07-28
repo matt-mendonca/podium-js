@@ -42,7 +42,7 @@ getting started
 ### setup
 
 - Download
-- run npm install on the podium directory
+- Run npm install on the podium directory
 
 ### loading a reveal js deck into podium
 
