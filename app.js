@@ -155,7 +155,7 @@ var fileSystem = require('fs'),
           socketOnRequestSlideDeck = function(data) {
             if(slides[data.route]) {
               console.log('Sending initial deck data: ' + JSON.stringify(slides[data.route]) );
-              socket.emit('initalData', slides[data.route]);
+              socket.emit('initialData', slides[data.route]);
             }
           },
 
