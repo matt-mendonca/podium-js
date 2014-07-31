@@ -4,6 +4,7 @@ var fileSystem = require('fs'),
     app = express(),
     server = require('http').Server(app),
     io = require('socket.io')(server),
+    basicAuth = require('basic-auth');
 
     /* 
       Revealing Module Pattern
@@ -92,12 +93,14 @@ var fileSystem = require('fs'),
               app.use(express.static(__dirname + slides[route].location + 'public'));
             }
 
+            app.get('/controller', auth, function (req, res) {
+              podiumRoute(req, res, 'controller');
+            });
+
             // Front controller for all routing
             app.get('/*', function (req, res) {
               if (req.url === '/' ) {
                 podiumRoute(req, res, 'index');
-              } else if (req.url === '/controller' ) {
-                podiumRoute(req, res, 'controller');
               } else {
                 // everything else is assumed to be a slide deck
                 // 404's handled in deckRoute()
@@ -107,6 +110,25 @@ var fileSystem = require('fs'),
 
             // bootstrap socket connectio code
             io.on('connection', socketConnect);
+          },
+
+          unauthorized = function (res) {
+            res.set('WWW-Authenticate', 'Basic realm=Authorization Required');
+            return res.status(401).end();
+          },
+
+          auth = function (req, res, next) {
+            var user = basicAuth(req);
+
+            if (!user || !user.name || !user.pass) {
+              return unauthorized(res);
+            }
+
+            if (user.name === config.name && user.pass === config.password) {
+              return next();
+            } else {
+              return unauthorized(res);
+            }
           },
 
           podiumRoute = function(req, res, view) {

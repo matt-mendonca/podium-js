@@ -5,6 +5,7 @@
   "private": true,
   "dependencies": {
     "express": "4.x",
+    "basic-auth": "1.x",
     "jade": "1.x",
     "socket.io": "1.x"
   }
