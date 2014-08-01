@@ -4,6 +4,7 @@ var fileSystem = require('fs'),
     app = express(),
     server = require('http').Server(app),
     io = require('socket.io')(server),
+    cheerio = require('cheerio'),
     basicAuth = require('basic-auth');
 
     /* 
@@ -141,11 +142,15 @@ var fileSystem = require('fs'),
               we need just the url since the podium.slides
               is indexed without it.
             */
-            var route = url.parse(req.url).pathname;
+            var route = url.parse(req.url).pathname,
+                $ = null;
 
             if(slides[route]) {
               // send the index.html file for the slides
-              res.sendfile(__dirname + slides[route].location + 'index.html');
+              // append the socket io and podium js to body response
+              $ = cheerio.load(fileSystem.readFileSync(__dirname + slides[route].location + 'index.html'));
+              $('body').append(config.slidesHtmlScripts);
+              res.send($.html());
             } else {
               // not found everything else
               console.log("\nWarning: no matching slide deck found for request "+route);
