@@ -8,7 +8,7 @@ podium js makes presenting (read: when standing in front of a crowd) your reveal
 
 ### so what *is* podium js
 
-Generally speaking, podium js is made up of an express socket server, a controller app, and a minimal js client library. The controller app / client library sends slide state data (current slide, slide changes, view mode changes) to the server. The server then process and broadcasts that data out to all of the actively connected presentations. 
+Generally speaking, podium js is made up of an express socket server, a controller app, and a minimal js client script. The controller app / client script sends slide state data (current slide, slide changes, view mode changes) to the server. The server then process and broadcasts that data out to all of the actively connected presentations. 
 
 It wires up all of the pieces to make your pre made reveal slides remote controllable.
 
@@ -47,20 +47,13 @@ getting started
 ### loading a reveal js deck into podium
 
 - Place your reveal js directory into podium's slides directory
-- Create a podium.json file in the reveal js directory that specifies the name of the presentation and what route (url) you want to associate it with
+- Optionally create a podium.json file in the reveal js directory that specifies the name of the presentation and what route (url) you want to associate it with. If omitted, podium will set the name and route for you
 - Create a directory in the reveal js directory called public and place all of your static assets into it (e.g. css files, js files)
   - You shouldn't have to change any of the paths in your reveal js markup thanks to Express's static middleware routing magic
-- Include the socket io and podium js files in your reveal js markup
-  - Since both of those files are accesible through express's static middleware, you should only need to add the following script tags before the closing body tag.
-
-```html
-  <script src="/socket.io/socket.io.js"></script>
-  <script src="podium.js"></script>
-```
 
 podium will wire everything else up for you. You can reference the example slides directory included with podium.
 
-Note: podium will try to load your slides from an index.html file from within your slides directory.
+Note: podium will try to load your slides from an index.html file from within your slides directory. Also, podium will append a script tag for socket io and podium to the body of your slides markup.
 
 ### using podium
 

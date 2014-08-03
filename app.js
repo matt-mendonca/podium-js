@@ -40,6 +40,8 @@ var fileSystem = require('fs'),
           },
 
           scanSlidesDir = function(err, directories) {
+            var slideDeck = null;
+
             if (err) {
               throw err;
             }
@@ -53,9 +55,9 @@ var fileSystem = require('fs'),
               // Check if a podium json file exists in the directory 
               } else if (fileSystem.existsSync(__dirname + "/slides/"+slidesDirectory+"/podium.json")) {
                 // parse the podium file and add it to our podium.slides object
-                var slideDeck = JSON.parse(
-                      fileSystem.readFileSync(__dirname + "/slides/"+slidesDirectory+"/podium.json")
-                    );
+                slideDeck = JSON.parse(
+                  fileSystem.readFileSync(__dirname + "/slides/"+slidesDirectory+"/podium.json")
+                );
 
                 /* 
                   Note: route is both the key and a property. This 
@@ -76,7 +78,24 @@ var fileSystem = require('fs'),
                   overview: false  
                 };
               } else {
-                console.log("\nWarning: There is no podium config file in /slides/"+slidesDirectory+"/");
+                console.log("\nNote: There is no podium config file in /slides/"+slidesDirectory+"/\nSlide config will be automatically set.");
+
+                slideDeck = {
+                  route: "/" + slidesDirectory.replace(/\s+/g, '-').replace(/_/g, '-').toLowerCase(),
+                  name: slidesDirectory.replace(/-/g, ' ').replace(/_/g, ' ')
+                };
+
+                slides[slideDeck.route] = {
+                  name: slideDeck.name,
+                  location: location = "/slides/"+slidesDirectory+"/",
+                  route: slideDeck.route,
+                  // initial slide horizontal index
+                  indexh : 0,  
+                  // initial slide veriticlal index
+                  indexv : 0,
+                  // if the slides are in overview mode
+                  overview: false  
+                };
               }
             });
 
