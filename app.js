@@ -94,14 +94,18 @@ var fileSystem = require('fs'),
               app.use(express.static(__dirname + slides[route].location + 'public'));
             }
 
+            /*
             app.get('/controller', auth, function (req, res) {
               podiumRoute(req, res, 'controller');
             });
+            */
 
             // Front controller for all routing
             app.get('/*', function (req, res) {
               if (req.url === '/' ) {
                 podiumRoute(req, res, 'index');
+              } else if (req.url === '/controller' ) {
+                podiumRoute(req, res, 'controller');
               } else {
                 // everything else is assumed to be a slide deck
                 // 404's handled in deckRoute()
