@@ -1,10 +1,8 @@
 var fileSystem = require('fs'),
-    url = require('url'),
     express = require('express'),
     app = express(),
     server = require('http').Server(app),
     io = require('socket.io')(server),
-    cheerio = require('cheerio'),
     basicAuth = require('basic-auth');
 
     /* 
@@ -17,124 +15,12 @@ var fileSystem = require('fs'),
       in it get access to its top level properties (yay closures).
      */
     podium = function() {
-      var config = null,
+      var bootstrapper = require('./podium_src/bootstrapper'),
+          router = require('./podium_src/router'),
+          socketHandler = require('./podium_src/socket_handler'),
+          config = null,
           socket = null,
           slides = {},
-
-          /* 
-            Load up the configuration and fire up the express server.
-            Note that init function at the very bottom is what really
-            starts everything.
-           */
-          loadConfig = function (err, data) {
-            if (err) {
-              throw err;
-            }
-
-            config = JSON.parse(data);
-            server.listen(config.port);
-            app.set('views', __dirname + '/views');
-            app.set('view engine', 'jade');
-            console.log('podium server listening on port '+config.port);
-            fileSystem.readdir(__dirname + '/slides', scanSlidesDir);
-          },
-
-          scanSlidesDir = function(err, directories) {
-            var slideDeck = null;
-
-            if (err) {
-              throw err;
-            }
-
-            // Iterate over the contents of the Slides directory
-            directories.forEach(function(slidesDirectory) {
-              if(slidesDirectory === '.DS_Store') {
-                // OSX garbage
-                // continue;
-
-              // Check if a podium json file exists in the directory 
-              } else if (fileSystem.existsSync(__dirname + "/slides/"+slidesDirectory+"/podium.json")) {
-                // parse the podium file and add it to our podium.slides object
-                slideDeck = JSON.parse(
-                  fileSystem.readFileSync(__dirname + "/slides/"+slidesDirectory+"/podium.json")
-                );
-
-                /* 
-                  Note: route is both the key and a property. This 
-                  is so we can identify the slide by the client's 
-                  window.location.pathname (key) and access it as 
-                  a property for templating (property - might rethink 
-                  this later). 
-                 */
-                slides[slideDeck.route] = {
-                  name: slideDeck.name,
-                  location: location = "/slides/"+slidesDirectory+"/",
-                  route: slideDeck.route,
-                  // initial slide horizontal index
-                  indexh : 0,  
-                  // initial slide veriticlal index
-                  indexv : 0,
-                  // if the slides are in overview mode
-                  overview: false  
-                };
-              } else {
-                console.log("\nNote: There is no podium config file in /slides/"+slidesDirectory+"/\nSlide config will be automatically set.");
-
-                slideDeck = {
-                  route: "/" + slidesDirectory.replace(/\s+/g, '-').replace(/_/g, '-').toLowerCase(),
-                  name: slidesDirectory.replace(/-/g, ' ').replace(/_/g, ' ')
-                };
-
-                slides[slideDeck.route] = {
-                  name: slideDeck.name,
-                  location: location = "/slides/"+slidesDirectory+"/",
-                  route: slideDeck.route,
-                  // initial slide horizontal index
-                  indexh : 0,  
-                  // initial slide veriticlal index
-                  indexv : 0,
-                  // if the slides are in overview mode
-                  overview: false  
-                };
-              }
-            });
-
-            // run main now that all of the bootstapping is complete
-            main();
-          },
-
-          main = function () {
-            // Set static assets directories 
-            app.use(express.static(__dirname + '/public'));
-
-            for (var route in slides) {
-              // set the public directory in each slide folder so that express
-              // doesn't try to route those requests
-              app.use(express.static(__dirname + slides[route].location + 'public'));
-            }
-
-            /*
-            app.get('/controller', auth, function (req, res) {
-              podiumRoute(req, res, 'controller');
-            });
-            */
-
-            // Front controller for all routing
-            app.get('/*', function (req, res) {
-              if (req.url === '/' ) {
-                podiumRoute(req, res, 'index');
-              } else if (req.url === '/controller' ) {
-                podiumRoute(req, res, 'controller');
-              } else {
-                // everything else is assumed to be a slide deck
-                // 404's handled in deckRoute()
-                deckRoute(req, res);
-              }
-            });
-
-            // bootstrap socket connectio code
-            io.on('connection', socketConnect);
-          },
 
           unauthorized = function (res) {
             res.set('WWW-Authenticate', 'Basic realm=Authorization Required');
@@ -155,127 +41,78 @@ var fileSystem = require('fs'),
             }
           },
 
-          podiumRoute = function(req, res, view) {
-            res.render(view, {slides: slides});
-          },
-
-          deckRoute = function(req, res) {
-            /* 
-              express includes the querystring in req.url
-              we need just the url since the podium.slides
-              is indexed without it.
-            */
-            var route = url.parse(req.url).pathname,
-                $ = null;
-
-            if(slides[route]) {
-              // send the index.html file for the slides
-              // append the socket io and podium js to body response
-              $ = cheerio.load(fileSystem.readFileSync(__dirname + slides[route].location + 'index.html'));
-              $('body').append(config.slidesHtmlScripts);
-              res.send($.html());
-            } else {
-              // not found everything else
-              console.log("\nWarning: no matching slide deck found for request "+route);
-              res.render('not_found', {slides: slides});
-            }
-          },
-
-          socketConnect = function (sock) {
-            // setting podium.socket so that it is availible to 
-            // other lambda functions in the podium module
-            socket = sock;
-
-            // When a client first loads up a deck
-            socket.on('requestDeck', socketOnRequestSlideDeck);
-
-            // When the controller view sends a command
-            socket.on('command', sockectOnCommand);
-
-            // When client deck in controller mode changes slides
-            socket.on('slideChanged', sockectOnSlideChanged);
-
-            // When client deck in controller mode goes to overview mode
-            socket.on('overviewShown', sockectOnOverviewShown);
-
-            // When client deck in controller mode leaves overview mode
-            socket.on('overviewHidden', sockectOnOverviewHidden);
-          },
-
-          socketOnRequestSlideDeck = function(data) {
-            if(slides[data.route]) {
-              console.log('Sending initial deck data: ' + JSON.stringify(slides[data.route]) );
-              socket.emit('initialData', slides[data.route]);
-            }
-          },
-
-          sockectOnCommand = function(controllerCommand) {
-            var route = controllerCommand.route,
-                command = controllerCommand.text,   
-                currentDeck = null;
-
-            console.log("Received command: " + JSON.stringify(command));
-
-            if(slides[route]) {
-              currentDeck = slides[route];
-
-              switch(command) {
-                case 'up':
-                  currentDeck.indexv--;
-                  break;
-                case 'down':
-                  currentDeck.indexv++;
-                  break;
-                case 'left':
-                  currentDeck.indexh--;
-                  break;
-                case 'right':
-                  currentDeck.indexh++;
-                  break;
-              }
-              
-              if(currentDeck.indexh < 0 ) {
-                currentDeck.indexh = 0;
-              }
-                
-              if(currentDeck.indexv < 0 ) {
-                currentDeck.indexv = 0;
-              }
-              
-              slides[route] = currentDeck;
-              
-              socket.broadcast.emit('updateData', currentDeck);
-            }
-          },
-
-          sockectOnSlideChanged = function(data) {
-            console.log("Received slide change: " + JSON.stringify(data));
-              
-            slides[data.route].indexh = data.indexh;
-            slides[data.route].indexv = data.indexv;
-
-            socket.broadcast.emit('recievedSlideChange', data);
-          },
-
-          sockectOnOverviewShown = function(data) {
-            console.log("Received overview shown: " + JSON.stringify(data));
-              
-            slides[data.route].overview = true;
-
-            socket.broadcast.emit('recievedOverviewShown', data);
-          },
-
-          sockectOnOverviewHidden = function(data) {
-            console.log("Received overview hidden: " + JSON.stringify(data));
-              
-            slides[data.route].overview = false;
-
-            socket.broadcast.emit('recievedOverviewHidden', data);
-          },
-
-          init = function () {
+          main = function () {
             //self calling function, this kicks everything off
-            fileSystem.readFile(__dirname + '/config.json', loadConfig);
+            var configFile = null,
+                slidesDirectories = null;
+
+            // Load the config file 
+            configFile = fileSystem.readFileSync(__dirname + '/config.json');
+            config = bootstrapper.loadConfig(configFile, server, app, __dirname);
+
+            // Load the slides up
+            slidesDirectories = fileSystem.readdirSync(__dirname + '/slides');
+            slides = bootstrapper.scanSlidesDir(slidesDirectories, slides, __dirname);
+
+            // Set static assets directories 
+            app.use(express.static(__dirname + '/public'));
+
+            for (var route in slides) {
+              // set the public directory in each slide folder so that express
+              // doesn't try to route those requests
+              app.use(express.static(__dirname + slides[route].location + 'public'));
+            }
+
+            /*
+            app.get('/controller', auth, function (req, res) {
+              podiumRoute(req, res, 'controller');
+            });
+            */
+
+            // Front controller for all routing
+            app.get('/*', function (req, res) {
+              if (req.url === '/' ) {
+                router.podiumRoute(req, res, 'index', slides);
+              } else if (req.url === '/controller' ) {
+                router.podiumRoute(req, res, 'controller', slides);
+              } else {
+                // everything else is assumed to be a slide deck
+                // 404's handled in deckRoute()
+                router.deckRoute(req, res, slides, __dirname, config);
+              }
+            });
+
+            // bootstrap socket connection code
+            io.on('connection', function (sock) {
+              // setting podium.socket so that it is availible to 
+              // other lambda functions in the podium module
+              socket = sock;
+
+              // When a client first loads up a deck
+              socket.on('requestDeck', function(data) {
+                socketHandler.socketOnRequestSlideDeck(socket, slides, data);
+              });
+
+              // When the controller view sends a command
+              socket.on('command', function(data) {
+                slides = socketHandler.socketOnCommand(socket, slides, data);
+              });
+
+              // When client deck in controller mode changes slides
+              socket.on('slideChanged', function(data) {
+                slides = socketHandler.socketOnSlideChanged(socket, slides, data);
+              });
+
+              // When client deck in controller mode goes to overview mode
+              socket.on('overviewShown', function(data) {
+                slides = socketHandler.socketOnOverviewShown(socket, slides, data);
+              });
+
+              // When client deck in controller mode leaves overview mode
+              socket.on('overviewHidden', function(data) {
+                slides = socketHandler.socketOnOverviewHidden(socket, slides, data);
+              });
+            });
           }();
 
       return {
