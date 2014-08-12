@@ -74,7 +74,7 @@ podium comes with an example reveal deck - for this section we will be presentin
 
 To start, connect your laptop and phone to the same network. I'd recommend setting up a local network only you can get to (lest someone mess with the slides during your presentation - authentication coming soon). E.g. [http://www.tuaw.com/2009/09/25/mac-101-create-a-wireless-network-between-mac-and-iphone/](http://www.tuaw.com/2009/09/25/mac-101-create-a-wireless-network-between-mac-and-iphone/).
 
-Then, on yor laptop (order matters - you must open the slides before connecting the remote - for now):
+Then, on your laptop (order matters - you must open the slides before connecting the remote - for now):
 
 - Run the app.js file in node 
   - On OSX this mean
