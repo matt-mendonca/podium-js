@@ -121,14 +121,17 @@ module.exports = function(app, users, passport, authenticator, baseDir, config, 
   app.post('/admin/user',
     bruteforce.prevent,
     function(req, res) {
-      var userUpdated = authenticator.updateUser(users, req.user, req.body, baseDir);
+      var userUpdatedError = authenticator.updateUser(users, req.user, req.body, baseDir);
 
-      if(userUpdated) {
-        req.flash('status', 'Password updated.');
-        res.redirect('/admin');  
-      } else {
+      if(userUpdatedError === 'currentPassword') {
         req.flash('error', 'Wrong current password.');
         res.redirect('/admin/user');  
+      } else if(userUpdatedError === 'usernameTaken') {
+        req.flash('error', 'Username is taken.');
+        res.redirect('/admin/user');  
+      } else if (!userUpdatedError) {
+        req.flash('status', 'Account updated.');
+        res.redirect('/admin');  
       } 
     }
   );

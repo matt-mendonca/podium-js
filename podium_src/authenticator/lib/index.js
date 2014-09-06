@@ -31,16 +31,31 @@ module.exports = function() {
 
       updateUser = function(users, currentUser, updatedInfo, baseDir) {
         var newPassword = null,
-            passwordCorrect = bcrypt.compareSync(updatedInfo.currentPassword, currentUser.password);
+            passwordCorrect = bcrypt.compareSync(updatedInfo.currentPassword, currentUser.password),
+            usernameTaken = findByUsername(updatedInfo.username, users, function(err, user) { return user });
 
         if(!passwordCorrect) {
-          return false;
-        } else if(passwordCorrect && updatedInfo.newPassword && updatedInfo.newPassword === updatedInfo.confirmNewPassword) {
-          newPassword = bcrypt.hashSync(updatedInfo.newPassword, 8);
-          users[currentUser.id].password = newPassword;
+          return 'currentPassword';
+        }
+
+        if(usernameTaken) {
+          return 'usernameTaken';
+        }
+
+        if(updatedInfo.username || updatedInfo.newPassword) {
+
+          if(updatedInfo.username) {
+            users[currentUser.id].username = updatedInfo.username;
+          }
+
+          if(updatedInfo.newPassword && updatedInfo.newPassword === updatedInfo.confirmNewPassword) {
+            newPassword = bcrypt.hashSync(updatedInfo.newPassword, 8);
+            users[currentUser.id].password = newPassword;  
+          }
+          
           fileSystem.writeFileSync(baseDir + '/config/users.json', JSON.stringify(users));
 
-          return true;
+          return false;
         }
       },
 
