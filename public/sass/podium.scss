@@ -87,6 +87,25 @@ form legend {
 }
 
 /**
+ * Front page
+ */
+.front-page {
+  .title {
+    font-size: 7rem;
+    margin-bottom: 1.5rem;
+
+    .logo {
+      font-family: $body-font-family;
+      color: $podium-gray;
+    }
+  }
+
+  .selling-points li {
+    margin-bottom: 1.5rem; 
+  }
+}
+
+/**
  * Controller Page
  */
 .nav-buttons {
@@ -125,6 +144,12 @@ form legend {
  * Mobile s
  */
 @media only screen and (max-width: 40em) {
+  .front-page {
+    .title {
+      font-size: 3rem; 
+    }
+  }
+
   .main-content {
     padding-bottom: 2rem;
     overflow-y: scroll;

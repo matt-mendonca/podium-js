@@ -3,7 +3,9 @@ extends ./layout.jade
 block content
   h1.title #{title}
 
-  ul.slide-decks
+  ul.slide-decks.no-bullet
     each slideDeck, route in slides
-      li
-        a(href='/admin/slides#{route}') #{slideDeck.title}
+      li.panel.radius
+        h3
+          a(href='/admin/slides#{route}') Edit #{slideDeck.title}
+        p #{slideDeck.summary}

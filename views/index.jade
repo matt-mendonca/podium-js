@@ -1,11 +1,35 @@
 extends ./layout.jade
 
 block content
-  h1.title #{title}
+  .front-page
+    h1.title
+      |Podium 
+      span.logo JS
 
-  h4.body-title Presentations:
-
-  ul.slide-decks
-    each slideDeck, route in slides
+    ul.selling-points.no-bullet
       li
-        a(href='#{route}') #{slideDeck.title}
+        h2
+          |is a presentation management system for 
+          a(href="http://revealjs.com/") reveal js 
+          |decks
+      li
+        h2 
+          |is built on top of 
+          a(href="http://nodejs.org/") node.js 
+          |and 
+          a(href="http://expressjs.com/") express   
+      li
+        h2 
+          |is free and 
+          a(href="https://github.com/matt-mendonca/podium-js") open source 
+
+    ul.slide-decks.no-bullet
+      each slideDeck, route in slides
+        li.panel.radius
+          h3
+            a(href='#{route}') #{slideDeck.title}
+          p #{slideDeck.summary}
+
+    h2.text-center 
+      a(href="https://github.com/matt-mendonca/podium-js")
+        i.fi-social-github
