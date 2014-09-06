@@ -1,11 +1,9 @@
 extends ./layout.jade
 
 block content
-  h1.title podium js
+  h1.title #{title}
 
-  a.button.controller-button(href="/controller") launch controller
-
-  h4.body-title your presentations:
+  h4.body-title presentations:
 
   ul.slide-decks
     each slideDeck, route in slides

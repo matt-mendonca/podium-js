@@ -1,0 +1,34 @@
+extends ./layout.jade
+
+block header
+
+block content
+  form.user-form(action="/admin/user" data-abide="" method="post")
+    fieldset
+      legend #{title}
+
+      if message
+        .message
+          h5.error-message #{message}
+
+      .username
+        p Username: #{username}
+
+      .new-password
+        label New Password:
+          input(type="password" id="new-password" name="newPassword" placeholder="New Password" value="" required="")
+        small.error New Password is required.
+
+      .new-password-confirm
+        label Confirm New Password:
+          input(type="password" name="confirmNewPassword" placeholder="New Password" value="" required="" data-equalto="new-password")
+        small.error The Passwords must match.
+
+      .current-password
+        label Current Password:
+          input(type="password" name="currentPassword" placeholder="Current Password" value="" required="")
+        small.error Current Password is required.
+
+      .submit
+        input.button.radius(type="submit" value="Save")
+        a.button.radius.secondary.right(href="/admin") Cancel

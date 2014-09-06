@@ -1,7 +1,17 @@
 /**
  * Module dependencies.
  */
-var fileSystem = require('fs');
+var fileSystem = require('fs'),
+    express = require('express'),
+    favicon = require('serve-favicon'),
+    session = require('express-session'),
+    cookieParser = require('cookie-parser'),
+    bodyParser   = require('body-parser'),
+    flash = require('connect-flash'),
+    passport = require('passport'),
+    LocalStrategy = require('passport-local').Strategy,
+    //appsec = require('lusca'),
+    compression = require('compression');
 
 module.exports = function() {
   /** 
@@ -9,10 +19,42 @@ module.exports = function() {
    * Note that init function at the very bottom is what really
    * starts everything.
    */
-  var loadConfig = function (data, server, app, rootDir) {
-        var config = JSON.parse(data);
+  var loadConfig = function (configFilePath, server, app, rootDir) {
+        var configFile = fileSystem.readFileSync(configFilePath),
+            config = JSON.parse(configFile),
+            port = process.env.PORT || config.port;
 
-        server.listen(config.port);
+        app.use(cookieParser(config.cookieParserSecret));
+        
+        app.use(bodyParser.urlencoded({
+          extended: true
+        }));
+
+        app.use(bodyParser.json());
+
+        app.use(session({
+          secret: config.sessionSecret, 
+          saveUninitialized: true,
+          resave: true
+        }));
+
+        /* 
+          //Lusca App Security
+          app.use(appsec({
+            csrf: true,
+            csp: {},
+            xframe: 'SAMEORIGIN',
+            p3p: 'ABCDEF' 
+          }));
+        */
+
+        app.use(compression());
+
+        app.use(passport.initialize());
+        app.use(passport.session());
+        app.use(flash());
+        app.use(favicon(rootDir + config.favicon));
+        server.listen(port);
         app.set('views', rootDir + '/views');
         app.set('view engine', 'jade');
         console.log('podium server listening on port '+config.port);
@@ -77,10 +119,21 @@ module.exports = function() {
         });
 
         return slides;
-      }
+      },
+
+      setStaticDirs = function(app, slides, rootDir) {
+        app.use(express.static(rootDir + '/public'));
+
+        for (var route in slides) {
+          // set the public directory in each slide folder so that express
+          // doesn't try to route those requests
+          app.use(express.static(rootDir + slides[route].location + 'public'));
+        }
+      };
 
   return {
     loadConfig: loadConfig,
-    scanSlidesDir: scanSlidesDir
+    scanSlidesDir: scanSlidesDir,
+    setStaticDirs: setStaticDirs
   };
 }();

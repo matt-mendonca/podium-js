@@ -1,31 +1,26 @@
 extends ./layout.jade
 
 block header
-  link(rel="stylesheet" href="deck_controller.css")
 
 block content
-  h3.title controller
-
-  a.button.slide-view(href="#") control in presentation
-
-  a.button.home-button(href="/") home
+  h3.title #{title}
 
   select.slide-decks(name="slide-decks")
     each slideDeck, route in slides
-      option(value=route) 
-        =slideDeck.name
-      
+      option(value="#{route}") #{slideDeck.name}
+
+  a.button.radius.slide-view(href="#") control in presentation
+  
   .nav-buttons
-    .row
-      span.button.up(data-command="up") ▲
-    .row
-      span.button.left(data-command="left") ◀
+    .controller-row.top
+      span.button.radius.up(data-command="up") ▲
+    .controller-row.middle
+      span.button.radius.left(data-command="left") ◀
       span.nav-middle
-      span.button.right(data-command="right") ▶
-    .row
-      span.button.down(data-command="down") ▼
+      span.button.radius.right(data-command="right") ▶
+    .controller-row.bottom
+      span.button.radius.down(data-command="down") ▼
 
 block footer
-  script(src="jquery-2.1.1.min.js")
   script(src="/socket.io/socket.io.js")
-  script(src="deck_controller.js")
+  script(src="/js/deck_controller.js")

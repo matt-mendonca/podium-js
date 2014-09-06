@@ -7,12 +7,52 @@ html.no-js(lang="en")
     meta(name="viewport" content="width=device-width, initial-scale=1")
 
     title Podium
-    link(rel="stylesheet" href="main.css")
+    link(href='http://fonts.googleapis.com/css?family=Droid+Serif:400|Open+Sans:300italic,400italic,700italic,300,400,700,' rel='stylesheet' type='text/css')
+    link(rel="stylesheet" href="/css/podium.css")
+    script(src="/js/vendor/modernizr.js")
     
     block header
       
   body
-    block content
+    .off-canvas-wrap(data-offcanvas)
+      .inner-wrap
+        if loggedIn
+          include toolbar.jade
+
+        .main-content
+          .row
+            .small-12.columns
+              if loggedIn
+                if error
+                  .alert-box.alert.radius(data-alert)
+                    | #{error}
+                    a.close(href="#") &times;
+
+                if status
+                  .alert-box.info.radius(data-alert)
+                    | #{status}
+                    a.close(href="#") &times;
+
+                ul.breadcrumbs
+                  li
+                    a(href="/admin") Dashboard
+                  if breadcrumbs
+                    each breadcrumbTitle, breadcrumbURL in breadcrumbs
+                      li
+                        a(href="#{breadcrumbURL}") #{breadcrumbTitle}
+
+                    li.current #{title}
+
+              block content
+
+          a.exit-off-canvas
+
+    script(src="/js/jquery-2.1.1.min.js")
+    script(src="/js/foundation.min.js")
+    if loggedIn
+      script(src="/js/podium_admin.js")
+    script.
+      $(document).foundation();
 
     block footer
       

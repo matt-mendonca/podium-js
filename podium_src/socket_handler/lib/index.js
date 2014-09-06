@@ -1,7 +1,7 @@
 /**
  * Module dependencies.
  */
-
+var jwt = require('jsonwebtoken');
 
 module.exports = function() {
   var socketOnRequestSlideDeck = function(socket, slides, data) {
@@ -45,7 +45,7 @@ module.exports = function() {
           }
           
           slides[route] = currentDeck;
-          
+
           socket.broadcast.emit('updateData', currentDeck);
 
           return slides;
@@ -58,6 +58,7 @@ module.exports = function() {
         slides[data.route].indexh = data.indexh;
         slides[data.route].indexv = data.indexv;
 
+
         socket.broadcast.emit('recievedSlideChange', data);
 
         return slides;
@@ -66,6 +67,7 @@ module.exports = function() {
       socketOnOverviewShown = function(socket, slides, data) {
         console.log("Received overview shown: " + JSON.stringify(data));
         slides[data.route].overview = true;
+
         socket.broadcast.emit('recievedOverviewShown', data);
 
         return slides;
@@ -74,6 +76,7 @@ module.exports = function() {
       socketOnOverviewHidden = function(socket, slides, data) {
         console.log("Received overview hidden: " + JSON.stringify(data));
         slides[data.route].overview = false;
+
         socket.broadcast.emit('recievedOverviewHidden', data);
 
         return slides;

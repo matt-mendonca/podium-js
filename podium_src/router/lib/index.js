@@ -6,11 +6,7 @@ var fileSystem = require('fs'),
     cheerio = require('cheerio');
 
 module.exports = function() {
-  var podiumRoute = function(req, res, view, slides) {
-        res.render(view, {slides: slides});
-      },
-
-      deckRoute = function(req, res, slides, rootDir, config) {
+  var deckRoute = function(req, res, slides, rootDir, config, routeVars) {
         /* 
           express includes the querystring in req.url
           we need just the url since the podium.slides
@@ -47,12 +43,77 @@ module.exports = function() {
         } else {
           // not found everything else
           console.log("\nWarning: no matching slide deck found for request "+route);
-          res.render('not_found', {slides: slides});
+          res.render(
+            'not_found',
+            {
+              slides: slides,
+              loggedIn: routeVars.loggedIn
+            }
+          );
         }
+      },
+
+      buildBreadcrumbsFromURL = function(url) {
+        var breadcrumbs = {},
+            breadcrumbPiece = '';
+
+        url = url.split('/'); 
+
+        if (url.length > 1) {
+          url.forEach(function(urlPiece, index) {
+            if(urlPiece) {
+
+              breadcrumbPiece +=  "/" + urlPiece;
+
+              if(index > 1 && index < (url.length) - 1) {
+                // Split words
+                  urlPiece = urlPiece.replace(/-/g, " ").replace(/_/g, " ");
+
+                // Upper case first letter in each word
+                  urlPiece = urlPiece.replace(
+                    /\w\S*/g,
+                    function(txt){
+                      return txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase();
+                    }
+                  );
+
+                breadcrumbs[breadcrumbPiece] =  urlPiece;
+              }
+            }
+          });
+        }
+
+        return breadcrumbs;
+      },
+
+      setRouteVars = function(req) {
+        var routeVars = {
+          loggedIn: false,
+          breadcrumbs: {},
+          error: req.flash('error'),
+          status: req.flash('status')
+        };
+
+        if (req.user) {
+          routeVars.loggedIn = true;
+        }
+
+        if(routeVars.error == '') {
+          delete routeVars.error;
+        }
+
+        if(routeVars.status == '') {
+          delete routeVars.status;
+        }
+
+        routeVars.breadcrumbs = buildBreadcrumbsFromURL(req.url);
+
+        return routeVars;
       };
 
   return {
-    podiumRoute: podiumRoute,
-    deckRoute: deckRoute
+    deckRoute: deckRoute,
+    buildBreadcrumbsFromURL: buildBreadcrumbsFromURL,
+    setRouteVars: setRouteVars
   };
 }();

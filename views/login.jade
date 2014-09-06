@@ -1,0 +1,24 @@
+extends ./layout.jade
+
+block content
+
+  form.login-form(action="/login" data-abide="" method="post")
+    fieldset
+      legend Login
+
+      if message
+        .message
+          h5.error-message #{message}
+
+      .username
+        label Username:
+          input(type="text" name="username" placeholder="Username" value="" required="")
+        small.error Username is required.
+
+      .password
+        label Password:
+          input(type="password" name="password" placeholder="Password" value="" required="")
+        small.error Password is required.
+
+      .submit
+        input.button.radius(type="submit" value="Log In")
