@@ -9,10 +9,6 @@ block content
 
       h5.disclaimer Be careful. You will have to restart PodiumJS if you change these settings.
 
-      if message
-        .message
-          h5.error-message #{message}
-
       .port
         label Port:
           input(type="text" name="port" placeholder="Port" value="#{config.port}" required="")

@@ -103,6 +103,22 @@ module.exports = function(app, users, passport, authenticator, baseDir, config, 
     );
   });
 
+  app.get('/admin/slides', authenticator.isLoggedIn, function(req, res) {
+    var routeVars = router.setRouteVars(req);
+
+    res.render(
+      'slides',
+      {
+        title: 'Slides',
+        loggedIn: routeVars.loggedIn,
+        slides: slides,
+        breadcrumbs: routeVars.breadcrumbs,
+        error: routeVars.error,
+        status: routeVars.status
+      }
+    );
+  });
+
   app.get('/admin/user', authenticator.isLoggedIn, function(req, res) {
     var routeVars = router.setRouteVars(req);
 

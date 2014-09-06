@@ -7,10 +7,6 @@ block content
     fieldset
       legend #{title}
 
-      if message
-        .message
-          h5.error-message #{message}
-
       .username
         label Username:
           input(type="text" name="username" placeholder="Username" value="#{username}" required="")
