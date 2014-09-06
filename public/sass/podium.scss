@@ -69,6 +69,7 @@ form legend {
 .main-content {
   height: 100%;
   padding-top: 1rem;
+  overflow: auto;
   background: $white;
 
   transition: transform 500ms ease, opacity 250ms ease-out;

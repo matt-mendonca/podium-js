@@ -7,7 +7,7 @@ block content
 
   select.slide-decks(name="slide-decks")
     each slideDeck, route in slides
-      option(value="#{route}") #{slideDeck.name}
+      option(value="#{route}") #{slideDeck.title}
 
   a.button.radius.slide-view(href="#") control in presentation
   

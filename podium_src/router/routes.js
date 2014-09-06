@@ -12,7 +12,7 @@ module.exports = function(app, users, passport, authenticator, baseDir, config, 
     res.render(
       'index',
       {
-        title: 'PodiumJS',
+        title: 'Podium JS',
         loggedIn: routeVars.loggedIn,
         slides: slides,
         error: routeVars.error,
