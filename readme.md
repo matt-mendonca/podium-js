@@ -65,6 +65,7 @@ Note: podium will try to load your slides from an index.html file from within yo
   - Choose the slides in the app
 2. Phone
   - Go to the to app in a browser
+  - Login at /login
   - Launch the controller
   - Pick the correct slides
 
@@ -88,7 +89,8 @@ Then, on your laptop (order matters - you must open the slides before connecting
 
 Lastly, on your phone:
 
-- Navigate to [http://localhost:3000/ or http://laptopIpAddress:3000/](http://localhost:3000/)
+- Navigate to [http://localhost:3000/login or http://laptopIpAddress:3000/login](http://localhost:3000/login)
+- Default credentials are username: admin, password: admin.
 - Click the [launch controller](http://localhost:3000/controller) button
 - Select the correct deck from the select list
 - Use the arrow buttons to navigate
