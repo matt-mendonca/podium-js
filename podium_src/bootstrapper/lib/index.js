@@ -110,7 +110,8 @@ module.exports = function() {
               this later). 
              */
             slides[slideDeck.route] = {
-              name: slideDeck.name,
+              title: slideDeck.title,
+              summary: slideDeck.summary,
               location: location = "/slides/"+slidesDirectory+"/",
               route: slideDeck.route,
               // initial slide horizontal index
@@ -125,11 +126,12 @@ module.exports = function() {
 
             slideDeck = {
               route: "/" + slidesDirectory.replace(/\s+/g, '-').replace(/_/g, '-').toLowerCase(),
-              name: slidesDirectory.replace(/-/g, ' ').replace(/_/g, ' ')
+              title: slidesDirectory.replace(/-/g, ' ').replace(/_/g, ' ')
             };
 
             slides[slideDeck.route] = {
-              name: slideDeck.name,
+              title: slideDeck.title,
+              summary: slideDeck.title,
               location: location = "/slides/"+slidesDirectory+"/",
               route: slideDeck.route,
               // initial slide horizontal index
@@ -143,6 +145,44 @@ module.exports = function() {
         });
 
         return slides;
+      },
+
+      updateSlideDeck = function(slides, currentSlideInfo, updatedSlideInfo, baseDir) {
+        if(!updatedSlideInfo.title || !updatedSlideInfo.route || !updatedSlideInfo.summary) {
+          return 'emptyFields';
+        }
+
+        // Add a / to the front of the route if it isn't there
+          if(updatedSlideInfo.route.charAt(0) !== '/') {
+            updatedSlideInfo.route = "/" + updatedSlideInfo.route;
+          }
+        // Lowercase and replace spaces with dashes
+          updatedSlideInfo.route = updatedSlideInfo.route.toLowerCase().replace(/\s+/g, '-');
+        
+        if(updatedSlideInfo.route === '/' || updatedSlideInfo.route.substring(0, 6) === '/admin') {
+          return 'routeTaken';
+        }
+
+        for(slideRoutes in slides) {
+          if(updatedSlideInfo.route !== currentSlideInfo.route && updatedSlideInfo.route === slideRoutes) {
+            return 'routeTaken';
+          }
+        }
+
+        currentSlideInfo.title = updatedSlideInfo.title;
+        currentSlideInfo.summary = updatedSlideInfo.summary;
+
+        if(updatedSlideInfo.route !== currentSlideInfo.route) {
+          delete slides[currentSlideInfo.route];
+
+          currentSlideInfo.route = updatedSlideInfo.route;
+        } 
+
+        slides[currentSlideInfo.route] = currentSlideInfo;
+        
+        fileSystem.writeFileSync(baseDir + currentSlideInfo.location + 'podium.json', JSON.stringify(updatedSlideInfo));
+
+        return null;
       },
 
       setStaticDirs = function(app, slides, baseDir) {
@@ -159,6 +199,7 @@ module.exports = function() {
     loadConfig: loadConfig,
     updateConfig: updateConfig,
     scanSlidesDir: scanSlidesDir,
+    updateSlideDeck: updateSlideDeck,
     setStaticDirs: setStaticDirs
   };
 }();

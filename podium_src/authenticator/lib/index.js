@@ -55,7 +55,7 @@ module.exports = function() {
           
           fileSystem.writeFileSync(baseDir + '/config/users.json', JSON.stringify(users));
 
-          return false;
+          return null;
         }
       },
 

@@ -1,0 +1,27 @@
+extends ./layout.jade
+
+block header
+
+block content
+  form.slide-edit-form(action="/admin/slides#{slideDeck.route}" data-abide="" method="post")
+    fieldset
+      legend #{title}
+
+      .title
+        label title:
+          input(type="text" name="title" placeholder="title" value="#{slideDeck.title}" required="")
+        small.error Title is required.
+
+      .route
+        label Route:
+          input(type="text" name="route" value="#{slideDeck.route}" placeholder="Route" required="")
+        small.error Route is required.
+
+      .summary
+        label Summary:
+          textarea(name="summary" placeholder="Summary" row="20" spellcheck="" required="") #{slideDeck.summary}
+        small.error Summary is required.
+
+      .submit
+        input.button.radius(type="submit" value="Save")
+        a.button.radius.secondary.right(href="/admin/slides") Cancel

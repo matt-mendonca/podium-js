@@ -6,5 +6,4 @@ block content
   ul.slide-decks
     each slideDeck, route in slides
       li
-        a(href=route)
-          =slideDeck.name
+        a(href='/admin/slides#{route}') #{slideDeck.title}

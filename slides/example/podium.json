@@ -1,4 +1,1 @@
-{
-  "name": "example",
-  "route": "/example"
-}
+{"title":"Example Presentation","route":"/example-test","summary":"This is a demo presentation."}

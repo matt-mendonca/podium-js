@@ -119,6 +119,56 @@ module.exports = function(app, users, passport, authenticator, baseDir, config, 
     );
   });
 
+  app.param('slideDeck', function (req, res, next, slideDeck) {
+    slideDeck = '/' + slideDeck;
+
+    if(slides[slideDeck]) {
+      req.slideDeck = slides[slideDeck];
+    }
+
+    next();
+  });
+
+  app.get('/admin/slides/:slideDeck', authenticator.isLoggedIn, function(req, res) {
+    var routeVars = router.setRouteVars(req);
+
+    if(req.slideDeck) {
+      res.render(
+        'slide_edit',
+        {
+          title: 'Edit Slide Deck',
+          loggedIn: routeVars.loggedIn,
+          breadcrumbs: routeVars.breadcrumbs,
+          slideDeck: req.slideDeck,
+          error: routeVars.error,
+          status: routeVars.status
+        }
+      );  
+    } else {
+      req.flash('error', 'Slide Deck not found.');
+      res.redirect('/admin/slides');  
+    }
+  });
+
+  app.post('/admin/slides/:slideDeck',
+    authenticator.isLoggedIn,
+    bruteforce.prevent,
+    function(req, res) {
+      var slideDeckUpdatedError = bootstrapper.updateSlideDeck(slides, req.slideDeck, req.body, baseDir);
+
+      if(slideDeckUpdatedError === 'emptyFields') {
+        req.flash('error', 'All fields need to be filled out.');
+        res.redirect('/admin/slides/' + req.params.slideDeck);  
+      } else if(slideDeckUpdatedError === 'routeTaken') {
+        req.flash('error', 'Route is taken.');
+        res.redirect('/admin/slides/' + req.params.slideDeck); 
+      } else if (!slideDeckUpdatedError) {
+        req.flash('status', 'Slide Deck updated.');
+        res.redirect('/admin/slides'); 
+      } 
+    }
+  );
+
   app.get('/admin/user', authenticator.isLoggedIn, function(req, res) {
     var routeVars = router.setRouteVars(req);
 

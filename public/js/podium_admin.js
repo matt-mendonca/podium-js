@@ -25,13 +25,31 @@
       if(linkURL === window.location.pathname) {
         $(this).addClass('active');
       }
+    },
+
+    slideEditValidate = function() {
+      $('.route input').blur(sanitizeRouteField);
+    }
+
+    sanitizeRouteField = function(event) {
+      var route = $(this).val();
+      
+      // Add a / to the front of the route if it isn't there
+        if(route.charAt(0) !== '/') {
+          route = "/" + route;
+        }
+      // Lowercase and replace spaces with dashes
+        route = route.toLowerCase().replace(/\s+/g, '-');
+
+      $(this).val(route);
     };
 
     return {
       state: state,
       init: init,
       mainMenuState: mainMenuState,
-      setActiveLinks: setActiveLinks
+      setActiveLinks: setActiveLinks,
+      slideEditValidate: slideEditValidate
     };
   })();
 
@@ -48,5 +66,9 @@
     */
 
     $('.main-menu li a').each(PodiumAdmin.setActiveLinks);
+
+    if ($('.slide-edit-form').length > 0) {
+      PodiumAdmin.slideEditValidate();
+    }
   });
 })(jQuery);
