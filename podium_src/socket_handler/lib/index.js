@@ -64,6 +64,22 @@ module.exports = function() {
         return slides;
       },
 
+      socketOnFragmentShown = function(socket, slides, data) {
+        console.log("Received Fragment shown: " + JSON.stringify(data));
+
+        socket.broadcast.emit('recievedFragmentShown', data);
+
+        return slides;
+      },
+
+      socketOnFragmentHidden = function(socket, slides, data) {
+        console.log("Received Fragment hidden: " + JSON.stringify(data));
+
+        socket.broadcast.emit('recievedFragmentHidden', data);
+
+        return slides;
+      },
+
       socketOnOverviewShown = function(socket, slides, data) {
         console.log("Received overview shown: " + JSON.stringify(data));
         slides[data.route].overview = true;
@@ -86,6 +102,8 @@ module.exports = function() {
     socketOnRequestSlideDeck: socketOnRequestSlideDeck,
     socketOnCommand: socketOnCommand,
     socketOnSlideChanged: socketOnSlideChanged,
+    socketOnFragmentShown: socketOnFragmentShown,
+    socketOnFragmentHidden: socketOnFragmentHidden,
     socketOnOverviewShown: socketOnOverviewShown,
     socketOnOverviewHidden: socketOnOverviewHidden
   };

@@ -29,6 +29,26 @@ module.exports = function(io, app, config, passport, baseDir, slides) {
     });
 
     // When client deck in controller mode goes to overview mode
+    socket.on('fragmentShown', function(data) {
+      var verified = authenticator.verifyJWT(config, data);
+
+      if(verified) {
+        delete data.token;
+        slides = socketHandler.socketOnFragmentShown(socket, slides, data);
+      }
+    });
+
+    // When client deck in controller mode leaves overview mode
+    socket.on('fragmentHidden', function(data) {
+      var verified = authenticator.verifyJWT(config, data);
+
+      if(verified) {
+        delete data.token;
+        slides = socketHandler.socketOnFragmentHidden(socket, slides, data);
+      }
+    });
+
+    // When client deck in controller mode goes to overview mode
     socket.on('overviewShown', function(data) {
       var verified = authenticator.verifyJWT(config, data);
 

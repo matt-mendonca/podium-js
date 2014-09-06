@@ -41,6 +41,18 @@ var Podium = function() {
             }
           });
 
+          socket.on('recievedFragmentShown', function(data) {
+            console.log("Received fragment shown data: " + JSON.stringify(data) );
+                
+            Reveal.nextFragment();
+          });
+
+          socket.on('recievedFragmentHidden', function(data) {
+            console.log("Received fragment hidden data: " + JSON.stringify(data) );
+                
+            Reveal.prevFragment();
+          });
+
           socket.on('recievedOverviewShown', function(data) {
             console.log("Received overview shown data: " + JSON.stringify(data) );
                 

@@ -14,6 +14,13 @@
       );
     });
 
+    Reveal.addEventListener( 'fragmentshown', function( event ) {
+      Podium.socket.emit('fragmentShown', {'route' : Podium.deckRoute, 'token': token });
+    });
+    Reveal.addEventListener( 'fragmenthidden', function( event ) {
+      Podium.socket.emit('fragmentHidden', {'route' : Podium.deckRoute, 'token': token });
+    });
+
     Reveal.addEventListener('overviewshown', function( event ) {
       Podium.socket.emit('overviewShown', {'route' : Podium.deckRoute, 'token': token });
     });
