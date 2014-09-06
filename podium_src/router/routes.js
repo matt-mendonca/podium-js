@@ -3,7 +3,8 @@ var ExpressBrute = require('express-brute'),
     bruteforce = new ExpressBrute(store);
 
 module.exports = function(app, users, passport, authenticator, baseDir, config, slides) {
-  var router = require(baseDir + '/podium_src/router');
+  var bootstrapper = require(baseDir + '/podium_src/bootstrapper'),
+      router = require(baseDir + '/podium_src/router');
 
   app.get('/', function(req, res) {
     var routeVars = router.setRouteVars(req);
@@ -119,6 +120,7 @@ module.exports = function(app, users, passport, authenticator, baseDir, config, 
   });
 
   app.post('/admin/user',
+    authenticator.isLoggedIn,
     bruteforce.prevent,
     function(req, res) {
       var userUpdatedError = authenticator.updateUser(users, req.user, req.body, baseDir);
@@ -133,6 +135,32 @@ module.exports = function(app, users, passport, authenticator, baseDir, config, 
         req.flash('status', 'Account updated.');
         res.redirect('/admin');  
       } 
+    }
+  );
+
+  app.get('/admin/config', authenticator.isLoggedIn, function(req, res) {
+    var routeVars = router.setRouteVars(req);
+
+    res.render(
+      'config',
+      {
+        title: 'Configuration',
+        loggedIn: routeVars.loggedIn,
+        breadcrumbs: routeVars.breadcrumbs,
+        config: config,
+        error: routeVars.error,
+        status: routeVars.status
+      }
+    );
+  });
+
+  app.post('/admin/config',
+    authenticator.isLoggedIn,
+    bruteforce.prevent,
+    function(req, res) {
+      bootstrapper.updateConfig(config, req.body, baseDir);
+      req.flash('status', 'Configuration updated. Please restart PodiumJS.');
+      res.redirect('/admin');  
     }
   );
 

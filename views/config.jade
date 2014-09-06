@@ -1,0 +1,43 @@
+extends ./layout.jade
+
+block header
+
+block content
+  form.user-form(action="/admin/config" data-abide="" method="post")
+    fieldset
+      legend #{title}
+
+      h5.disclaimer Be careful. You will have to restart PodiumJS if you change these settings.
+
+      if message
+        .message
+          h5.error-message #{message}
+
+      .port
+        label Port:
+          input(type="text" name="port" placeholder="Port" value="#{config.port}" required="")
+        small.error Port is required.
+
+      .cookie-parser-secret
+        label Cookie Parser Secret:
+          input(type="text" name="cookieParserSecret" value="#{config.cookieParserSecret}" placeholder="Cookie Parser Secret" required="")
+        small.error Cookie Parser Secret is required.
+
+      .session-secret
+        label Session Secret:
+          input(type="text" name="sessionSecret" value="#{config.sessionSecret}" placeholder="Session Secret" required="")
+        small.error Session Secret is required.
+
+      .jwt-secret
+        label JSON Web Token Secret:
+          input(type="text" name="jwtSecret" value="#{config.jwtSecret}" placeholder="JSON Web Token" required="")
+        small.error JSON Web Token is required.
+
+      .jwt-expire-minutes
+        label JSON Web Token Expire Time in Minutes:
+          input(type="number" name="jwtExpireMinutes" value="#{config.jwtExpireMinutes}" placeholder="JSON Web Token Expire Time in Minutes" required="")
+        small.error JSON Web Token Expire Time in Minutes is required.
+
+      .submit
+        input.button.radius(type="submit" value="Save")
+        a.button.radius.secondary.right(href="/admin") Cancel

@@ -19,7 +19,7 @@ module.exports = function() {
    * Note that init function at the very bottom is what really
    * starts everything.
    */
-  var loadConfig = function (configFilePath, server, app, rootDir) {
+  var loadConfig = function (configFilePath, server, app, baseDir) {
         var configFile = fileSystem.readFileSync(configFilePath),
             config = JSON.parse(configFile),
             port = process.env.PORT || config.port;
@@ -53,16 +53,40 @@ module.exports = function() {
         app.use(passport.initialize());
         app.use(passport.session());
         app.use(flash());
-        app.use(favicon(rootDir + config.favicon));
+        app.use(favicon(baseDir + config.favicon));
         server.listen(port);
-        app.set('views', rootDir + '/views');
+        app.set('views', baseDir + '/views');
         app.set('view engine', 'jade');
         console.log('podium server listening on port '+config.port);
         
         return config;
       },
 
-      scanSlidesDir = function(directories, slides, rootDir) {
+      updateConfig = function(config, updatedConfig, baseDir) {
+        if(updatedConfig.port && !isNaN(updatedConfig.port)) {
+          config.port = updatedConfig.port;
+        }
+
+        if(updatedConfig.cookieParserSecret) {
+          config.cookieParserSecret = updatedConfig.cookieParserSecret;
+        }
+
+        if(updatedConfig.sessionSecret) {
+          config.sessionSecret = updatedConfig.sessionSecret;
+        }
+
+        if(updatedConfig.jwtSecret) {
+          config.jwtSecret = updatedConfig.jwtSecret;
+        }
+
+        if(updatedConfig.jwtExpireMinutes && !isNaN(updatedConfig.jwtExpireMinutes)) {
+          config.jwtExpireMinutes = updatedConfig.jwtExpireMinutes;
+        }
+
+        fileSystem.writeFileSync(baseDir + '/config/config.json', JSON.stringify(config));
+      },
+
+      scanSlidesDir = function(directories, slides, baseDir) {
         var slideDeck = null;
 
         // Iterate over the contents of the Slides directory
@@ -72,10 +96,10 @@ module.exports = function() {
             // continue;
 
           // Check if a podium json file exists in the directory 
-          } else if (fileSystem.existsSync(rootDir + "/slides/"+slidesDirectory+"/podium.json")) {
+          } else if (fileSystem.existsSync(baseDir + "/slides/"+slidesDirectory+"/podium.json")) {
             // parse the podium file and add it to our podium.slides object
             slideDeck = JSON.parse(
-              fileSystem.readFileSync(rootDir + "/slides/"+slidesDirectory+"/podium.json")
+              fileSystem.readFileSync(baseDir + "/slides/"+slidesDirectory+"/podium.json")
             );
 
             /* 
@@ -121,18 +145,19 @@ module.exports = function() {
         return slides;
       },
 
-      setStaticDirs = function(app, slides, rootDir) {
-        app.use(express.static(rootDir + '/public'));
+      setStaticDirs = function(app, slides, baseDir) {
+        app.use(express.static(baseDir + '/public'));
 
         for (var route in slides) {
           // set the public directory in each slide folder so that express
           // doesn't try to route those requests
-          app.use(express.static(rootDir + slides[route].location + 'public'));
+          app.use(express.static(baseDir + slides[route].location + 'public'));
         }
       };
 
   return {
     loadConfig: loadConfig,
+    updateConfig: updateConfig,
     scanSlidesDir: scanSlidesDir,
     setStaticDirs: setStaticDirs
   };

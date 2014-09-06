@@ -38,7 +38,7 @@ module.exports = function() {
           return 'currentPassword';
         }
 
-        if(usernameTaken) {
+        if(usernameTaken && updatedInfo.username !== currentUser.username) {
           return 'usernameTaken';
         }
 
