@@ -67,6 +67,10 @@ module.exports = function() {
           config.port = updatedConfig.port;
         }
 
+        if(updatedConfig.staticCacheMilliseconds && !isNaN(updatedConfig.staticCacheMilliseconds)) {
+          config.staticCacheMilliseconds = updatedConfig.staticCacheMilliseconds;
+        }
+
         if(updatedConfig.cookieParserSecret) {
           config.cookieParserSecret = updatedConfig.cookieParserSecret;
         }
@@ -185,13 +189,13 @@ module.exports = function() {
         return null;
       },
 
-      setStaticDirs = function(app, slides, baseDir) {
-        app.use(express.static(baseDir + '/public'));
+      setStaticDirs = function(app, config, slides, baseDir) {
+        app.use(express.static(baseDir + '/public', { maxAge: config.staticCacheMilliseconds }));
 
         for (var route in slides) {
           // set the public directory in each slide folder so that express
           // doesn't try to route those requests
-          app.use(express.static(baseDir + slides[route].location + 'public'));
+          app.use(express.static(baseDir + slides[route].location + 'public', { maxAge: config.staticCacheMilliseconds }));
         }
       };
 

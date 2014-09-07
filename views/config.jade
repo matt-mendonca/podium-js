@@ -11,8 +11,13 @@ block content
 
       .port
         label Port:
-          input(type="text" name="port" placeholder="Port" value="#{config.port}" required="")
-        small.error Port is required.
+          input(type="number" name="port" placeholder="Port" value="#{config.port}" pattern="number" required="")
+        small.error Port is required and must be a number.
+
+      .static-cache-milliseconds
+        label Static Cache Length in Milliseconds:
+          input(type="number" name="staticCacheMilliseconds" placeholder="Static Cache Length in Milliseconds" value="#{config.staticCacheMilliseconds}" pattern="number" required="")
+        small.error Static Cache Length in Milliseconds is required and must be a number.
 
       .cookie-parser-secret
         label Cookie Parser Secret:

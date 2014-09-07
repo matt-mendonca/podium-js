@@ -22,7 +22,7 @@ a
   font-style: italic
 
 form legend
-  font-size: 2rem
+  font-size: 1.75rem
   @extend .serif
 
 .disclaimer
@@ -36,13 +36,31 @@ form legend
 .left-off-canvas-menu
   height: 100%
 
+.tab-bar .menu-icon 
+  span::after
+    transition: box-shadow 250ms ease-out  
+
+  &:hover span::after
+    box-shadow: 0 0px 0 1px $info-color,0 7px 0 1px $info-color,0 14px 0 1px $info-color
+
+  &:active span::after
+    box-shadow: 0 0px 0 1px $primary-color,0 7px 0 1px $primary-color,0 14px 0 1px $primary-color
+
+.move-right .tab-bar .menu-icon span::after
+  box-shadow: 0 0px 0 1px $info-color,0 7px 0 1px $info-color,0 14px 0 1px $info-color
+
 .main-menu
   i
     margin-right: 0.75rem
     padding-right: 0.75rem
 
+    transition: border 250ms ease-out
+
   .active i
     border-right: solid 2px $primary-color
+
+  .active:active i
+    border-right: solid 2px $info-color
 
   ul
     li
@@ -51,6 +69,9 @@ form legend
 
         &:hover
           background: $primary-color
+
+        &:active
+          background: $info-color
 
 .main-content
   height: 100%

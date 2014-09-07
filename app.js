@@ -26,7 +26,7 @@ var fileSystem = require('fs'),
     require('./podium_src/authenticator/passport.js')(passport, authenticator, users);
 
   // Set static assets directories 
-    bootstrapper.setStaticDirs(app, slides, __dirname);
+    bootstrapper.setStaticDirs(app, config, slides, __dirname);
 
   // load up the routes
     require('./podium_src/router/routes.js')(app, users, passport, authenticator, __dirname, config, slides);
