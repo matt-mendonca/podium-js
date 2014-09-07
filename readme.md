@@ -37,6 +37,7 @@ getting started
 ### requirements
 
 - node js
+  - uses express 4.0, so use node js >= 0.10
 - npm
 
 ### setup
