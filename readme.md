@@ -1,14 +1,14 @@
-podium js
+Podium JS
 =========
-podium js is a presentation system / framework (wat?) for [reveal js](http://revealjs.com/) slide decks. It is built on top of [express js](http://expressjs.com/) and [node js](http://nodejs.org/). It is inspired by [thehung111's remote presentation controller](https://github.com/thehung111/remote-presentation-controller) (much of the remote code is logically the same) - more on that in a bit.
+Podium JS is a presentation system / framework (wat?) for [reveal js](http://revealjs.com/) slide decks. It is built on top of [express js](http://expressjs.com/) and [node js](http://nodejs.org/). It is inspired by [thehung111's remote presentation controller](https://github.com/thehung111/remote-presentation-controller) (much of the remote code is logically the same) - more on that in a bit.
 
 ### what it does
 
-podium js makes presenting (read: when standing in front of a crowd) your reveal js slides easier. It allows you to drop in your already made reveal slides and control them with the built in controller. 
+Podium JS makes presenting (read: when standing in front of a crowd) your reveal js slides easier. It allows you to drop in your already made reveal slides and control them with the built in controller. 
 
-### so what *is* podium js
+### so what *is* Podium JS
 
-Generally speaking, podium js is made up of an express socket server, a controller app, and a minimal js client script. The controller app / client script sends slide state data (current slide, slide changes, view mode changes) to the server. The server then process and broadcasts that data out to all of the actively connected presentations. 
+Generally speaking, Podium JS is made up of an express socket server, a controller app, and a minimal js client script. The controller app / client script sends slide state data (current slide, slide changes, view mode changes) to the server. The server then process and broadcasts that data out to all of the actively connected presentations. 
 
 It wires up all of the pieces to make your pre made reveal slides remote controllable.
 
