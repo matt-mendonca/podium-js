@@ -20,7 +20,7 @@ html.no-js(lang="en")
           include toolbar.jade
 
         .main-content
-          .row
+          .row.fader
             .small-12.columns
               if loggedIn
                 if error
@@ -53,6 +53,8 @@ html.no-js(lang="en")
       script(src="/js/podium_admin.js")
     script.
       $(document).foundation();
-
+      $(window).load(function() {
+        $('body').addClass('loaded');
+      });
     block footer
       
