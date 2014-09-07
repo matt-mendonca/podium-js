@@ -96,4 +96,4 @@ Lastly, on your phone:
 - Select the correct deck from the select list
 - Use the arrow buttons to navigate
 - OR click the [control in presentation](http://localhost:3000/example?controller=true) button to control the slides while viewing them
-  - **This is the prefferd method as it incorporates more of reveal js's features (overview mode, fragment changes)**.  
+  - **This is the preferred method as it incorporates more of reveal js's features (overview mode, fragment changes)**.  
