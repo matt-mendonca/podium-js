@@ -1,7 +1,8 @@
 /**
- * Module dependencies.
+ * This file contains the slides deck route callback and other routing functions.
  */
-var fileSystem = require('fs'),
+
+var fileSystem = require('fs-extra'),
     url = require('url'),
     cheerio = require('cheerio');
 
@@ -9,13 +10,14 @@ module.exports = function() {
   var deckRoute = function(req, res, slides, rootDir, config, routeVars) {
         /* 
           express includes the querystring in req.url
-          we need just the url since the podium.slides
+          we need just the url since the slides object
           is indexed without it.
         */
         var rawUrl = url.parse(req.url),
             route = rawUrl.pathname,
             queryString = null,
             controller = false,
+            editor = false,
             $ = null;
 
         if(rawUrl.search) {
@@ -23,17 +25,34 @@ module.exports = function() {
           queryString.forEach(function(property, index) {
             queryString[index] = property.split('=');
 
-            if(queryString[index][0] === 'controller' && queryString[index][1] === 'true') {
+            if(queryString[index][0] === 'editor' && queryString[index][1] === 'true') {
+              editor = true;
+            } else if(queryString[index][0] === 'controller' && queryString[index][1] === 'true') {
               controller = true;
-            }
+            } 
           });
         }
         
         if(slides[route]) {
+          // redirect to login if not logged in and try to access the controller or editor
+            if(!req.user && (controller || editor || slides[route].published !== true))  {
+              res.redirect('/login');
+
+              return null;
+            }
+
           // send the index.html file for the slides
           // append the socket io and podium js to body response
           $ = cheerio.load(fileSystem.readFileSync(rootDir + slides[route].location + 'index.html'));
-          $('body').append(config.slidesHtmlScripts);
+            
+          if(editor) {
+            $('head').append(config.slidesEditorScripts);
+            $('body').append(config.podiumScripts);
+            $('body').append(config.podiumEditorScript);
+          } else {
+            $('body').append(config.socketScript);
+            $('body').append(config.podiumScripts);
+          }
           
           if(controller) {
             $('body').append(config.inPresentationControllerScript);

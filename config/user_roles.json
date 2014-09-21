@@ -1,0 +1,42 @@
+{
+  "presenter": {
+    "present": true,
+    "createDeck": false,
+    "editOwnDecks": false,
+    "editAnyDecks": false,
+    "manageOtherUsers": false,
+    "manageSiteConfig": false
+  },
+  "author": {
+    "present": true,
+    "createDeck": true,
+    "editOwnDecks": true,
+    "editAnyDecks": false,
+    "manageOtherUsers": false,
+    "manageSiteConfig": false
+  },
+  "editor": {
+    "present": true,
+    "createDeck": true,
+    "editOwnDecks": true,
+    "editAnyDecks": true,
+    "manageOtherUsers": false,
+    "manageSiteConfig": false
+  },
+  "moderator": {
+    "present": true,
+    "createDeck": true,
+    "editOwnDecks": true,
+    "editAnyDecks": true,
+    "manageOtherUsers": true,
+    "manageSiteConfig": false
+  },
+  "admin": {
+    "present": true,
+    "createDeck": true,
+    "editOwnDecks": true,
+    "editAnyDecks": true,
+    "manageOtherUsers": true,
+    "manageSiteConfig": true
+  }
+}

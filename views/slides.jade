@@ -1,7 +1,9 @@
 extends ./layout.jade
 
 block content
-  h1.title #{title}
+  h3.title #{title}
+
+  a.button.radius(href="/admin/slide-deck/create") Create New Slide Deck
 
   ul.slide-decks.no-bullet
     each slideDeck, route in slides

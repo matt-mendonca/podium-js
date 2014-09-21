@@ -1,0 +1,67 @@
+@charset "UTF-8"
+
+@import "foundation/settings"
+@import "foundation-icons"
+
+%box-sizing
+  box-sizing: border-box
+
+.button 
+  @extend %box-sizing
+  border-style: solid
+  border-width: 0
+  cursor: pointer
+  font-family: "Open Sans","Helvetica Neue","Helvetica",Helvetica,Arial,sans-serif
+  font-weight: $font-weight-normal
+  line-height: normal
+  margin: 0 0 1.25rem
+  position: relative
+  text-decoration: none
+  text-align: center
+  -webkit-appearance: none
+  border-radius: 3px
+  display: inline-block
+  padding-top: 1rem
+  padding-right: 2rem
+  padding-bottom: 1.0625rem
+  padding-left: 2rem
+  font-size: 1rem
+  background-color: $primary-color
+  border-color: $primary-color
+  color: $white
+  transition: background-color 300ms ease-out
+
+  &:hover,
+  &:focus 
+    background-color: scale-color($primary-color, $lightness: -20%)
+
+  &.success
+    background: $success-color
+
+    &:hover,
+    &:focus 
+      background: scale-color($success-color, $lightness: -20%)
+
+  &.secondary
+    background: $secondary-color
+    color: $body-font-color
+
+    &:hover,
+    &:focus 
+      background: scale-color($secondary-color, $lightness: -20%)
+
+.right
+  float: right
+
+.tool-bar
+  @extend %box-sizing
+  width: 100%
+  padding: 1em
+  background: $oil
+  border-bottom: solid 1px $jumbo
+
+  .button
+    margin-bottom: 0
+
+  .slidesMarkup
+    display: none

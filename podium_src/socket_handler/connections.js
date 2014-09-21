@@ -1,6 +1,11 @@
-module.exports = function(io, app, config, passport, baseDir, slides) {
-  var socketHandler = require(baseDir + '/podium_src/socket_handler');
-  var authenticator = require(baseDir + '/podium_src/authenticator');
+/**
+ * This file maps callbacks to certain socket events, 
+ * much like the routes.js file that maps callbacks for certain routes
+ */
+
+module.exports = function(io, app, config, slides, baseDir) {
+  var socketHandler = require(baseDir + '/podium_src/socket_handler'),
+      userManager = require(baseDir + '/podium_src/user_manager');
 
   io.on('connection', function (socket) {
     // When a client first loads up a deck
@@ -10,7 +15,7 @@ module.exports = function(io, app, config, passport, baseDir, slides) {
 
     // When the controller view sends a command
     socket.on('command', function(data) {
-      var verified = authenticator.verifyJWT(config, data);
+      var verified = userManager.verifyJWT(config, data);
 
       if(verified) {
         delete data.token;
@@ -20,7 +25,7 @@ module.exports = function(io, app, config, passport, baseDir, slides) {
 
     // When client deck in controller mode changes slides
     socket.on('slideChanged', function(data) {
-      var verified = authenticator.verifyJWT(config, data);
+      var verified = userManager.verifyJWT(config, data);
 
       if(verified) {
         delete data.token;
@@ -30,7 +35,7 @@ module.exports = function(io, app, config, passport, baseDir, slides) {
 
     // When client deck in controller mode goes to overview mode
     socket.on('fragmentShown', function(data) {
-      var verified = authenticator.verifyJWT(config, data);
+      var verified = userManager.verifyJWT(config, data);
 
       if(verified) {
         delete data.token;
@@ -40,7 +45,7 @@ module.exports = function(io, app, config, passport, baseDir, slides) {
 
     // When client deck in controller mode leaves overview mode
     socket.on('fragmentHidden', function(data) {
-      var verified = authenticator.verifyJWT(config, data);
+      var verified = userManager.verifyJWT(config, data);
 
       if(verified) {
         delete data.token;
@@ -50,7 +55,7 @@ module.exports = function(io, app, config, passport, baseDir, slides) {
 
     // When client deck in controller mode goes to overview mode
     socket.on('overviewShown', function(data) {
-      var verified = authenticator.verifyJWT(config, data);
+      var verified = userManager.verifyJWT(config, data);
 
       if(verified) {
         delete data.token;
@@ -60,7 +65,7 @@ module.exports = function(io, app, config, passport, baseDir, slides) {
 
     // When client deck in controller mode leaves overview mode
     socket.on('overviewHidden', function(data) {
-      var verified = authenticator.verifyJWT(config, data);
+      var verified = userManager.verifyJWT(config, data);
 
       if(verified) {
         delete data.token;

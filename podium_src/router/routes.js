@@ -1,20 +1,28 @@
+/**
+ * This file maps callbacks to specific routes
+ */
+
 var ExpressBrute = require('express-brute'),
     store = new ExpressBrute.MemoryStore(),
+    passport = require('passport'),
     bruteforce = new ExpressBrute(store);
 
-module.exports = function(app, users, passport, authenticator, baseDir, config, slides) {
-  var bootstrapper = require(baseDir + '/podium_src/bootstrapper'),
+module.exports = function(app, config, users, slides, baseDir) {
+  var configManager = require(baseDir + '/podium_src/config_manager'),
+      userManager = require(baseDir + '/podium_src/user_manager'),
+      slidesManager = require(baseDir + '/podium_src/slides_manager'),
       router = require(baseDir + '/podium_src/router');
 
   app.get('/', function(req, res) {
     var routeVars = router.setRouteVars(req);
+        publishedSlides = slidesManager.getPublishedSlides(slides);
 
     res.render(
       'index',
       {
         title: 'Podium JS',
         loggedIn: routeVars.loggedIn,
-        slides: slides,
+        slides: publishedSlides,
         error: routeVars.error,
         status: routeVars.status
       }
@@ -48,11 +56,11 @@ module.exports = function(app, users, passport, authenticator, baseDir, config, 
     )
   );
 
-  app.get('/set-jwt', authenticator.isLoggedIn, function(req, res) {
+  app.get('/set-jwt', userManager.isLoggedIn, function(req, res) {
     var token = null;
 
     if (req.user) {
-      token = authenticator.createJWT(config, req.user);
+      token = userManager.createJWT(config, req.user);
 
       res.render('set_jwt', {token: token});
     } else {
@@ -73,11 +81,11 @@ module.exports = function(app, users, passport, authenticator, baseDir, config, 
     res.redirect('/');
   });
 
-  app.get('/admin', authenticator.isLoggedIn, function(req, res) {
+  app.get('/admin', userManager.isLoggedIn, function(req, res) {
     var routeVars = router.setRouteVars(req);
 
     res.render(
-      'admin',
+      'dashboard',
       {
         title: 'Welcome',
         loggedIn: routeVars.loggedIn,
@@ -87,23 +95,29 @@ module.exports = function(app, users, passport, authenticator, baseDir, config, 
     );
   });
 
-  app.get('/admin/controller', authenticator.isLoggedIn, function(req, res) {
-    var routeVars = router.setRouteVars(req);
+  app.get('/admin/controller', userManager.isLoggedIn, function(req, res) {
+    var routeVars = router.setRouteVars(req),
+        publishedSlides = slidesManager.getPublishedSlides(slides);
 
-    res.render(
-      'controller',
-      {
-        title: 'Controller',
-        loggedIn: routeVars.loggedIn,
-        slides: slides,
-        breadcrumbs: routeVars.breadcrumbs,
-        error: routeVars.error,
-        status: routeVars.status
-      }
-    );
+    if(Object.keys(publishedSlides).length > 0) {
+      res.render(
+        'controller',
+        {
+          title: 'Controller',
+          loggedIn: routeVars.loggedIn,
+          slides: publishedSlides,
+          breadcrumbs: routeVars.breadcrumbs,
+          error: routeVars.error,
+          status: routeVars.status
+        }
+      ); 
+    } else {
+      req.flash('error', 'Please publish at least one slide deck to present.');
+      res.redirect('/admin/slides'); 
+    }
   });
 
-  app.get('/admin/slides', authenticator.isLoggedIn, function(req, res) {
+  app.get('/admin/slides', userManager.isLoggedIn, function(req, res) {
     var routeVars = router.setRouteVars(req);
 
     res.render(
@@ -129,7 +143,51 @@ module.exports = function(app, users, passport, authenticator, baseDir, config, 
     next();
   });
 
-  app.get('/admin/slides/:slideDeck', authenticator.isLoggedIn, function(req, res) {
+  app.get('/admin/slide-deck', userManager.isLoggedIn, function(req, res) {
+    res.redirect('/admin/slides'); 
+  });
+
+  app.get('/admin/slide-deck/create', userManager.isLoggedIn, function(req, res) {
+    var routeVars = router.setRouteVars(req);
+    
+    res.render(
+      'slide_new',
+      {
+        title: 'Create New Slide Deck',
+        loggedIn: routeVars.loggedIn,
+        breadcrumbs: routeVars.breadcrumbs,
+        slideDeck: {
+          title: "",
+          route: "",
+          summary: "",
+          published: false
+        },
+        error: routeVars.error,
+        status: routeVars.status
+      }
+    );  
+  });
+
+  app.post('/admin/slide-deck/create',
+    userManager.isLoggedIn,
+    bruteforce.prevent,
+    function(req, res) {
+      var slideDeckUpdatedError = slidesManager.createSlideDeck(config, slides, req.body, baseDir);
+
+      if(slideDeckUpdatedError === 'emptyFields') {
+        req.flash('error', 'All fields need to be filled out.');
+        res.redirect('/admin/slides/create-new-slide-deck');  
+      } else if(slideDeckUpdatedError === 'routeTaken') {
+        req.flash('error', 'Route is taken.');
+        res.redirect('/admin/slides/create-new-slide-deck'); 
+      } else if (!slideDeckUpdatedError) {
+        req.flash('status', 'Slide Deck created.');
+        res.redirect('/admin/slides' + req.body.route); 
+      } 
+    }
+  );
+
+  app.get('/admin/slides/:slideDeck', userManager.isLoggedIn, function(req, res) {
     var routeVars = router.setRouteVars(req);
 
     if(req.slideDeck) {
@@ -151,10 +209,10 @@ module.exports = function(app, users, passport, authenticator, baseDir, config, 
   });
 
   app.post('/admin/slides/:slideDeck',
-    authenticator.isLoggedIn,
+    userManager.isLoggedIn,
     bruteforce.prevent,
     function(req, res) {
-      var slideDeckUpdatedError = bootstrapper.updateSlideDeck(slides, req.slideDeck, req.body, baseDir);
+      var slideDeckUpdatedError = slidesManager.updateSlideDeck(slides, req.slideDeck, req.body, baseDir);
 
       if(slideDeckUpdatedError === 'emptyFields') {
         req.flash('error', 'All fields need to be filled out.');
@@ -169,7 +227,30 @@ module.exports = function(app, users, passport, authenticator, baseDir, config, 
     }
   );
 
-  app.get('/admin/user', authenticator.isLoggedIn, function(req, res) {
+  app.get('/admin/slides/:slideDeck/delete', userManager.isLoggedIn, function(req, res) {
+    slidesManager.deleteSlideDeck(slides, req.slideDeck, baseDir);
+
+    req.flash('status', 'Slide Deck deleted.');
+    res.redirect('/admin/slides'); 
+  });
+
+  app.post('/admin/slides/:slideDeck/update-content',
+    userManager.isLoggedIn,
+    bruteforce.prevent,
+    function(req, res) {
+      var slideDeckContentUpdatedError = slidesManager.updateSlideDeckContent(config, slides, req.slideDeck, req.body.slidesMarkup, baseDir);
+
+      if(slideDeckContentUpdatedError === 'empty') {
+        req.flash('error', 'The slide content was empty.');
+        res.redirect('/admin/slides/' + req.params.slideDeck);  
+      } else if (!slideDeckContentUpdatedError) {
+        req.flash('status', 'Slide Deck Content updated.');
+        res.redirect('/admin/slides/' + req.params.slideDeck); 
+      } 
+    }
+  );
+
+  app.get('/admin/user', userManager.isLoggedIn, function(req, res) {
     var routeVars = router.setRouteVars(req);
 
     res.render(
@@ -186,10 +267,10 @@ module.exports = function(app, users, passport, authenticator, baseDir, config, 
   });
 
   app.post('/admin/user',
-    authenticator.isLoggedIn,
+    userManager.isLoggedIn,
     bruteforce.prevent,
     function(req, res) {
-      var userUpdatedError = authenticator.updateUser(users, req.user, req.body, baseDir);
+      var userUpdatedError = userManager.updateUser(users, req.user, req.body, baseDir);
 
       if(userUpdatedError === 'currentPassword') {
         req.flash('error', 'Wrong current password.');
@@ -204,7 +285,7 @@ module.exports = function(app, users, passport, authenticator, baseDir, config, 
     }
   );
 
-  app.get('/admin/config', authenticator.isLoggedIn, function(req, res) {
+  app.get('/admin/config', userManager.isLoggedIn, function(req, res) {
     var routeVars = router.setRouteVars(req);
 
     res.render(
@@ -214,6 +295,7 @@ module.exports = function(app, users, passport, authenticator, baseDir, config, 
         loggedIn: routeVars.loggedIn,
         breadcrumbs: routeVars.breadcrumbs,
         config: config,
+        slides: slides,
         error: routeVars.error,
         status: routeVars.status
       }
@@ -221,10 +303,10 @@ module.exports = function(app, users, passport, authenticator, baseDir, config, 
   });
 
   app.post('/admin/config',
-    authenticator.isLoggedIn,
+    userManager.isLoggedIn,
     bruteforce.prevent,
     function(req, res) {
-      bootstrapper.updateConfig(config, req.body, baseDir);
+      configManager.updateConfig(config, req.body, baseDir);
       req.flash('status', 'Configuration updated. Please restart PodiumJS.');
       res.redirect('/admin');  
     }

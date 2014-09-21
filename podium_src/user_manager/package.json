@@ -1,0 +1,7 @@
+{ 
+  "name" : "podium-user-manager",
+  "dependencies": {
+    "passport": "0.x",
+    "passport-local": "1.x"
+  }
+}

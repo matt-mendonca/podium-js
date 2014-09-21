@@ -1,5 +1,5 @@
 /**
- * Module dependencies.
+ * This file contains the callback functions for socket events.
  */
 var jwt = require('jsonwebtoken');
 

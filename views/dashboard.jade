@@ -1,0 +1,13 @@
+extends ./layout.jade
+
+block content
+  h3.title #{title}
+
+  .message
+    if message
+      h2.error-message #{message}
+  div
+    a.button.radius.controller-button(href="/admin/controller") Controller
+
+  div
+    a.button.radius(href="/admin/slide-deck/create") Create New Slide Deck

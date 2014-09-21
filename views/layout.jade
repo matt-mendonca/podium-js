@@ -1,3 +1,5 @@
+- var loggedInClass = (loggedIn ? 'logged-in' : '')
+
 doctype html
 html.no-js(lang="en")
   head
@@ -13,7 +15,7 @@ html.no-js(lang="en")
     
     block header
       
-  body
+  body(class="#{loggedInClass}")
     .off-canvas-wrap(data-offcanvas)
       .inner-wrap
         if loggedIn
@@ -44,11 +46,13 @@ html.no-js(lang="en")
                     li.current #{title}
 
               block content
-
-          a.exit-off-canvas
+          
+          if loggedIn
+            a.exit-off-canvas.hide-for-large-up
 
     script(src="/js/jquery-2.1.1.min.js")
     script(src="/js/foundation.min.js")
+    script(src="/js/podium.js")
     if loggedIn
       script(src="/js/podium_admin.js")
     script.

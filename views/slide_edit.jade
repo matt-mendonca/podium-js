@@ -3,9 +3,13 @@ extends ./layout.jade
 block header
 
 block content
+
   form.slide-edit-form(action="/admin/slides#{slideDeck.route}" data-abide="" method="post")
     fieldset
       legend #{title}
+
+      .edit
+        a.button.radius(href="#{slideDeck.route}?editor=true") Edit Slide Content
 
       .slide-title
         label title:
@@ -22,6 +26,19 @@ block content
           textarea(name="summary" placeholder="Summary" row="20" spellcheck="" required="") #{slideDeck.summary}
         small.error Summary is required.
 
+      .published
+        input(id="published" name="published" type="checkbox" checked=(slideDeck.published ? "checked" : undefined))
+        label(for="published")
+          span.has-tip.tip-right(data-tooltip title="Published slide decks will be viewable by anonymous users.") Published?
+          
+
       .submit
-        input.button.radius(type="submit" value="Save")
-        a.button.radius.secondary.right(href="/admin/slides") Cancel
+        input.button.radius.success(type="submit" value="Save")
+        a.button.radius.secondary(href="/admin/slides") Cancel
+        a.button.radius.alert.right(href="#" data-reveal-id="deleteModal") Delete
+        //a.button.radius.secondary.right(href="/admin/slides#{slideDeck.route}/delete") Delete
+
+        .reveal-modal#deleteModal(data-reveal)
+          h3 Are you sure you want to delete this slide deck?
+          a.button.radius.alert(href="/admin/slides#{slideDeck.route}/delete") Yes, delete it!
+          a.close-reveal-modal &#215;

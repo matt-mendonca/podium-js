@@ -1,81 +1,60 @@
+var Podium = Podium || {};
+
 ;(function($) {
-  window.PodiumAdmin = (function() {
-    var state = {
-      mainMenuOpen: null
-    },
+  Podium.admin = (function() {
+    var setActiveLinks = function(index) {
+          var linkURL = $(this).attr('href');
 
-    init = function() {
-      /*
-      state.mainMenuOpen = localStorage.getItem('mainMenuOpen');
+          if(linkURL === window.location.pathname) {
+            $(this).addClass('active');
+          }
+        },
 
-      if(state.mainMenuOpen) {
-        $('.off-canvas-wrap').foundation('offcanvas', 'show', 'move-right');
-      }
-      */
-    },
-
-    mainMenuState = function(mainMenuOpen) {
-      state.mainMenuOpen = mainMenuOpen;
-      localStorage.setItem('mainMenuOpen', state.mainMenuOpen);
-    },
-
-    setActiveLinks = function(index) {
-      var linkURL = $(this).attr('href');
-
-      if(linkURL === window.location.pathname) {
-        $(this).addClass('active');
-      }
-    },
-
-    slideEditValidate = function() {
-      $('.route input').blur(sanitizeRouteField);
-    }
-
-    sanitizeRouteField = function(event) {
-      var route = $(this).val();
-      
-      // Add a / to the front of the route if it isn't there
-        if(route.charAt(0) !== '/') {
-          route = "/" + route;
+        slideEditValidate = function() {
+          $('.route input').blur(sanitizeRouteField);
         }
-      // Lowercase and replace spaces with dashes
-        route = route.toLowerCase().replace(/\s+/g, '-');
 
-      $(this).val(route);
-    },
+        sanitizeRouteField = function(event) {
+          var route = $(this).val();
+          
+          // Add a / to the front of the route if it isn't there
+            if(route.charAt(0) !== '/') {
+              route = "/" + route;
+            }
+          // Lowercase and replace spaces with dashes
+            route = route.toLowerCase().replace(/\s+/g, '-');
 
-    deckController = function() {
-      var token = localStorage.getItem('token'),
-          socket = io.connect('/'),
-          // helper function to set the url of the 'control in presentation' button 
-          // when ever the slides select changes value
-          setSlideViewRoute = function(deckRoute) {
-            $('.slide-view').attr('href', deckRoute+'?controller=true');
-          };
+          $(this).val(route);
+        },
 
-      // set it initally
-      setSlideViewRoute($('.slide-decks').val());  
+        deckController = function() {
+          var socket = io.connect('/'),
+              // helper function to set the url of the 'control in presentation' button 
+              // when ever the slides select changes value
+              setSlideViewRoute = function(deckRoute) {
+                $('.slide-view').attr('href', deckRoute+'?controller=true');
+              };
 
-      $('.slide-decks').change(function(event) {
-        setSlideViewRoute($(this).val());
-      });
-      
-      socket.on('connect', function () {
-        console.log("Controller connected.");
-        
-        $('.nav-buttons .button').click(function() {
-          var slidesDeck = $('.slide-decks').val(),
-              command = $(this).attr('data-command');
-        
-          socket.emit('command', {'route' : slidesDeck, 'text': command, 'token': token } );
-        }); 
-      });
-    };
+          // set it initally
+          setSlideViewRoute($('.slide-decks').val());  
+
+          $('.slide-decks').change(function(event) {
+            setSlideViewRoute($(this).val());
+          });
+          
+          socket.on('connect', function () {
+            console.log("Controller connected.");
+            
+            $('.nav-buttons .button').click(function() {
+              var slidesDeck = $('.slide-decks').val(),
+                  command = $(this).attr('data-command');
+            
+              socket.emit('command', {'route' : slidesDeck, 'text': command, 'token': Podium.token } );
+            }); 
+          });
+        };
 
     return {
-      state: state,
-      init: init,
-      mainMenuState: mainMenuState,
       setActiveLinks: setActiveLinks,
       slideEditValidate: slideEditValidate,
       deckController: deckController
@@ -83,23 +62,13 @@
   })();
 
   $(document).ready(function() {
-    PodiumAdmin.init();
-    
-    /*
-    $(document).on('open.fndtn.offcanvas', function() {
-      PodiumAdmin.mainMenuState(true);
-    });
-    $(document).on('close.fndtn.offcanvas', function() {
-      PodiumAdmin.mainMenuState(false);
-    });
-    */
 
-    $('.main-menu li a').each(PodiumAdmin.setActiveLinks);
+    $('.main-menu li a').each(Podium.admin.setActiveLinks);
 
     if ($('.slide-edit-form').length > 0) {
-      PodiumAdmin.slideEditValidate();
+      Podium.admin.slideEditValidate();
     } else if ($('.deck-controller').length > 0) {
-      PodiumAdmin.deckController();
+      Podium.admin.deckController();
     }
   });
 })(jQuery);

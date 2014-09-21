@@ -1,7 +1,0 @@
-{ 
-  "name" : "podium-authenticator",
-  "dependencies": {
-    "passport": "0.x",
-    "passport-local": "1.x"
-  }
-}

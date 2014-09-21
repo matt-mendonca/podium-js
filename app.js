@@ -1,35 +1,35 @@
-var fileSystem = require('fs'),
+var fileSystem = require('fs-extra'),
     express = require('express'),
     app = express(),
     server = require('http').Server(app),
     io = require('socket.io')(server),
     passport = require('passport'),
 
-    bootstrapper = require('./podium_src/bootstrapper'),
-    authenticator = require('./podium_src/authenticator'),
+    configManager = require('./podium_src/config_manager'),
+    userManager = require('./podium_src/user_manager'),
+    slidesManager = require('./podium_src/slides_manager'),
     config = null,
     users = null, 
     slides = {},
     slidesDirectories = null;
 
   // Load the config file and setup the app configuration
-    config = bootstrapper.loadConfig(__dirname + '/config/config.json', server, app, __dirname);
+    config = configManager.loadConfig(app, server, __dirname, '/config/config.json');
 
   // Load the users file 
-    users = authenticator.loadUsers(__dirname + '/config/users.json');
+    users = userManager.loadUsers(__dirname + '/config/users.json');
 
   // Load the slides up
-    slidesDirectories = fileSystem.readdirSync(__dirname + '/slides');
-    slides = bootstrapper.scanSlidesDir(slidesDirectories, slides, __dirname);
+    slides = slidesManager.scanSlidesDir(slides, __dirname);
 
   // bootstrap Passport JS authentication
-    require('./podium_src/authenticator/passport.js')(passport, authenticator, users);
+    require('./podium_src/user_manager/passport.js')(passport, users, __dirname);
 
   // Set static assets directories 
-    bootstrapper.setStaticDirs(app, config, slides, __dirname);
+    configManager.setStaticDirs(app, config, slides, __dirname);
 
   // load up the routes
-    require('./podium_src/router/routes.js')(app, users, passport, authenticator, __dirname, config, slides);
+    require('./podium_src/router/routes.js')(app, config, users, slides, __dirname);
 
   // load up the socket connections
-    require('./podium_src/socket_handler/connections.js')(io, app, config, passport, __dirname, slides);
+    require('./podium_src/socket_handler/connections.js')(io, app, config, slides, __dirname);
