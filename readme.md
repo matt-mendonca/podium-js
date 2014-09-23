@@ -44,7 +44,7 @@ getting started
 
 - Download
 - Run npm install / npm update on the podium directory
-- If you get bcrypt error, run npm rebuild
+- If you get a bcrypt error, then try running npm rebuild
 
 ### loading a reveal js deck into podium
 
