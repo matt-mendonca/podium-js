@@ -3,7 +3,7 @@
  */
 
 var LocalStrategy = require('passport-local').Strategy,
-    bcrypt = require('bcrypt');
+    bcrypt = require('bcryptjs');
 
 module.exports = function(passport, users, baseDir) {
   var userManager = require(baseDir + '/podium_src/user_manager');

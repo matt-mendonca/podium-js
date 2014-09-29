@@ -1,0 +1,38 @@
+extends ./layout.jade
+
+block header
+
+block content
+  form.edit-user-form(action="/admin/users/#{username}" data-abide="" method="post")
+    fieldset
+      legend #{title}
+
+      .username
+        label Username:
+          input(type="text" name="username" placeholder="Username" value="#{username}" required="")
+        small.error Username is required.
+
+      .new-password
+        label New Password:
+          input(type="password" id="new-password" name="newPassword" placeholder="New Password")
+
+      .new-password-confirm
+        label Confirm New Password:
+          input(type="password" name="confirmNewPassword" placeholder="New Password" data-equalto="new-password")
+        small.error The Passwords must match.
+
+      .current-password
+        label 
+          span.has-tip.tip-right(data-tooltip title="Enter the password of the logged in user.") Your Password:
+          input(type="password" name="currentPassword" placeholder="Your Password" required="")
+        small.error Your Password is required.
+
+      .submit
+        input.button.radius.success(type="submit" value="Save")
+        a.button.radius.secondary(href="/admin") Cancel
+        a.button.radius.alert.right(href="#" data-reveal-id="deleteModal") Delete
+
+        .reveal-modal#deleteModal(data-reveal data-options="animation: fade;")
+          h3 Are you sure you want to delete this user account?
+          .button.radius.alert.delete-user(href="/admin/users/#{username}/delete") Yes, delete it!
+          a.close-reveal-modal &#215;

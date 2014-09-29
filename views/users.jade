@@ -1,0 +1,12 @@
+extends ./layout.jade
+
+block content
+  h3.title #{title}
+
+  a.button.radius(href="/admin/user-account/create") Create New User
+
+  ul.users.no-bullet
+    each user, id in users
+      li.panel.radius
+        h3
+          a(href='/admin/users/#{user.username}') Edit #{user.username}

@@ -3,8 +3,7 @@ extends ./layout.jade
 block header
 
 block content
-
-  form.slide-edit-form(action="/admin/slides#{slideDeck.route}" data-abide="" method="post")
+  form.edit-slide-form(action="/admin/slides#{slideDeck.route}" data-abide="" method="post")
     fieldset
       legend #{title}
 
@@ -12,12 +11,13 @@ block content
         a.button.radius(href="#{slideDeck.route}?editor=true") Edit Slide Content
 
       .slide-title
-        label title:
+        label Title:
           input(type="text" name="title" placeholder="title" value="#{slideDeck.title}" required="")
         small.error Title is required.
 
       .route
-        label Route:
+        label
+          span.has-tip.tip-right(data-tooltip title="The URL.") Route:
           input(type="text" name="route" value="#{slideDeck.route}" placeholder="Route" required="")
         small.error Route is required.
 
@@ -36,9 +36,8 @@ block content
         input.button.radius.success(type="submit" value="Save")
         a.button.radius.secondary(href="/admin/slides") Cancel
         a.button.radius.alert.right(href="#" data-reveal-id="deleteModal") Delete
-        //a.button.radius.secondary.right(href="/admin/slides#{slideDeck.route}/delete") Delete
 
-        .reveal-modal#deleteModal(data-reveal)
+        .reveal-modal#deleteModal(data-reveal data-options="animation: fade;")
           h3 Are you sure you want to delete this slide deck?
           a.button.radius.alert(href="/admin/slides#{slideDeck.route}/delete") Yes, delete it!
           a.close-reveal-modal &#215;

@@ -1,4 +1,12 @@
 ;(function() {
+  var backButton = document.createElement('a');
+
+  backButton.setAttribute('href', document.referrer);
+  backButton.setAttribute('class', 'button controller-back-button');
+  backButton.innerHTML = 'Back';
+
+  document.body.appendChild(backButton);
+
   Podium.client.socket.on('connect', function () {
     Reveal.addEventListener( 'slidechanged', function( event ) {
       Podium.client.socket.emit(

@@ -3,18 +3,25 @@ extends ./layout.jade
 block header
 
 block content
-
-  form.slide-edit-form(action="/admin/slide-deck/create" data-abide="" method="post")
+  form.create-slide-form(action="/admin/slide-deck/create" data-abide="" method="post")
     fieldset
       legend #{title}
 
+      .template-deck
+        label 
+          span.has-tip.tip-right(data-tooltip title="Which Slide Deck will be copied when creating the new Slide Deck.") Template Slide Deck:
+          select(name="templateDeck")
+            each slideDeck, route in slides
+              option(value="#{route}" selected=(route === config.templateDeck ? "selected" : undefined)) #{slideDeck.title}
+
       .slide-title
-        label title:
+        label Title:
           input(type="text" name="title" placeholder="title" value="#{slideDeck.title}" required="")
         small.error Title is required.
 
       .route
-        label Route:
+        label
+          span.has-tip.tip-right(data-tooltip title="The URL.") Route:
           input(type="text" name="route" value="#{slideDeck.route}" placeholder="Route" required="")
         small.error Route is required.
 

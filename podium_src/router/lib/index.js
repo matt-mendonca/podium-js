@@ -2,7 +2,8 @@
  * This file contains the slides deck route callback and other routing functions.
  */
 
-var fileSystem = require('fs-extra'),
+var Promise = require('bluebird'),
+    fileSystem = Promise.promisifyAll(require('fs-extra')),
     url = require('url'),
     cheerio = require('cheerio');
 
@@ -43,22 +44,27 @@ module.exports = function() {
 
           // send the index.html file for the slides
           // append the socket io and podium js to body response
-          $ = cheerio.load(fileSystem.readFileSync(rootDir + slides[route].location + 'index.html'));
+          fileSystem.readFileAsync(rootDir + slides[route].location + 'index.html').then(function(indexFile) {
+            $ = cheerio.load(indexFile);
+              
+            if(editor) {
+              $('head').append(config.slidesEditorStyle);
+              $('head').append(config.slidesEditorScripts);
+              $('body').append(config.podiumScript);
+              $('body').append(config.podiumEditorScript);
+            } else {
+              $('body').append(config.socketScript);
+              $('body').append(config.podiumScript);
+              $('body').append(config.podiumClientScript);
+            }
             
-          if(editor) {
-            $('head').append(config.slidesEditorScripts);
-            $('body').append(config.podiumScripts);
-            $('body').append(config.podiumEditorScript);
-          } else {
-            $('body').append(config.socketScript);
-            $('body').append(config.podiumScripts);
-          }
-          
-          if(controller) {
-            $('body').append(config.inPresentationControllerScript);
-          }
+            if(controller) {
+              $('head').append(config.slidesEditorStyle);
+              $('body').append(config.inPresentationControllerScript);
+            }
 
-          res.send($.html());
+            res.send($.html());
+          });
         } else {
           // not found everything else
           console.log("\nWarning: no matching slide deck found for request "+route);

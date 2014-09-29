@@ -7,7 +7,7 @@ block content
     fieldset
       legend #{title}
 
-      h5.disclaimer Be careful. You will have to restart Podium JS if you change some of these settings.
+      h5.disclaimer Note: You will have to restart Podium JS if you change some of these settings.
 
       .port
         label 
@@ -17,7 +17,7 @@ block content
 
       .template-deck
         label 
-          span.has-tip.tip-right(data-tooltip title="Which Slide Deck will be copied when creating a new Slide Deck.") Template Slide Deck:
+          span.has-tip.tip-right(data-tooltip title="Which Slide Deck will be set as the default template when creating a new Slide Deck.") Template Slide Deck:
           select(name="templateDeck")
             each slideDeck, route in slides
               option(value="#{route}" selected=(route === config.templateDeck ? "selected" : undefined)) #{slideDeck.title}

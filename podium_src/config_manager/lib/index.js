@@ -2,8 +2,7 @@
  * This file contains the contains the configuration management functions.
  */
  
-var fileSystem = require('fs-extra'),
-    express = require('express'),
+var express = require('express'),
     favicon = require('serve-favicon'),
     session = require('express-session'),
     cookieParser = require('cookie-parser'),
@@ -14,11 +13,8 @@ var fileSystem = require('fs-extra'),
     compression = require('compression');
 
 module.exports = function() {
-  var loadConfig = function (app, server, baseDir, configFilePath) {
-        var configFilePath = baseDir + configFilePath,
-            configFile = fileSystem.readFileSync(configFilePath),
-            config = JSON.parse(configFile),
-            port = process.env.PORT || config.port;
+  var setConfig = function (app, server, config, baseDir) {
+        var port = process.env.PORT || config.port;
 
         app.use(cookieParser(config.cookieParserSecret));
         
@@ -58,7 +54,7 @@ module.exports = function() {
         return config;
       },
 
-      updateConfig = function(config, updatedConfig, baseDir) {
+      updateConfig = function(config, updatedConfig) {
         if(updatedConfig.port && !isNaN(updatedConfig.port)) {
           config.port = updatedConfig.port;
         }
@@ -87,7 +83,7 @@ module.exports = function() {
           config.jwtExpireMinutes = updatedConfig.jwtExpireMinutes;
         }
 
-        fileSystem.writeFileSync(baseDir + '/config/config.json', JSON.stringify(config));
+        return config;
       },
 
       setStaticDirs = function(app, config, slides, baseDir) {
@@ -101,7 +97,7 @@ module.exports = function() {
       };
 
   return {
-    loadConfig: loadConfig,
+    setConfig: setConfig,
     updateConfig: updateConfig,
     setStaticDirs: setStaticDirs
   };
