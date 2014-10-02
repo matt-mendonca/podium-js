@@ -41,8 +41,9 @@ block content
           
 
       .submit
-        i.fi-archive.input-icon
-        input.button.icon-button.radius.success(type="submit" value="Save")
+        .input-icon-button-wrapper
+          i.fi-archive.input-icon
+          input.button.icon-button.radius.success(type="submit" value="Save")
         a.button.icon-button.radius.secondary(href="/admin/slides")
           i.fi-x-circle
           |Cancel
@@ -54,5 +55,8 @@ block content
           h3 Are you sure you want to delete this slide deck?
           a.button.icon-button.radius.alert(href="/admin/slides#{slideDeck.route}/delete")
             i.fi-trash
-            |Yes, delete it!
+            |Delete
+          a.button.icon-button.radius.secondary.delete-cancel
+            i.fi-x-circle
+            |Cancel
           a.close-reveal-modal &#215;

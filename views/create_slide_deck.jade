@@ -31,5 +31,9 @@ block content
         small.error Summary is required.
           
       .submit
-        input.button.radius.success(type="submit" value="Create")
-        a.button.radius.secondary.right(href="/admin/slides") Cancel
+        .input-icon-button-wrapper
+          i.fi-archive.input-icon
+          input.button.icon-button.radius.success(type="submit" value="Save")
+        a.button.icon-button.radius.secondary(href="/admin/slides")
+          i.fi-x-circle
+          |Cancel

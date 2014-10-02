@@ -29,8 +29,11 @@ var Podium = Podium || {};
           });
         },
 
-        slideEditValidate = function() {
+        slideEditForm = function() {
           $('.route input').blur(sanitizeRouteField);
+          $('.delete-cancel').click(function(event) {
+            $('#deleteModal').foundation('reveal', 'close');
+          });
         },
 
         sanitizeRouteField = function(event) {
@@ -47,6 +50,10 @@ var Podium = Podium || {};
         },
 
         editUserForm = function() {
+          $('.delete-cancel').click(function(event) {
+            $('#deleteModal').foundation('reveal', 'close');
+          });
+          
           $('.delete-user').click(function(event) {
             var editFormAction = $('.edit-user-form').attr('action');
 
@@ -91,7 +98,7 @@ var Podium = Podium || {};
     return {
       setActiveLinks: setActiveLinks,
       mainMenuHoverLogic: mainMenuHoverLogic,
-      slideEditValidate: slideEditValidate,
+      slideEditForm: slideEditForm,
       editUserForm: editUserForm,
       deckController: deckController
     };
@@ -114,7 +121,7 @@ var Podium = Podium || {};
     //Podium.admin.mainMenuHoverLogic();
 
     if ($('.edit-slide-form').length > 0 || $('.create-slide-form').length > 0) {
-      Podium.admin.slideEditValidate();
+      Podium.admin.slideEditForm();
     } else if ($('.edit-user-form').length > 0) {
       Podium.admin.editUserForm();
     } else if ($('.deck-controller').length > 0) {

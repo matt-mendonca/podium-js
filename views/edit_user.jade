@@ -34,11 +34,22 @@ block content
         small.error Your Password is required.
 
       .submit
-        input.button.radius.success(type="submit" value="Save")
-        a.button.radius.secondary(href="/admin") Cancel
-        a.button.radius.alert.right(href="#" data-reveal-id="deleteModal") Delete
+        .input-icon-button-wrapper
+          i.fi-archive.input-icon
+          input.button.icon-button.radius.success(type="submit" value="Save")
+        a.button.icon-button.radius.secondary(href="/admin")
+          i.fi-x-circle
+          |Cancel
+        a.button.icon-button.radius.alert.right(href="#" data-reveal-id="deleteModal")
+          i.fi-trash
+          |Delete
 
         .reveal-modal#deleteModal(data-reveal data-options="animation: fade;")
           h3 Are you sure you want to delete this user account?
-          .button.radius.alert.delete-user(href="/admin/users/#{username}/delete") Yes, delete it!
+          a.button.icon-button.radius.alert(href="/admin/users/#{username}/delete")
+            i.fi-trash
+            |Delete
+          a.button.icon-button.radius.secondary.delete-cancel
+            i.fi-x-circle
+            |Cancel
           a.close-reveal-modal &#215;

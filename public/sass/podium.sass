@@ -59,6 +59,11 @@ a
   color: $alert-color
   font-style: italic
 
+form legend
+  font-size: 2.3125rem
+  font-weight: 300
+  @extend .serif
+
 .button
   margin-right: 1rem
 
@@ -66,25 +71,27 @@ a
     margin-left: 1rem
     margin-right: 0
 
-  &.icon-button
-    padding-left: 1rem
+.icon-button
+  padding-left: 1rem
 
-    i
-      margin-right: 0.75rem
-      font-size: 1.15rem
+  i
+    margin-right: 0.75rem
+    font-size: 1.15rem
+
+input.icon-button
+  padding-left: 2.85rem
+
+.input-icon-button-wrapper
+  display: inline-block
+  position: relative
+  float: left
 
 .input-icon
   position: absolute
   z-index: 1
+  top: 0.85rem
+  left: 1rem
   color: $white
-
-form legend
-  font-size: 2.3125rem
-  font-weight: 300
-  @extend .serif
-
-.disclaimer
-  font-weight: 400
 
 i
   &.success
@@ -109,7 +116,11 @@ input[type="url"],
 input[type="color"],
 select,
 textarea
+  border-left-width: 1px
   border-bottom-width: 1px
+
+.disclaimer
+  font-weight: 400
 
 /* Layout
 
@@ -309,16 +320,24 @@ $menu-icon-width: 52px
     padding-top: 5px
     color: transparent
 
-    i 
-      font-size: 1.75rem
-      color: $white
-
     &:hover,
     &:focus
       color: transparent
 
     &.secondary i 
       color: $oil
+
+  input.icon-button
+    padding-left: 1rem
+
+  .icon-button i,
+  .input-icon-button-wrapper i 
+    font-size: 1.75rem
+    color: $white
+
+  .input-icon
+    top: 0.25rem
+    left: 0.9rem
 
   .front-page
     .title

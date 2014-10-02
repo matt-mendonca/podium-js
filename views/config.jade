@@ -53,5 +53,9 @@ block content
         small.error JSON Web Token Expire Time in Minutes is required.
 
       .submit
-        input.button.radius.success(type="submit" value="Save")
-        a.button.radius.secondary(href="/admin") Cancel
+        .input-icon-button-wrapper
+          i.fi-archive.input-icon
+          input.button.icon-button.radius.success(type="submit" value="Save")
+        a.button.icon-button.radius.secondary(href="/admin")
+          i.fi-x-circle
+          |Cancel
