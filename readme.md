@@ -43,8 +43,8 @@ getting started
 ### setup
 
 - Download
-- Run npm install / npm update on the podium directory
-- If you get a bcrypt error, then try running npm rebuild
+- Run npm install
+  - Note: if you get permissions error run sudo npm install, but you will likely then also have to run bower install and gulp build
 
 ### loading a reveal js deck into podium
 
@@ -62,11 +62,11 @@ Note: podium will try to load your slides from an index.html file from within yo
 #####High level:
 
 1. Laptop
-  - Fire up the node app
-  - Go to the app in a browser
-  - Choose the slides in the app
+  - Fire up the node server
+  - Go to the server in a browser
+  - Choose the slides in the server
 2. Phone
-  - Go to the to app in a browser
+  - Go to the to server in a browser
   - Login at /login
   - Launch the controller
   - Pick the correct slides
@@ -79,11 +79,11 @@ To start, connect your laptop and phone to the same network. I'd recommend setti
 
 Then, on your laptop (order matters - you must open the slides before connecting the remote - for now):
 
-- Run the app.js file in node 
-  - On OSX this mean
+- Run the server.js file in node 
+  - On *nix OS this mean
     - Open up a terminal window
-    - Node path/to/podium/app.js
-  - Everyone else, check out the node docs
+    - cd path/to/podium
+    - node server OR npm start
 - You should see a log message saying 'podium server listening on port 3000' (port number can be configured in the config.json file)  
 - Navigate to [http://localhost:3000/ or http://laptopIpAddress:3000/](http://localhost:3000/)
 - Click the link for the deck you want to present
