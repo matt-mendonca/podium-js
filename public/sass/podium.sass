@@ -3,7 +3,7 @@
   font-family: 'Open Sans', sans-serif
 
 @import "normalize"
-@import "foundation/settings"
+@import "settings"
 
 // Foundation components
 @import "foundation/components/grid"
@@ -46,8 +46,7 @@
 
 @import "foundation-icons"
 
-/*
-  General
+/* General
 
 a
   transition: color 250ms ease-out
@@ -67,15 +66,52 @@ a
     margin-left: 1rem
     margin-right: 0
 
+  &.icon-button
+    padding-left: 1rem
+
+    i
+      margin-right: 0.75rem
+      font-size: 1.15rem
+
+.input-icon
+  position: absolute
+  z-index: 1
+  color: $white
+
 form legend
-  font-size: 1.6875rem
+  font-size: 2.3125rem
+  font-weight: 300
   @extend .serif
 
 .disclaimer
   font-weight: 400
 
-/*
-  Layout
+i
+  &.success
+    color: $success-color
+
+  &.alert
+    color: $alert-color
+
+input[type="text"],
+input[type="password"],
+input[type="date"],
+input[type="datetime"],
+input[type="datetime-local"],
+input[type="month"],
+input[type="week"],
+input[type="email"],
+input[type="number"],
+input[type="search"],
+input[type="tel"],
+input[type="time"],
+input[type="url"],
+input[type="color"],
+select,
+textarea
+  border-bottom-width: 1px
+
+/* Layout
 
 .off-canvas-wrap,
 .inner-wrap,
@@ -95,9 +131,20 @@ form legend
 .move-right .tab-bar .menu-icon span::after
   box-shadow: 0 0px 0 1px $info-color,0 7px 0 1px $info-color,0 14px 0 1px $info-color
 
+$menu-icon-width: 52px
+
+.main-menu-toggle
+  position: absolute
+  top: -14px
+  font-size: 2.3rem
+
 .main-menu
+  //padding-top: 0.35rem
+
   i
+    display: inline-block
     margin-right: 0.75rem
+    width: 32px
     padding-right: 0.75rem
 
     transition: border 250ms ease-out
@@ -108,16 +155,50 @@ form legend
   .active:active i
     border-right: solid 2px $info-color
 
-  ul
-    li
-      a
-        color: $white
+  ul li a
+    color: $white
+    transition: background 300ms ease, padding 300ms ease
 
-        &:hover
-          background: $primary-color
+    &:hover,
+    &:focus
+      background: $primary-color
+      padding-left: 0.9rem
 
-        &:active
-          background: $info-color
+    &:active
+      background: $info-color
+
+  .left-submenu
+    //padding-top: 0.35rem
+
+    -ms-transform: translate(100%, 0)
+    -webkit-transform: translate3d(100%, 0, 0)
+    -moz-transform: translate3d(100%, 0, 0)
+    -ms-transform: translate3d(100%, 0, 0)
+    -o-transform: translate3d(100%, 0, 0)
+    transform: translate3d(100%, 0, 0)
+
+    &.move-right
+      box-shadow: -5px 0 5px 2px rgba(10, 10, 10, 0.25)
+      -ms-transform: translate($menu-icon-width, 0)
+      -webkit-transform: translate3d($menu-icon-width, 0, 0)
+      -moz-transform: translate3d($menu-icon-width, 0, 0)
+      -ms-transform: translate3d($menu-icon-width, 0, 0)
+      -o-transform: translate3d($menu-icon-width, 0, 0)
+      transform: translate3d($menu-icon-width, 0, 0)
+
+    .back > a
+      color: #FFF
+      font-weight: 300
+      text-transform: capitalize
+
+      &:before
+        margin-right: $menu-icon-width - 20
+
+.main-menu-label
+  position: absolute
+  top: 0
+  z-index: 99999
+  width: 15.625rem
 
 .main-content
   height: 100%
@@ -137,8 +218,7 @@ form legend
   .loaded &
     opacity: 1
 
-/*
-  Front page
+/* Front page
 
 .front-page
   .title
@@ -152,8 +232,7 @@ form legend
   .selling-points li
     margin-bottom: 1.5rem
 
-/*
-  Controller Page
+/* Controller Page
 
 .nav-buttons
   margin: 0.75em auto 0
@@ -183,10 +262,64 @@ form legend
     &:active
       background: scale-color($primary-color, $lightness: -50%)
 
-/*
-  Mobile
+/* Slide Edit Page
+
+.edit-slide-form .actions
+  display: inline-block
+  width: 100%
+
+/* User Roles Page
+
+.user-roles 
+  .panel label
+    display: inline-block
+    margin-right: 1rem
+
+  table
+    width: 100%
+
+/* Desktop
+
+@media only screen and (min-width: 64.063em)
+  .main-menu
+    -webkit-transform: translate3d(0, 0, 0)
+    -moz-transform: translate3d(0, 0, 0)
+    -ms-transform: translate3d(0, 0, 0)
+    -o-transform: translate3d(0, 0, 0)
+    transform: translate3d(0, 0, 0)
+    
+    & ul li label
+      padding: 0.8rem
+
+  .logged-in .main-content
+    padding-left: 15.625rem
+
+/* Mobile
 
 @media only screen and (max-width: 64em)
+  .button.right
+    float: none !important
+    margin-right: 1rem
+    margin-left: 0
+
+  .button.icon-button
+    float: left
+    width: 59px
+    height: 56px
+    padding-top: 5px
+    color: transparent
+
+    i 
+      font-size: 1.75rem
+      color: $white
+
+    &:hover,
+    &:focus
+      color: transparent
+
+    &.secondary i 
+      color: $oil
+
   .front-page
     .title
       font-size: 3rem
@@ -201,20 +334,6 @@ form legend
 
     .move-right &:hover
       opacity: 0.85
-/*
-  Desktop
-@media only screen and (min-width: 64.063em)
-  .main-menu
-    border-right: solid 1px $black
 
-    -webkit-transform: translate3d(0, 0, 0)
-    -moz-transform: translate3d(0, 0, 0)
-    -ms-transform: translate3d(0, 0, 0)
-    -o-transform: translate3d(0, 0, 0)
-    transform: translate3d(0, 0, 0)
-    
-    & ul li label
-      padding: 0.8rem
-
-  .logged-in .main-content
-    padding-left: 15.625rem
+  .breadcrumbs
+    margin-left: 3rem

@@ -9,22 +9,28 @@ block content
 
       .username
         label Username:
-          input(type="text" name="username" placeholder="Username" value="#{username}" required="")
+          input(type="text" name="username" value="#{username}" required="")
         small.error Username is required.
 
       .new-password
         label New Password:
-          input(type="password" id="new-password" name="newPassword" placeholder="New Password")
+          input(type="password" id="new-password" name="newPassword")
 
       .new-password-confirm
         label Confirm New Password:
-          input(type="password" name="confirmNewPassword" placeholder="New Password" data-equalto="new-password")
+          input(type="password" name="confirmNewPassword" data-equalto="new-password")
         small.error The Passwords must match.
+
+      .role
+        label User Role:
+          select(name="role")
+            each role, roleName in userRoles
+              option(value="#{roleName}" selected=(roleName === currentRole ? "selected" : undefined)) #{roleName}
 
       .current-password
         label 
-          span.has-tip.tip-right(data-tooltip title="Enter the password of the logged in user.") Your Password:
-          input(type="password" name="currentPassword" placeholder="Your Password" required="")
+          span.has-tip.tip-right.radius(data-tooltip title="Enter the password of the logged in user.") Your Password:
+          input(type="password" name="currentPassword" required="")
         small.error Your Password is required.
 
       .submit

@@ -1,0 +1,93 @@
+extends ./layout.jade
+
+block content
+  h2.title #{title}
+  
+  .user-roles
+    .hide-for-medium-up
+      each role, roleName in userRoles
+        .panel.radius
+          h3 #{roleName}
+          ul.no-bullet
+            li 
+              label Present:
+              if(role.present)
+                i.right.fi-check.success
+              else
+                i.right.fi-x.alert
+            li 
+              label Create Decks:
+              if(role.createDeck)
+                i.right.fi-check.success
+              else
+                i.right.fi-x.alert
+            li 
+              label Edit Own Decks:
+              if(role.editOwnDecks)
+                i.right.fi-check.success
+              else
+                i.right.fi-x.alert
+            li 
+              label Edit Any Decks:
+              if(role.editAnyDecks)
+                i.right.fi-check.success
+              else
+                i.right.fi-x.alert
+            li 
+              label Manage Other Users:
+              if(role.manageOtherUsers)
+                i.right.fi-check.success
+              else
+                i.right.fi-x.alert
+            li 
+              label Manage Site Config:
+              if(role.manageSiteConfig)
+                i.right.fi-check.success
+              else
+                i.right.fi-x.alert
+
+    table.show-for-medium-up
+      thead
+        tr
+          th Role Name
+          th.text-center Present
+          th.text-center Create Decks
+          th.text-center Edit Own Decks
+          th.text-center Edit Any Decks
+          th.text-center Manage Other Users
+          th.text-center Manage Site Config
+
+      tbody
+        each role, roleName in userRoles
+          tr
+            td #{roleName}
+            td.text-center
+              if(role.present)
+                i.fi-check.success
+              else
+                i.fi-x.alert
+            td.text-center
+              if(role.createDeck)
+                i.fi-check.success
+              else
+                i.fi-x.alert
+            td.text-center
+              if(role.editOwnDecks)
+                i.fi-check.success
+              else
+                i.fi-x.alert
+            td.text-center
+              if(role.editAnyDecks)
+                i.fi-check.success
+              else
+                i.fi-x.alert
+            td.text-center
+              if(role.manageOtherUsers)
+                i.fi-check.success
+              else
+                i.fi-x.alert
+            td.text-center
+              if(role.manageSiteConfig)
+                i.fi-check.success
+              else
+                i.fi-x.alert

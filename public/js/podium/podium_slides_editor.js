@@ -5,18 +5,27 @@ var Podium = Podium || {};
 
   Podium.slidesEditor = function() {
     var slidesPageUrl = "/admin/slides" + window.location.pathname,
+        newSlideMarkup = "<section>Enter Content</section>",
+        newSlideStackMarkup = "<section class='stack present'></section>",
+        addSlideDelay = 250,
         toolBarMarkup = "<div class='editor-resource tool-bar'>"+
                           "<form action='"+slidesPageUrl+"/update-content' method='post' class='slides-update-form'>"+
                             "<textarea class='slidesMarkup' name='slidesMarkup'></textarea>"+
                             "<input type='submit' value='Save' class='button success save'>"+
                             "<a href='"+slidesPageUrl+"' class='button secondary right exit'>Exit</a>"+
-                            "</form>"+
+                          "</form>"+
+                          "<div class='button alert slides-editor-button remove'>-</div>"+
+                          "<div class='button slides-editor-button add after'>+</div>"+
+                          "<div class='button slides-editor-button add below'>+</div>"+
                         "</div>",
 
         init = function() {
           prepMarkup();
           $('body').prepend(toolBarMarkup);
           $('.slides-update-form').submit(updateFormSubmit);
+          $('.slides-editor-button.add.after').click(addSlideAfter);
+          $('.slides-editor-button.add.below').click(addSlideBelow );
+          $('.slides-editor-button.remove').click(removeSlide);
         },
 
         prepMarkup = function() {
@@ -59,8 +68,61 @@ var Podium = Podium || {};
         },
 
         removeCkEditorInstances = function() {
-          for(name in CKEDITOR.instances) {
+          for(var name in CKEDITOR.instances) {
             CKEDITOR.instances[name].destroy(true);
+          }
+        },
+
+        addSlideAfter = function() {
+          var currentSlide = $('.slides .present').not('.stack'),
+              currentSlideParent = currentSlide.parent();
+
+          if (currentSlideParent.is('section.stack')) {
+            currentSlideParent.after(newSlideMarkup);
+          } else {
+            currentSlide.after(newSlideMarkup);
+          }
+
+          // Hack to prevent CK Editor JS error
+            Reveal.initialize();
+
+            setTimeout(function () { 
+              Reveal.right();  
+            }, addSlideDelay);
+        },
+
+        addSlideBelow = function() {
+          var currentSlide = $('.slides .present').not('.stack'),
+              currentSlideParent = currentSlide.parent();
+
+          if (!currentSlideParent.is('section.stack')) {
+            currentSlide.wrap(newSlideStackMarkup);
+          }
+
+          currentSlide.after(newSlideMarkup);
+
+          // Hack to prevent CK Editor JS error
+            Reveal.initialize();
+
+            setTimeout(function () { 
+              Reveal.down();  
+            }, addSlideDelay);
+        },
+
+        removeSlide = function() {
+          var currentSlide = $('.slides .present').not('.stack'),
+              currentSlideParent = currentSlide.parent();
+
+          currentSlide.remove();
+
+          if (currentSlideParent.is('section.stack') && currentSlideParent.children().length === 1) {
+            currentSlideParent.children().unwrap();
+          }
+
+          if(Reveal.getPreviousSlide() || currentSlideParent.is('section.stack')) {
+            Reveal.prev();
+          } else {
+            Reveal.slide(0, 0, 0);
           }
         };
 
@@ -68,7 +130,7 @@ var Podium = Podium || {};
       init: init,
       addCkEditorInstance: addCkEditorInstance,
       removeCkEditorInstances: removeCkEditorInstances
-    }
+    };
   }();
 
   $(document).ready(function() {

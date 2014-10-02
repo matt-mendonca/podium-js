@@ -83,5 +83,5 @@ Podium.client = function() {
   return {
     socket: socket,
     deckRoute: deckRoute
-  }
+  };
 }();

@@ -1,6 +1,6 @@
 @charset "UTF-8"
 
-@import "foundation/settings"
+@import "settings"
 @import "foundation-icons"
 
 %box-sizing
@@ -42,6 +42,13 @@
     &:focus 
       background: scale-color($success-color, $lightness: -20%)
 
+  &.alert
+    background: $alert-color
+
+    &:hover,
+    &:focus 
+      background: scale-color($alert-color, $lightness: -20%)
+ 
   &.secondary
     background: $secondary-color
     color: $body-font-color
@@ -50,12 +57,34 @@
     &:focus 
       background: scale-color($secondary-color, $lightness: -20%)
 
+.slides-editor-button,
 .controller-back-button
   position: absolute
+
+.slides-editor-button
+  z-index: 999
+  font-size: 2.5rem
+  font-weight: 400
+  padding: 0.25rem 1.5rem 0.6rem
+
+  &.remove
+    top: 50%
+    left: 16px
+
+  &.add.after
+    top: 50%
+    right: 16px
+
+  &.add.below
+    bottom: 16px
+    left: 47%
+
+.controller-back-button
   top: 0
   left: 0
   z-index: 999
-  border-radius: none
+  border-radius: 0
+  border-bottom-right-radius: 5px
 
 .right
   float: right

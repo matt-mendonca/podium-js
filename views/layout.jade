@@ -11,7 +11,7 @@ html.no-js(lang="en")
     title #{title}
     link(href='http://fonts.googleapis.com/css?family=Droid+Serif:400|Open+Sans:300italic,400italic,700italic,300,400,700,' rel='stylesheet' type='text/css')
     link(rel="stylesheet" href="/css/podium.css")
-    script(src="/js/vendor/modernizr.js")
+    script(src="/modernizr/modernizr.js")
     
     block header
       
@@ -25,15 +25,8 @@ html.no-js(lang="en")
           .row.fader
             .small-12.columns
               if loggedIn
-                if error
-                  .alert-box.alert.radius(data-alert)
-                    | #{error}
-                    a.close(href="#") &times;
-
-                if status
-                  .alert-box.info.radius(data-alert)
-                    | #{status}
-                    a.close(href="#") &times;
+                a.left-off-canvas-toggle.main-menu-toggle.hide-for-large-up(href="#")
+                  i.fi-list
 
                 ul.breadcrumbs
                   li
@@ -44,14 +37,24 @@ html.no-js(lang="en")
                         a(href="#{breadcrumbURL}") #{breadcrumbTitle}
 
                     li.current #{title}
+                    
+                if error
+                  .alert-box.alert.radius(data-alert)
+                    | #{error}
+                    a.close(href="#") &times;
+
+                if status
+                  .alert-box.info.radius(data-alert)
+                    | #{status}
+                    a.close(href="#") &times;
 
               block content
           
           if loggedIn
             a.exit-off-canvas.hide-for-large-up
 
-    script(src="/js/jquery-2.1.1.min.js")
-    script(src="/js/foundation.min.js")
+    script(src="/jquery/dist/jquery.min.js")
+    script(src="/foundation/js/foundation.min.js")
     script(src="/js/podium.min.js")
     if loggedIn
       script(src="/js/podium_admin.min.js")

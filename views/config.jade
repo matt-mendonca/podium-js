@@ -11,44 +11,44 @@ block content
 
       .port
         label 
-          span.has-tip.tip-right(data-tooltip title="The port number the express server will listen to.") Port:
+          span.has-tip.tip-right.radius(data-tooltip title="The port number the express server will listen to.") Port:
           input(type="number" name="port" placeholder="E.g. 3000" value="#{config.port}" pattern="number" required="")
         small.error Port is required and must be a number.
 
       .template-deck
         label 
-          span.has-tip.tip-right(data-tooltip title="Which Slide Deck will be set as the default template when creating a new Slide Deck.") Template Slide Deck:
+          span.has-tip.tip-right.radius(data-tooltip title="Which Slide Deck will be set as the default template when creating a new Slide Deck.") Template Slide Deck:
           select(name="templateDeck")
             each slideDeck, route in slides
               option(value="#{route}" selected=(route === config.templateDeck ? "selected" : undefined)) #{slideDeck.title}
 
       .static-cache-milliseconds
         label 
-          span.has-tip.tip-right(data-tooltip title="How long static assets (css, js) will be cached on the client for.") Static Cache Length in Milliseconds:
+          span.has-tip.tip-right.radius(data-tooltip title="How long static assets (css, js) will be cached on the client for.") Static Cache Length in Milliseconds:
           input(type="number" name="staticCacheMilliseconds" placeholder="E.g. 86400000" value="#{config.staticCacheMilliseconds}" pattern="number" required="")
         small.error Static Cache Length in Milliseconds is required and must be a number.
 
       .cookie-parser-secret
         label
-          span.has-tip.tip-right(data-tooltip title="The secret that will be used by the Cookie Parser.") Cookie Parser Secret:
+          span.has-tip.tip-right.radius(data-tooltip title="The secret that will be used by the Cookie Parser.") Cookie Parser Secret:
           input(type="text" name="cookieParserSecret" value="#{config.cookieParserSecret}" placeholder="E.g. ThisIsMyCookieSecret" required="")
         small.error Cookie Parser Secret is required.
 
       .session-secret
         label
-          span.has-tip.tip-right(data-tooltip title="The secret that will be used by the Session Management.") Session Secret:
+          span.has-tip.tip-right.radius(data-tooltip title="The secret that will be used by the Session Management.") Session Secret:
           input(type="text" name="sessionSecret" value="#{config.sessionSecret}" placeholder="E.g. ThisIsMySessionSecret" required="")
         small.error Session Secret is required.
 
       .jwt-secret
         label 
-          span.has-tip.tip-right(data-tooltip title="The secret that will be used by the JSON Web Tokens.") JSON Web Token Secret:
+          span.has-tip.tip-right.radius(data-tooltip title="The secret that will be used by the JSON Web Tokens.") JSON Web Token Secret:
           input(type="text" name="jwtSecret" value="#{config.jwtSecret}" placeholder="E.g. ThisIsMyJWTSecret" required="")
         small.error JSON Web Token is required.
 
       .jwt-expire-minutes
         label 
-          span.has-tip.tip-right(data-tooltip title="How many minutes a JSON Web Token will be valid for.") JSON Web Token Expire Time in Minutes:
+          span.has-tip.tip-right.radius(data-tooltip title="How many minutes a JSON Web Token will be valid for.") JSON Web Token Expire Time in Minutes:
           input(type="number" name="jwtExpireMinutes" value="#{config.jwtExpireMinutes}" placeholder="E.g. 60" required="")
         small.error JSON Web Token Expire Time in Minutes is required.
 

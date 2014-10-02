@@ -106,7 +106,9 @@ module.exports = function() {
         $updated('a').removeAttr('data-cke-saved-href');
         $updated('img').removeAttr('data-cke-saved-src');
 
-        $updated('[data-markdown-disabled-podium]').removeAttr('data-markdown-disabled-podium').attr('data-markdown', '');
+        $updated('[data-markdown-disabled-podium]')
+          .removeAttr('data-markdown-disabled-podium')
+          .attr('data-markdown', '');
         
         $updated('.podium-editor-code-wrapper').each(function(index) {
           var codeHtml = $updated(this).html();
@@ -114,7 +116,14 @@ module.exports = function() {
           $updated(this).replaceWith("<pre>"+codeHtml+"</pre>");
         });
 
-        $updated('section').removeClass('present').removeClass('past').removeClass('stack').removeClass('future').removeAttr('hidden').removeAttr('style');
+        $updated('section')
+          .removeClass('present')
+          .removeClass('past')
+          .removeClass('stack')
+          .removeClass('future')
+          .removeAttr('hidden')
+          .removeAttr('data-previous-indexv')
+          .removeAttr('style');
 
         $updated('section').each(function(index) {
           var classAttr = $updated(this).attr('class');

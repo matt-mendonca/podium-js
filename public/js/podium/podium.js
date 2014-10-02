@@ -7,7 +7,7 @@ var Podium = function() {
 
         if(queryStringPieces) {
           queryStringPieces = queryStringPieces.split('&');
-          for (index in queryStringPieces) {
+          for (var index in queryStringPieces) {
             var queryStringParameter = queryStringPieces[index].split('=');
 
             queryString[queryStringParameter[0]] = queryStringParameter[1];
@@ -22,5 +22,5 @@ var Podium = function() {
   return {
     queryString: queryString,
     token: token
-  }
+  };
 }();

@@ -5,7 +5,7 @@
   "socketScript": "<script src='/socket.io/socket.io.js'></script>",
   "inPresentationControllerScript": "<script src='/js/podium_presentation_controller.min.js'></script>",
   "slidesEditorStyle": "<link rel='stylesheet' href='/css/podium_slides_editor.css'>",
-  "slidesEditorScripts": "<script src='/js/jquery-2.1.1.min.js'></script><script src='/ckeditor/ckeditor.js'></script>",
+  "slidesEditorScripts": "<script src='/jquery/dist/jquery.min.js'></script><script src='/ckeditor/ckeditor.js'></script>",
   "podiumEditorScript": "<script src='/js/podium_slides_editor.min.js'></script>",
   "favicon": "/public/images/favicon.ico",
   "staticCacheMilliseconds": "86400000",

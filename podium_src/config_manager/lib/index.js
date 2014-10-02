@@ -88,6 +88,7 @@ module.exports = function() {
 
       setStaticDirs = function(app, config, slides, baseDir) {
         app.use(express.static(baseDir + '/public', { maxAge: config.staticCacheMilliseconds }));
+        app.use(express.static(baseDir + '/bower_components', { maxAge: config.staticCacheMilliseconds }));
 
         for (var route in slides) {
           // set the public directory in each slide folder so that express

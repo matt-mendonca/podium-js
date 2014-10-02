@@ -9,21 +9,21 @@ block content
 
       .username
         label Username:
-          input(type="text" name="username" placeholder="Username" value="#{username}" required="")
+          input(type="text" name="username" value="#{username}" required="")
         small.error Username is required.
 
       .new-password
         label New Password:
-          input(type="password" id="new-password" name="newPassword" placeholder="New Password")
+          input(type="password" id="new-password" name="newPassword")
 
       .new-password-confirm
         label Confirm New Password:
-          input(type="password" name="confirmNewPassword" placeholder="New Password" data-equalto="new-password")
+          input(type="password" name="confirmNewPassword" data-equalto="new-password")
         small.error The Passwords must match.
 
       .current-password
         label Current Password:
-          input(type="password" name="currentPassword" placeholder="Current Password" required="")
+          input(type="password" name="currentPassword" required="")
         small.error Current Password is required.
 
       .submit

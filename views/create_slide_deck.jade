@@ -9,25 +9,25 @@ block content
 
       .template-deck
         label 
-          span.has-tip.tip-right(data-tooltip title="Which Slide Deck will be copied when creating the new Slide Deck.") Template Slide Deck:
+          span.has-tip.tip-right.radius(data-tooltip title="Which Slide Deck will be copied when creating the new Slide Deck.") Template Slide Deck:
           select(name="templateDeck")
             each slideDeck, route in slides
               option(value="#{route}" selected=(route === config.templateDeck ? "selected" : undefined)) #{slideDeck.title}
 
       .slide-title
         label Title:
-          input(type="text" name="title" placeholder="title" value="#{slideDeck.title}" required="")
+          input(type="text" name="title" value="#{slideDeck.title}" required="")
         small.error Title is required.
 
       .route
         label
-          span.has-tip.tip-right(data-tooltip title="The URL.") Route:
-          input(type="text" name="route" value="#{slideDeck.route}" placeholder="Route" required="")
+          span.has-tip.tip-right.radius(data-tooltip title="The URL.") Route:
+          input(type="text" name="route" value="#{slideDeck.route}" required="")
         small.error Route is required.
 
       .summary
         label Summary:
-          textarea(name="summary" placeholder="Summary" row="20" spellcheck="" required="") #{slideDeck.summary}
+          textarea(name="summary" row="20" spellcheck="" required="") #{slideDeck.summary}
         small.error Summary is required.
           
       .submit

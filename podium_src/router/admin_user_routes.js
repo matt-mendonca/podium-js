@@ -10,7 +10,7 @@ var Promise = require('bluebird'),
     passport = require('passport'),
     bruteforce = new ExpressBrute(store);
 
-module.exports = function(app, config, users, slides, baseDir) {
+module.exports = function(app, config, userRoles, users, slides, baseDir) {
   var userManager = require(baseDir + '/podium_src/user_manager'),
       router = require(baseDir + '/podium_src/router');
 
@@ -143,6 +143,8 @@ module.exports = function(app, config, users, slides, baseDir) {
           loggedIn: routeVars.loggedIn,
           breadcrumbs: routeVars.breadcrumbs,
           username: req.userAccount.username,
+          currentRole: req.userAccount.role,
+          userRoles: userRoles,
           error: routeVars.error,
           status: routeVars.status
         }
@@ -212,5 +214,21 @@ module.exports = function(app, config, users, slides, baseDir) {
         });
       } 
     });
+  });
+
+  app.get('/admin/user-roles', userManager.isLoggedIn, function(req, res) {
+    var routeVars = router.setRouteVars(req);
+    
+    res.render(
+      'user_roles',
+      {
+        title: 'User Roles',
+        loggedIn: routeVars.loggedIn,
+        breadcrumbs: routeVars.breadcrumbs,
+        userRoles: userRoles,
+        error: routeVars.error,
+        status: routeVars.status
+      }
+    );  
   });
 };

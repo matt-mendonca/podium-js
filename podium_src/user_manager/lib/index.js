@@ -40,10 +40,9 @@ module.exports = function() {
 
         newUser.password = password;
         newUser.id = Object.keys(users).length + 1;
-        newUser.role = null;
 
         delete newUser.confirmPassword
-        
+
         users[newUser.id] = newUser;
 
         return {
@@ -56,17 +55,21 @@ module.exports = function() {
         var newPassword = null,
             usernameTaken = findByUsername(updatedInfo.username, users, function(err, user) { return user });
 
-        if(usernameTaken && updatedInfo.username !== currentUser.username) {
+        if (usernameTaken && updatedInfo.username !== currentUser.username) {
           return {'message': 'usernameTaken'};
         }
 
-        if(updatedInfo.username || updatedInfo.newPassword) {
+        if (updatedInfo.role) {
+          users[currentUser.id].role = updatedInfo.role;
+        } 
 
-          if(updatedInfo.username) {
+        if (updatedInfo.username || updatedInfo.newPassword) {
+
+          if (updatedInfo.username) {
             users[currentUser.id].username = updatedInfo.username;
           }
 
-          if(updatedInfo.newPassword && (updatedInfo.newPassword === updatedInfo.confirmNewPassword)) {
+          if (updatedInfo.newPassword && (updatedInfo.newPassword === updatedInfo.confirmNewPassword)) {
             newPassword = bcrypt.hashSync(updatedInfo.newPassword, 8);
             users[currentUser.id].password = newPassword;  
           }

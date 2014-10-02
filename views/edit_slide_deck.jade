@@ -7,37 +7,52 @@ block content
     fieldset
       legend #{title}
 
-      .edit
-        a.button.radius(href="#{slideDeck.route}?editor=true") Edit Slide Content
+      .actions
+        a.button.icon-button.radius(href="#{slideDeck.route}?editor=true")
+          i.fi-pencil
+          |Edit Content
+        a.button.icon-button.radius.right(href="#{slideDeck.route}?controller=true")
+          i.fi-play-video
+          |Present
+        a.button.icon-button.radius.right(href="#{slideDeck.route}")
+          i.fi-eye
+          |View
 
       .slide-title
         label Title:
-          input(type="text" name="title" placeholder="title" value="#{slideDeck.title}" required="")
+          input(type="text" name="title" value="#{slideDeck.title}" required="")
         small.error Title is required.
 
       .route
         label
-          span.has-tip.tip-right(data-tooltip title="The URL.") Route:
-          input(type="text" name="route" value="#{slideDeck.route}" placeholder="Route" required="")
+          span.has-tip.tip-right.radius(data-tooltip title="The URL.") Route:
+          input(type="text" name="route" value="#{slideDeck.route}" required="")
         small.error Route is required.
 
       .summary
         label Summary:
-          textarea(name="summary" placeholder="Summary" row="20" spellcheck="" required="") #{slideDeck.summary}
+          textarea(name="summary" row="20" spellcheck="" required="") #{slideDeck.summary}
         small.error Summary is required.
 
       .published
         input(id="published" name="published" type="checkbox" checked=(slideDeck.published ? "checked" : undefined))
         label(for="published")
-          span.has-tip.tip-right(data-tooltip title="Published slide decks will be viewable by anonymous users.") Published?
+          span.has-tip.tip-right.radius(data-tooltip title="Published slide decks will be viewable by anonymous users.") Published?
           
 
       .submit
-        input.button.radius.success(type="submit" value="Save")
-        a.button.radius.secondary(href="/admin/slides") Cancel
-        a.button.radius.alert.right(href="#" data-reveal-id="deleteModal") Delete
+        i.fi-archive.input-icon
+        input.button.icon-button.radius.success(type="submit" value="Save")
+        a.button.icon-button.radius.secondary(href="/admin/slides")
+          i.fi-x-circle
+          |Cancel
+        a.button.icon-button.radius.alert.right(href="#" data-reveal-id="deleteModal")
+          i.fi-trash
+          |Delete
 
         .reveal-modal#deleteModal(data-reveal data-options="animation: fade;")
           h3 Are you sure you want to delete this slide deck?
-          a.button.radius.alert(href="/admin/slides#{slideDeck.route}/delete") Yes, delete it!
+          a.button.icon-button.radius.alert(href="/admin/slides#{slideDeck.route}/delete")
+            i.fi-trash
+            |Yes, delete it!
           a.close-reveal-modal &#215;

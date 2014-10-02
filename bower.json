@@ -1,0 +1,8 @@
+{
+  "name": "podium",
+  "dependencies": {
+    "ckeditor": "4.4.5",
+    "foundation": "5.4.5",
+    "foundation-icon-fonts": null
+  }
+}
