@@ -85,7 +85,7 @@ module.exports = function(app, config, users, slides, baseDir) {
     res.render(
       'config',
       {
-        title: 'Configuration',
+        title: 'Config',
         loggedIn: routeVars.loggedIn,
         breadcrumbs: routeVars.breadcrumbs,
         config: config,
