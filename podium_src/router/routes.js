@@ -9,7 +9,7 @@ var Promise = require('bluebird'),
     passport = require('passport'),
     bruteforce = new ExpressBrute(store);
 
-module.exports = function(app, config, users, slides, baseDir) {
+module.exports = function(app, config, userRoles, users, slides, baseDir) {
   var configManager = require(baseDir + '/podium_src/config_manager'),
       userManager = require(baseDir + '/podium_src/user_manager'),
       slidesManager = require(baseDir + '/podium_src/slides_manager'),
@@ -24,6 +24,8 @@ module.exports = function(app, config, users, slides, baseDir) {
       {
         title: 'Podium JS',
         loggedIn: routeVars.loggedIn,
+        userRoles: userRoles,
+        user: req.user,
         slides: publishedSlides,
         error: routeVars.error,
         status: routeVars.status

@@ -105,7 +105,7 @@ var express = require('express'),
       require('./podium_src/router/admin_slides_routes.js')(app, config, users, slides, __dirname);
       require('./podium_src/router/admin_user_routes.js')(app, config, userRoles, users, slides, __dirname);
       require('./podium_src/router/admin_routes.js')(app, config, userRoles, users, slides, __dirname);
-      require('./podium_src/router/routes.js')(app, config, users, slides, __dirname);
+      require('./podium_src/router/routes.js')(app, config, userRoles, users, slides, __dirname);
 
       loadSockets();
     },
