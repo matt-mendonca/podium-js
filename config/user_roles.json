@@ -1,42 +1,26 @@
 {
   "presenter": {
     "present": true,
-    "createDeck": false,
-    "editOwnDecks": false,
-    "editAnyDecks": false,
-    "manageOtherUsers": false,
-    "manageSiteConfig": false
-  },
-  "author": {
-    "present": true,
-    "createDeck": true,
-    "editOwnDecks": true,
-    "editAnyDecks": false,
-    "manageOtherUsers": false,
+    "editDecks": false,
+    "manageUsers": false,
     "manageSiteConfig": false
   },
   "editor": {
     "present": true,
-    "createDeck": true,
-    "editOwnDecks": true,
-    "editAnyDecks": true,
-    "manageOtherUsers": false,
+    "editDecks": true,
+    "manageUsers": false,
     "manageSiteConfig": false
   },
   "moderator": {
     "present": true,
-    "createDeck": true,
-    "editOwnDecks": true,
-    "editAnyDecks": true,
-    "manageOtherUsers": true,
+    "editDecks": true,
+    "manageUsers": true,
     "manageSiteConfig": false
   },
   "admin": {
     "present": true,
-    "createDeck": true,
-    "editOwnDecks": true,
-    "editAnyDecks": true,
-    "manageOtherUsers": true,
+    "editDecks": true,
+    "manageUsers": true,
     "manageSiteConfig": true
   }
 }

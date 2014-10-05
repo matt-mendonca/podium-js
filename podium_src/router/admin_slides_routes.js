@@ -11,9 +11,10 @@ var Promise = require('bluebird'),
 
 module.exports = function(app, config, users, slides, baseDir) {
   var slidesManager = require(baseDir + '/podium_src/slides_manager'),
+  permissionsManager = require(baseDir + '/podium_src/user_manager/permissions_manager'),
       router = require(baseDir + '/podium_src/router');
 
-  app.get('/admin/controller', userManager.isLoggedIn, function(req, res) {
+  app.get('/admin/controller', userManager.isLoggedIn, permissionsManager.checkPermission('present'), function(req, res) {
     var routeVars = router.setRouteVars(req),
         publishedSlides = slidesManager.getPublishedSlides(slides);
 
@@ -25,6 +26,8 @@ module.exports = function(app, config, users, slides, baseDir) {
           loggedIn: routeVars.loggedIn,
           slides: publishedSlides,
           breadcrumbs: routeVars.breadcrumbs,
+          userRoles: userRoles,
+          user: req.user,
           error: routeVars.error,
           status: routeVars.status
         }
@@ -35,7 +38,7 @@ module.exports = function(app, config, users, slides, baseDir) {
     }
   });
 
-  app.get('/admin/slides', userManager.isLoggedIn, function(req, res) {
+  app.get('/admin/slides', userManager.isLoggedIn, permissionsManager.checkPermission('editDecks'), function(req, res) {
     var routeVars = router.setRouteVars(req);
 
     res.render(
@@ -45,6 +48,8 @@ module.exports = function(app, config, users, slides, baseDir) {
         loggedIn: routeVars.loggedIn,
         slides: slides,
         breadcrumbs: routeVars.breadcrumbs,
+        userRoles: userRoles,
+        user: req.user,
         error: routeVars.error,
         status: routeVars.status
       }
@@ -65,7 +70,7 @@ module.exports = function(app, config, users, slides, baseDir) {
     res.redirect('/admin/slides'); 
   });
 
-  app.get('/admin/slide-deck/create', userManager.isLoggedIn, function(req, res) {
+  app.get('/admin/slide-deck/create', userManager.isLoggedIn, permissionsManager.checkPermission('editDecks'), function(req, res) {
     var routeVars = router.setRouteVars(req);
     
     res.render(
@@ -75,6 +80,8 @@ module.exports = function(app, config, users, slides, baseDir) {
         loggedIn: routeVars.loggedIn,
         breadcrumbs: routeVars.breadcrumbs,
         config: config,
+        userRoles: userRoles,
+        user: req.user,
         slides: slides,
         slideDeck: {
           title: "",
@@ -90,6 +97,7 @@ module.exports = function(app, config, users, slides, baseDir) {
 
   app.post('/admin/slide-deck/create',
     userManager.isLoggedIn,
+    permissionsManager.checkPermission('editDecks'),
     bruteforce.prevent,
     function(req, res) {
       var slideDeckCreated = slidesManager.createSlideDeck(slides, req.body, baseDir),
@@ -123,7 +131,7 @@ module.exports = function(app, config, users, slides, baseDir) {
     }
   );
 
-  app.get('/admin/slides/:slideDeck', userManager.isLoggedIn, function(req, res) {
+  app.get('/admin/slides/:slideDeck', userManager.isLoggedIn, permissionsManager.checkPermission('editDecks'), function(req, res) {
     var routeVars = router.setRouteVars(req);
 
     if(req.slideDeck) {
@@ -133,6 +141,8 @@ module.exports = function(app, config, users, slides, baseDir) {
           title: 'Edit Slide Deck',
           loggedIn: routeVars.loggedIn,
           breadcrumbs: routeVars.breadcrumbs,
+          userRoles: userRoles,
+          user: req.user,
           slideDeck: req.slideDeck,
           error: routeVars.error,
           status: routeVars.status
@@ -146,6 +156,7 @@ module.exports = function(app, config, users, slides, baseDir) {
 
   app.post('/admin/slides/:slideDeck',
     userManager.isLoggedIn,
+    permissionsManager.checkPermission('editDecks'),
     bruteforce.prevent,
     function(req, res) {
       var slideDeckUpdated = slidesManager.updateSlideDeck(slides, req.slideDeck, req.body, baseDir);
@@ -170,6 +181,7 @@ module.exports = function(app, config, users, slides, baseDir) {
   );
 
   app.post('/admin/slides/:slideDeck/update-content',
+    permissionsManager.checkPermission('editDecks'),
     userManager.isLoggedIn,
     bruteforce.prevent,
     function(req, res) {
@@ -184,7 +196,7 @@ module.exports = function(app, config, users, slides, baseDir) {
     }
   );
 
-  app.get('/admin/slides/:slideDeck/delete', userManager.isLoggedIn, function(req, res) {
+  app.get('/admin/slides/:slideDeck/delete', userManager.isLoggedIn, permissionsManager.checkPermission('editDecks'), function(req, res) {
     delete slides[req.slideDeck.route];
 
     fileSystem.removeAsync(baseDir + req.slideDeck.location).then(function() {

@@ -12,6 +12,7 @@ var Promise = require('bluebird'),
 
 module.exports = function(app, config, userRoles, users, slides, baseDir) {
   var userManager = require(baseDir + '/podium_src/user_manager'),
+      permissionsManager = require(baseDir + '/podium_src/user_manager/permissions_manager'),
       router = require(baseDir + '/podium_src/router');
 
   app.get('/admin/user', userManager.isLoggedIn, function(req, res) {
@@ -23,6 +24,8 @@ module.exports = function(app, config, userRoles, users, slides, baseDir) {
         title: 'My Account',
         loggedIn: routeVars.loggedIn,
         breadcrumbs: routeVars.breadcrumbs,
+        userRoles: userRoles,
+        user: req.user,
         username: req.user.username,
         error: routeVars.error,
         status: routeVars.status
@@ -65,7 +68,7 @@ module.exports = function(app, config, userRoles, users, slides, baseDir) {
     res.redirect('/admin/users'); 
   });
 
-  app.get('/admin/user-account/create', userManager.isLoggedIn, function(req, res) {
+  app.get('/admin/user-account/create', userManager.isLoggedIn, permissionsManager.checkPermission('manageUsers'), function(req, res) {
     var routeVars = router.setRouteVars(req);
     
     res.render(
@@ -74,6 +77,8 @@ module.exports = function(app, config, userRoles, users, slides, baseDir) {
         title: 'Create New User Account',
         loggedIn: routeVars.loggedIn,
         breadcrumbs: routeVars.breadcrumbs,
+        userRoles: userRoles,
+        user: req.user,
         username: '',
         error: routeVars.error,
         status: routeVars.status
@@ -83,6 +88,7 @@ module.exports = function(app, config, userRoles, users, slides, baseDir) {
 
   app.post('/admin/user-account/create',
     userManager.isLoggedIn,
+    permissionsManager.checkPermission('manageUsers'),
     bruteforce.prevent,
     function(req, res) {
       var userCreated = userManager.createUser(users, req.body, baseDir);
@@ -104,7 +110,7 @@ module.exports = function(app, config, userRoles, users, slides, baseDir) {
     }
   );
 
-  app.get('/admin/users', userManager.isLoggedIn, function(req, res) {
+  app.get('/admin/users', userManager.isLoggedIn, permissionsManager.checkPermission('manageUsers'), function(req, res) {
     var routeVars = router.setRouteVars(req);
 
     res.render(
@@ -112,6 +118,8 @@ module.exports = function(app, config, userRoles, users, slides, baseDir) {
       {
         title: 'User Accounts',
         loggedIn: routeVars.loggedIn,
+        userRoles: userRoles,
+        user: req.user,
         users: users,
         breadcrumbs: routeVars.breadcrumbs,
         error: routeVars.error,
@@ -130,7 +138,7 @@ module.exports = function(app, config, userRoles, users, slides, baseDir) {
     next();
   });
 
-  app.get('/admin/users/:username', userManager.isLoggedIn, function(req, res) {
+  app.get('/admin/users/:username', userManager.isLoggedIn, permissionsManager.checkPermission('manageUsers'), function(req, res) {
     var routeVars = router.setRouteVars(req);
 
     if(req.userAccount.id === req.user.id) {
@@ -143,6 +151,7 @@ module.exports = function(app, config, userRoles, users, slides, baseDir) {
           loggedIn: routeVars.loggedIn,
           breadcrumbs: routeVars.breadcrumbs,
           username: req.userAccount.username,
+          user: req.user,
           currentRole: req.userAccount.role,
           userRoles: userRoles,
           error: routeVars.error,
@@ -157,6 +166,7 @@ module.exports = function(app, config, userRoles, users, slides, baseDir) {
 
   app.post('/admin/users/:username',
     userManager.isLoggedIn,
+    permissionsManager.checkPermission('manageUsers'), 
     bruteforce.prevent,
     function(req, res) {
       bcrypt.compareAsync(req.body.currentPassword, req.user.password).then(function(passwordCorrect) {
@@ -195,7 +205,7 @@ module.exports = function(app, config, userRoles, users, slides, baseDir) {
     }
   );
   
-  app.post('/admin/users/:username/delete', userManager.isLoggedIn, function(req, res) {
+  app.post('/admin/users/:username/delete', userManager.isLoggedIn, permissionsManager.checkPermission('manageUsers'), function(req, res) {
     bcrypt.compareAsync(req.body.currentPassword, req.user.password).then(function(passwordCorrect) {
       if(!passwordCorrect) {
         req.flash('error', 'Your password is wrong.');
@@ -216,7 +226,7 @@ module.exports = function(app, config, userRoles, users, slides, baseDir) {
     });
   });
 
-  app.get('/admin/user-roles', userManager.isLoggedIn, function(req, res) {
+  app.get('/admin/user-roles', userManager.isLoggedIn, permissionsManager.checkPermission('manageUsers'), function(req, res) {
     var routeVars = router.setRouteVars(req);
     
     res.render(
@@ -226,6 +236,7 @@ module.exports = function(app, config, userRoles, users, slides, baseDir) {
         loggedIn: routeVars.loggedIn,
         breadcrumbs: routeVars.breadcrumbs,
         userRoles: userRoles,
+        user: req.user,
         error: routeVars.error,
         status: routeVars.status
       }

@@ -9,8 +9,9 @@ var Promise = require('bluebird'),
     passport = require('passport'),
     bruteforce = new ExpressBrute(store);
 
-module.exports = function(app, config, users, slides, baseDir) {
+module.exports = function(app, config, userRoles, users, slides, baseDir) {
   var configManager = require(baseDir + '/podium_src/config_manager'),
+      permissionsManager = require(baseDir + '/podium_src/user_manager/permissions_manager'),
       router = require(baseDir + '/podium_src/router');
 
   app.get('/login', function(req, res) {
@@ -73,22 +74,26 @@ module.exports = function(app, config, users, slides, baseDir) {
       {
         title: 'Welcome ' + req.user.username,
         loggedIn: routeVars.loggedIn,
+        userRoles: userRoles,
+        user: req.user,
         error: routeVars.error,
         status: routeVars.status
       }
     );
   });
 
-  app.get('/admin/config', userManager.isLoggedIn, function(req, res) {
+  app.get('/admin/config', userManager.isLoggedIn, permissionsManager.checkPermission('manageSiteConfig'), function(req, res) {
     var routeVars = router.setRouteVars(req);
 
     res.render(
       'config',
       {
-        title: 'Config',
+        title: 'Configuration',
         loggedIn: routeVars.loggedIn,
         breadcrumbs: routeVars.breadcrumbs,
         config: config,
+        userRoles: userRoles,
+        user: req.user,
         slides: slides,
         error: routeVars.error,
         status: routeVars.status
@@ -98,6 +103,7 @@ module.exports = function(app, config, users, slides, baseDir) {
 
   app.post('/admin/config',
     userManager.isLoggedIn,
+    permissionsManager.checkPermission('manageSiteConfig'),
     bruteforce.prevent,
     function(req, res) {
       config = configManager.updateConfig(config, req.body);
