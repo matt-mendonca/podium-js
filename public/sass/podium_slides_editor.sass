@@ -6,6 +6,9 @@
 %box-sizing
   box-sizing: border-box
 
+i
+  font-style: normal
+
 .button 
   @extend %box-sizing
   border-style: solid
@@ -26,36 +29,75 @@
   padding-bottom: 1.0625rem
   padding-left: 2rem
   font-size: 1rem
-  background-color: $primary-color
+  background-color: transparent
   border-color: $primary-color
-  color: $white
-  transition: background-color 300ms ease-out
+  color: $primary-color
+  transition: border 300ms ease, color 300ms ease
 
   &:hover,
   &:focus 
-    background-color: scale-color($primary-color, $lightness: -20%)
+    border-color: scale-color($primary-color, $lightness: -20%)
+    color: scale-color($primary-color, $lightness: -20%)
 
   &.success
-    background: $success-color
+    border-color: $success-color
+    color: $success-color
 
     &:hover,
     &:focus 
-      background: scale-color($success-color, $lightness: -20%)
+      border-color: scale-color($success-color, $lightness: -20%)
+      color: scale-color($success-color, $lightness: -20%)
+
 
   &.alert
-    background: $alert-color
+    border-color: $alert-color
+    color: $alert-color
 
     &:hover,
     &:focus 
-      background: scale-color($alert-color, $lightness: -20%)
- 
+      border-color: scale-color($alert-color, $lightness: -20%)
+      color: scale-color($alert-color, $lightness: -20%)
+
   &.secondary
-    background: $secondary-color
-    color: $body-font-color
+    border-color: $secondary-color
+    color: $secondary-color
 
     &:hover,
     &:focus 
-      background: scale-color($secondary-color, $lightness: -20%)
+      border-color: scale-color($secondary-color, $lightness: -20%)
+      color: scale-color($secondary-color, $lightness: -20%)
+
+.icon-button
+  padding-left: 1rem
+
+  i
+    margin-right: 0.75rem
+    font-size: 1.15rem
+
+input.icon-button
+  height: 56px
+  padding-left: 2.85rem
+
+.input-icon-button-wrapper
+  display: inline-block
+  position: relative
+  float: left
+
+  & i
+    color: $success-color
+
+    transition: color 300ms ease
+
+  &:hover i, 
+  &:focus i
+    color: scale-color($success-color, $lightness: -20%)
+
+.input-icon
+  position: absolute
+  z-index: 1
+  top: 19px
+  left: 1rem
+  color: $white
 
 .slides-editor-button,
 .controller-back-button
@@ -63,9 +105,9 @@
 
 .slides-editor-button
   z-index: 999
-  font-size: 2.5rem
-  font-weight: 400
   padding: 0.25rem 1.5rem 0.6rem
+  font-size: 3.5rem
+  font-weight: 400
 
   &.remove
     top: 50%
@@ -85,16 +127,17 @@
   z-index: 999
   border-radius: 0
   border-bottom-right-radius: 5px
+  padding: 0.5rem 1rem 0.75rem
 
 .right
   float: right
 
 .tool-bar
   @extend %box-sizing
+  display: inline-block
   width: 100%
-  padding: 1em
-  background: $oil
-  border-bottom: solid 1px $jumbo
+  background: $jet
+  box-shadow: 0 5px 10px rgba(0, 0, 0, 0.25)
 
   .button
     margin-bottom: 0

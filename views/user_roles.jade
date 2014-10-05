@@ -16,26 +16,14 @@ block content
               else
                 i.right.fi-x.alert
             li 
-              label Create Decks:
-              if(role.createDeck)
+              label Edit Decks:
+              if(role.editDecks)
                 i.right.fi-check.success
               else
                 i.right.fi-x.alert
             li 
-              label Edit Own Decks:
-              if(role.editOwnDecks)
-                i.right.fi-check.success
-              else
-                i.right.fi-x.alert
-            li 
-              label Edit Any Decks:
-              if(role.editAnyDecks)
-                i.right.fi-check.success
-              else
-                i.right.fi-x.alert
-            li 
-              label Manage Other Users:
-              if(role.manageOtherUsers)
+              label Manage Users:
+              if(role.manageUsers)
                 i.right.fi-check.success
               else
                 i.right.fi-x.alert
@@ -51,10 +39,8 @@ block content
         tr
           th Role Name
           th.text-center Present
-          th.text-center Create Decks
-          th.text-center Edit Own Decks
-          th.text-center Edit Any Decks
-          th.text-center Manage Other Users
+          th.text-center Edit Decks
+          th.text-center Manage Users
           th.text-center Manage Site Config
 
       tbody
@@ -67,22 +53,12 @@ block content
               else
                 i.fi-x.alert
             td.text-center
-              if(role.createDeck)
+              if(role.editDecks)
                 i.fi-check.success
               else
                 i.fi-x.alert
             td.text-center
-              if(role.editOwnDecks)
-                i.fi-check.success
-              else
-                i.fi-x.alert
-            td.text-center
-              if(role.editAnyDecks)
-                i.fi-check.success
-              else
-                i.fi-x.alert
-            td.text-center
-              if(role.manageOtherUsers)
+              if(role.manageUsers)
                 i.fi-check.success
               else
                 i.fi-x.alert

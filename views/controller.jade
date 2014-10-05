@@ -10,17 +10,19 @@ block content
       each slideDeck, route in slides
         option(value="#{route}") #{slideDeck.title}
 
-    a.button.radius.slide-view(href="#") Control in Presentation
+    a.button.border.icon-button.radius.slide-view(href="#")
+      i.fi-comment-video
+      |Control in Presentation
     
     .nav-buttons
       .controller-row.top
-        span.button.radius.up(data-command="up") ▲
+        span.button.border.radius.up(data-command="up") ▲
       .controller-row.middle
-        span.button.radius.left(data-command="left") ◀
+        span.button.border.radius.left(data-command="left") ◀
         span.nav-middle
-        span.button.radius.right(data-command="right") ▶
+        span.button.border.radius.right(data-command="right") ▶
       .controller-row.bottom
-        span.button.radius.down(data-command="down") ▼
+        span.button.border.radius.down(data-command="down") ▼
 
 block footer
   script(src="/socket.io/socket.io.js")

@@ -3,7 +3,10 @@ extends ./layout.jade
 block content
   h2.title #{title}
 
-  a.button.radius(href="/admin/slide-deck/create") Create New Slide Deck
+  div
+    a.button.border.icon-button.radius(href="/admin/slide-deck/create")
+      i.fi-page-add
+      |Create Deck
 
   ul.slide-decks.no-bullet
     each slideDeck, route in slides

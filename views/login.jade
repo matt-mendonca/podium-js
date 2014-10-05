@@ -10,15 +10,17 @@ block content
         .message
           h5.error-message #{message}
 
-      .username
+      .username.input-wrapper
         label Username:
           input(type="text" name="username" value="" required="")
         small.error Username is required.
 
-      .password
+      .password.input-wrapper
         label Password:
           input(type="password" name="password" value="" required="")
         small.error Password is required.
 
       .submit
-        input.button.radius(type="submit" value="Log In")
+        .input-icon-button-wrapper
+          i.fi-arrow-right.input-icon
+          input.button.icon-button.radius.success(type="submit" value="Log In")

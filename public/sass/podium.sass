@@ -51,8 +51,11 @@
 a
   transition: color 250ms ease-out
 
-.serif,
-.title
+ul
+  clear: both
+
+//.serif,
+.logo-title
   font-family: 'Droid Serif', serif
 
 .error-message
@@ -62,37 +65,96 @@ a
 form legend
   font-size: 2.3125rem
   font-weight: 300
-  @extend .serif
+  //@extend .serif
+
+.breadcrumbs
+  margin-bottom: 1.5rem
+
+.disclaimer,
+.input-wrapper 
+  margin-bottom: 2.5rem
 
 .button
   margin-right: 1rem
+  padding-left: 0
+
+  transition: color 300ms ease, border 300ms ease
+
+  &.border
+    border-width: 1px
+    padding-left: 1rem
+
+  &:hover,
+  &:focus
+    border-color: scale-color($primary-color, $lightness: $button-function-factor)
+    color: scale-color($primary-color, $lightness: $button-function-factor)
+
+  &.secondary,
+  &.success,
+  &.alert
+    background: none
+
+  &.secondary
+    color: $secondary-color
+
+    &:hover,
+    &:focus
+      background: transparent
+      border-color: scale-color($secondary-color, $lightness: $button-function-factor)
+      color: scale-color($secondary-color, $lightness: $button-function-factor)
+
+  &.success
+    color: $success-color
+
+    &:hover,
+    &:focus
+      background: transparent
+      border-color: scale-color($success-color, $lightness: $button-function-factor)
+      color: scale-color($success-color, $lightness: $button-function-factor)
+
+  &.alert
+    color: $alert-color
+
+    &:hover,
+    &:focus
+      background: transparent
+      border-color: scale-color($alert-color, $lightness: $button-function-factor)
+      color: scale-color($alert-color, $lightness: $button-function-factor)
 
   &.right
     margin-left: 1rem
     margin-right: 0
 
 .icon-button
-  padding-left: 1rem
+  //padding-left: 1rem
 
   i
+    display: inline-block
     margin-right: 0.75rem
+    width: 25px
     font-size: 1.15rem
 
 input.icon-button
   height: 67px
-  padding-left: 2.85rem
+  padding-left: 1.85rem
+  margin-bottom: 0
 
 .input-icon-button-wrapper
   display: inline-block
   position: relative
   float: left
+  margin-bottom: 2.5rem
 
 .input-icon
   position: absolute
   z-index: 1
   top: 0.95rem
-  left: 1rem
-  color: $white
+  color: $success-color
+
+  transition: color 300ms ease
+
+  .input-icon-button-wrapper:hover &
+    color: scale-color($success-color, $lightness: $button-function-factor)
 
 i
   &.success
@@ -117,7 +179,6 @@ input[type="url"],
 input[type="color"],
 select,
 textarea
-  border-left-width: 1px
   border-bottom-width: 1px
 
 .disclaimer
@@ -129,19 +190,6 @@ textarea
 .inner-wrap,
 .left-off-canvas-menu
   height: 100%
-
-.tab-bar .menu-icon 
-  span::after
-    transition: box-shadow 250ms ease-out  
-
-  &:hover span::after
-    box-shadow: 0 0px 0 1px $info-color,0 7px 0 1px $info-color,0 14px 0 1px $info-color
-
-  &:active span::after
-    box-shadow: 0 0px 0 1px $primary-color,0 7px 0 1px $primary-color,0 14px 0 1px $primary-color
-
-.move-right .tab-bar .menu-icon span::after
-  box-shadow: 0 0px 0 1px $info-color,0 7px 0 1px $info-color,0 14px 0 1px $info-color
 
 $menu-icon-width: 52px
 
@@ -233,7 +281,7 @@ $menu-icon-width: 52px
 /* Front page
 
 .front-page
-  .title
+  .logo-title
     font-size: 7rem
     margin-bottom: 1.5rem
 
@@ -248,6 +296,7 @@ $menu-icon-width: 52px
 
 .nav-buttons
   margin: 0.75em auto 0
+  clear: both
   width: 245px
   text-align: center
 
@@ -287,9 +336,6 @@ $menu-icon-width: 52px
     display: inline-block
     margin-right: 1rem
 
-  table
-    width: 100%
-
 /* Desktop
 
 @media only screen and (min-width: 64.063em)
@@ -323,14 +369,38 @@ $menu-icon-width: 52px
     width: 59px
     height: 56px
     padding-top: 5px
+    padding-left: 16px
     color: transparent
 
     &:hover,
     &:focus
       color: transparent
 
+      & i 
+        color: scale-color($primary-color, $lightness: $button-function-factor)
+
+      &.secondary i 
+        color: scale-color($secondary-color, $lightness: $button-function-factor)
+
+      &.success i 
+        color: scale-color($success-color, $lightness: $button-function-factor)
+
+      &.alert i 
+        color: scale-color($alert-color, $lightness: $button-function-factor)
+
+    & i 
+      color: $primary-color
+
+      transition: color 300ms ease
+
     &.secondary i 
-      color: $oil
+      color: $secondary-color
+
+    &.success i 
+      color: $success-color
+
+    &.alert i 
+      color: $alert-color
 
   input.icon-button
     padding-left: 1rem
@@ -338,7 +408,7 @@ $menu-icon-width: 52px
   .icon-button i,
   .input-icon-button-wrapper i 
     font-size: 1.75rem
-    color: $white
+    //color: $white
 
   .input-icon
     top: 0.25rem

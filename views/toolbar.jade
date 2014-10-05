@@ -12,53 +12,60 @@ aside.left-off-canvas-menu.main-menu
 
     li
       a(href="/admin/controller")
-        i.fi-play-video
-        | Controller
+        if userRoles[user.role]['present']
+          i.fi-play-video
+          | Controller
 
-    li.has-submenu
-      a.trigger-submenu(href="/admin/slides")
-        i.fi-projection-screen
-        | Slides
-      ul.left-submenu
-        li
-          a(href="/admin/slides")
-            i.fi-projection-screen
-            | All Decks
-        li
-          a(href="/admin/slide-deck/create")
-            i.fi-page-add
-            | Create Deck
-        li.back
-          a Close
+    if userRoles[user.role]['editDecks'] 
+      li.has-submenu
+        a.trigger-submenu(href="/admin/slides")
+          i.fi-projection-screen
+          | Slides
+        ul.left-submenu
+          li
+            a(href="/admin/slides")
+              i.fi-projection-screen
+              | All Decks
+          li
+            a(href="/admin/slide-deck/create")
+              i.fi-page-add
+              | Create Deck
+          li.back
+            a Close
 
     li.has-submenu
       a.trigger-submenu(href="/admin/users")
         i.fi-torsos-all
         | Users
       ul.left-submenu
+        if userRoles[user.role]['manageUsers']
+          li
+            a(href="/admin/users")
+              i.fi-torsos-all
+              | All Users
+            
         li
           a(href="/admin/user")
             i.fi-torso
             | My Account
-        li
-          a(href="/admin/users")
-            i.fi-torsos-all
-            | All Users
-        li
-          a(href="/admin/user-account/create")
-            i.fi-torsos
-            | Create User
-        li
-          a(href="/admin/user-roles")
-            i.fi-key
-            | User Roles
+
+        if userRoles[user.role]['manageUsers']
+          li
+            a(href="/admin/user-account/create")
+              i.fi-torsos
+              | Create User
+          li
+            a(href="/admin/user-roles")
+              i.fi-key
+              | User Roles
         li.back
           a Close
 
-    li
-      a(href="/admin/config")
-        i.fi-widget
-        | Configuration
+    if userRoles[user.role]['manageSiteConfig']
+      li
+        a(href="/admin/config")
+          i.fi-widget
+          | Configuration
 
     li
       a(href="/logout")

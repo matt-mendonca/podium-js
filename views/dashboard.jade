@@ -7,10 +7,16 @@ block content
     if message
       h2.error-message #{message}
   div
-    a.button.radius.controller-button(href="/admin/controller") Controller
+    a.button.border.icon-button.radius.controller-button(href="/admin/controller")
+      i.fi-play-video
+      |Controller
 
   div
-    a.button.radius(href="/admin/slide-deck/create") Create New Slide Deck
+    a.button.border.icon-button.radius(href="/admin/slide-deck/create")
+      i.fi-page-add
+      |Create Deck
 
   div
-    a.button.radius(href="/admin/user-account/create") Create New User Account
+    a.button.border.icon-button.radius(href="/admin/user-account/create")
+      i.fi-torsos
+      |Create User

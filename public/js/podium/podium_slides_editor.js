@@ -5,14 +5,19 @@ var Podium = Podium || {};
 
   Podium.slidesEditor = function() {
     var slidesPageUrl = "/admin/slides" + window.location.pathname,
-        newSlideMarkup = "<section>Enter Content</section>",
+        newSlideMarkup = "<section>Content</section>",
         newSlideStackMarkup = "<section class='stack present'></section>",
         addSlideDelay = 250,
         toolBarMarkup = "<div class='editor-resource tool-bar'>"+
                           "<form action='"+slidesPageUrl+"/update-content' method='post' class='slides-update-form'>"+
                             "<textarea class='slidesMarkup' name='slidesMarkup'></textarea>"+
-                            "<input type='submit' value='Save' class='button success save'>"+
-                            "<a href='"+slidesPageUrl+"' class='button secondary right exit'>Exit</a>"+
+                            "<div class='input-icon-button-wrapper'>"+
+                              "<i class='fi-check input-icon'></i>"+
+                              "<input type='submit' value='Save' class='button icon-button success save'>"+
+                            "</div>"+
+                            "<a href='"+slidesPageUrl+"' class='button icon-button secondary right exit'>"+
+                              "<i class='fi-minus-circle'></i> Cancel"+
+                            "</a>"+
                           "</form>"+
                           "<div class='button alert slides-editor-button remove'>-</div>"+
                           "<div class='button slides-editor-button add after'>+</div>"+

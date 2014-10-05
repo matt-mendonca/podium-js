@@ -3,7 +3,9 @@ extends ./layout.jade
 block content
   h2.title #{title}
 
-  a.button.radius(href="/admin/user-account/create") Create New User
+  a.button.border.icon-button.radius(href="/admin/user-account/create")
+    i.fi-torsos
+    |Create User
 
   ul.users.no-bullet
     each user, id in users

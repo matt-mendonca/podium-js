@@ -4,59 +4,57 @@ block header
 
 block content
   form.edit-slide-form(action="/admin/slides#{slideDeck.route}" data-abide="" method="post")
-    fieldset
-      legend #{title}
+    h2 #{title}
 
-      .actions
-        a.button.icon-button.radius(href="#{slideDeck.route}?editor=true")
-          i.fi-pencil
-          |Edit Content
-        a.button.icon-button.radius.right(href="#{slideDeck.route}?controller=true")
-          i.fi-play-video
-          |Present
-        a.button.icon-button.radius.right(href="#{slideDeck.route}")
-          i.fi-eye
-          |View
+    .actions
+      a.button.icon-button.radius(href="#{slideDeck.route}?editor=true")
+        i.fi-pencil
+        |Edit Content
+      a.button.icon-button.radius.right(href="#{slideDeck.route}?controller=true")
+        i.fi-play-video
+        |Present
+      a.button.icon-button.radius.right(href="#{slideDeck.route}")
+        i.fi-eye
+        |View
 
-      .slide-title
-        label Title:
-          input(type="text" name="title" value="#{slideDeck.title}" required="")
-        small.error Title is required.
+    .slide-title.input-wrapper
+      label Title:
+        input(type="text" name="title" value="#{slideDeck.title}" required="")
+      small.error Title is required.
 
-      .route
-        label
-          span.has-tip.tip-right.radius(data-tooltip title="The URL.") Route:
-          input(type="text" name="route" value="#{slideDeck.route}" required="")
-        small.error Route is required.
+    .route.input-wrapper
+      label
+        span.has-tip.tip-right.radius(data-tooltip title="The URL.") Route:
+        input(type="text" name="route" value="#{slideDeck.route}" required="")
+      small.error Route is required.
 
-      .summary
-        label Summary:
-          textarea(name="summary" row="20" spellcheck="" required="") #{slideDeck.summary}
-        small.error Summary is required.
+    .summary.input-wrapper
+      label Summary:
+        textarea(name="summary" row="20" spellcheck="" required="") #{slideDeck.summary}
+      small.error Summary is required.
 
-      .published
-        input(id="published" name="published" type="checkbox" checked=(slideDeck.published ? "checked" : undefined))
-        label(for="published")
-          span.has-tip.tip-right.radius(data-tooltip title="Published slide decks will be viewable by anonymous users.") Published?
-          
+    .published.input-wrapper
+      input(id="published" name="published" type="checkbox" checked=(slideDeck.published ? "checked" : undefined))
+      label(for="published")
+        span.has-tip.tip-right.radius(data-tooltip title="Published slide decks will be viewable by anonymous users.") Published?
+        
+    .submit
+      .input-icon-button-wrapper
+        i.fi-check.input-icon
+        input.button.icon-button.radius.success(type="submit" value="Save")
+      a.button.icon-button.radius.secondary(href="/admin/slides")
+        i.fi-minus-circle
+        |Cancel
+      a.button.icon-button.radius.alert.right(href="#" data-reveal-id="deleteModal")
+        i.fi-trash
+        |Delete
 
-      .submit
-        .input-icon-button-wrapper
-          i.fi-check.input-icon
-          input.button.icon-button.radius.success(type="submit" value="Save")
-        a.button.icon-button.radius.secondary(href="/admin/slides")
-          i.fi-minus-circle
-          |Cancel
-        a.button.icon-button.radius.alert.right(href="#" data-reveal-id="deleteModal")
+      .reveal-modal#deleteModal(data-reveal data-options="animation: fade;")
+        h3 Are you sure you want to delete this slide deck?
+        a.button.icon-button.radius.alert(href="/admin/slides#{slideDeck.route}/delete")
           i.fi-trash
           |Delete
-
-        .reveal-modal#deleteModal(data-reveal data-options="animation: fade;")
-          h3 Are you sure you want to delete this slide deck?
-          a.button.icon-button.radius.alert(href="/admin/slides#{slideDeck.route}/delete")
-            i.fi-trash
-            |Delete
-          a.button.icon-button.radius.secondary.delete-cancel
-            i.fi-minus-circle
-            |Cancel
-          a.close-reveal-modal &#215;
+        a.button.icon-button.radius.secondary.delete-cancel
+          i.fi-minus-circle
+          |Cancel
+        a.close-reveal-modal &#215;

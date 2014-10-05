@@ -4,34 +4,33 @@ block header
 
 block content
   form.create-user-form(action="/admin/user-account/create" data-abide="" method="post")
-    fieldset
-      legend #{title}
+    h2 #{title}
 
-      .username
-        label Username:
-          input(type="text" name="username" value="#{username}" required="")
-        small.error Username is required.
-        
-      .password
-        label Password:
-          input(type="password" id="password" name="password" required="")
-        small.error Password is required.
+    .username.input-wrapper
+      label Username:
+        input(type="text" name="username" value="#{username}" required="")
+      small.error Username is required.
+      
+    .password.input-wrapper
+      label Password:
+        input(type="password" id="password" name="password" required="")
+      small.error Password is required.
 
-      .password-confirm
-        label Confirm Password:
-          input(type="password" name="confirmPassword" required="" data-equalto="password")
-        small.error The Passwords must match.
+    .password-confirm.input-wrapper
+      label Confirm Password:
+        input(type="password" name="confirmPassword" required="" data-equalto="password")
+      small.error The Passwords must match.
 
-      .role
-        label User Role:
-          select(name="role")
-            each role, roleName in userRoles
-              option(value="#{roleName}") #{roleName}
+    .role.input-wrapper
+      label User Role:
+        select(name="role")
+          each role, roleName in userRoles
+            option(value="#{roleName}") #{roleName}
 
-      .submit
-        .input-icon-button-wrapper
-          i.fi-check.input-icon
-          input.button.icon-button.radius.success(type="submit" value="Save")
-        a.button.icon-button.radius.secondary(href="/admin/users")
-          i.fi-minus-circle
-          |Cancel
+    .submit
+      .input-icon-button-wrapper
+        i.fi-check.input-icon
+        input.button.icon-button.radius.success(type="submit" value="Save")
+      a.button.icon-button.radius.secondary(href="/admin/users")
+        i.fi-minus-circle
+        |Cancel

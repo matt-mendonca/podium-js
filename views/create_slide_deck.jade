@@ -4,36 +4,35 @@ block header
 
 block content
   form.create-slide-form(action="/admin/slide-deck/create" data-abide="" method="post")
-    fieldset
-      legend #{title}
+    h2 #{title}
 
-      .template-deck
-        label 
-          span.has-tip.tip-right.radius(data-tooltip title="Which Slide Deck will be copied when creating the new Slide Deck.") Template Slide Deck:
-          select(name="templateDeck")
-            each slideDeck, route in slides
-              option(value="#{route}" selected=(route === config.templateDeck ? "selected" : undefined)) #{slideDeck.title}
+    .template-deck.input-wrapper
+      label 
+        span.has-tip.tip-right.radius(data-tooltip title="Which Slide Deck will be copied when creating the new Slide Deck.") Template Slide Deck:
+        select(name="templateDeck")
+          each slideDeck, route in slides
+            option(value="#{route}" selected=(route === config.templateDeck ? "selected" : undefined)) #{slideDeck.title}
 
-      .slide-title
-        label Title:
-          input(type="text" name="title" value="#{slideDeck.title}" required="")
-        small.error Title is required.
+    .slide-title.input-wrapper
+      label Title:
+        input(type="text" name="title" value="#{slideDeck.title}" required="")
+      small.error Title is required.
 
-      .route
-        label
-          span.has-tip.tip-right.radius(data-tooltip title="The URL.") Route:
-          input(type="text" name="route" value="#{slideDeck.route}" required="")
-        small.error Route is required.
+    .route.input-wrapper
+      label
+        span.has-tip.tip-right.radius(data-tooltip title="The URL.") Route:
+        input(type="text" name="route" value="#{slideDeck.route}" required="")
+      small.error Route is required.
 
-      .summary
-        label Summary:
-          textarea(name="summary" row="20" spellcheck="" required="") #{slideDeck.summary}
-        small.error Summary is required.
-          
-      .submit
-        .input-icon-button-wrapper
-          i.fi-check.input-icon
-          input.button.icon-button.radius.success(type="submit" value="Save")
-        a.button.icon-button.radius.secondary(href="/admin/slides")
-          i.fi-minus-circle
-          |Cancel
+    .summary.input-wrapper
+      label Summary:
+        textarea(name="summary" row="20" spellcheck="" required="") #{slideDeck.summary}
+      small.error Summary is required.
+        
+    .submit
+      .input-icon-button-wrapper
+        i.fi-check.input-icon
+        input.button.icon-button.radius.success(type="submit" value="Save")
+      a.button.icon-button.radius.secondary(href="/admin/slides")
+        i.fi-minus-circle
+        |Cancel

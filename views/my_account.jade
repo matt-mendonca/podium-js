@@ -4,32 +4,31 @@ block header
 
 block content
   form.my-account-form(action="/admin/user" data-abide="" method="post")
-    fieldset
-      legend #{title}
+    h2 #{title}
 
-      .username
-        label Username:
-          input(type="text" name="username" value="#{username}" required="")
-        small.error Username is required.
+    .username.input-wrapper
+      label Username:
+        input(type="text" name="username" value="#{username}" required="")
+      small.error Username is required.
 
-      .new-password
-        label New Password:
-          input(type="password" id="new-password" name="newPassword")
+    .new-password.input-wrapper
+      label New Password:
+        input(type="password" id="new-password" name="newPassword")
 
-      .new-password-confirm
-        label Confirm New Password:
-          input(type="password" name="confirmNewPassword" data-equalto="new-password")
-        small.error The Passwords must match.
+    .new-password-confirm.input-wrapper
+      label Confirm New Password:
+        input(type="password" name="confirmNewPassword" data-equalto="new-password")
+      small.error The Passwords must match.
 
-      .current-password
-        label Current Password:
-          input(type="password" name="currentPassword" required="")
-        small.error Current Password is required.
+    .current-password.input-wrapper
+      label Current Password:
+        input(type="password" name="currentPassword" required="")
+      small.error Current Password is required.
 
-      .submit
-        .input-icon-button-wrapper
-          i.fi-check.input-icon
-          input.button.icon-button.radius.success(type="submit" value="Save")
-        a.button.icon-button.radius.secondary(href="/admin")
-          i.fi-minus-circle
-          |Cancel
+    .submit
+      .input-icon-button-wrapper
+        i.fi-check.input-icon
+        input.button.icon-button.radius.success(type="submit" value="Save")
+      a.button.icon-button.radius.secondary(href="/admin")
+        i.fi-minus-circle
+        |Cancel

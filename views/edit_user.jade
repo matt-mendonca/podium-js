@@ -4,52 +4,51 @@ block header
 
 block content
   form.edit-user-form(action="/admin/users/#{username}" data-abide="" method="post")
-    fieldset
-      legend #{title}
+    h2 #{title}
 
-      .username
-        label Username:
-          input(type="text" name="username" value="#{username}" required="")
-        small.error Username is required.
+    .username.input-wrapper
+      label Username:
+        input(type="text" name="username" value="#{username}" required="")
+      small.error Username is required.
 
-      .new-password
-        label New Password:
-          input(type="password" id="new-password" name="newPassword")
+    .new-password.input-wrapper
+      label New Password:
+        input(type="password" id="new-password" name="newPassword")
 
-      .new-password-confirm
-        label Confirm New Password:
-          input(type="password" name="confirmNewPassword" data-equalto="new-password")
-        small.error The Passwords must match.
+    .new-password-confirm.input-wrapper
+      label Confirm New Password:
+        input(type="password" name="confirmNewPassword" data-equalto="new-password")
+      small.error The Passwords must match.
 
-      .role
-        label User Role:
-          select(name="role")
-            each role, roleName in userRoles
-              option(value="#{roleName}" selected=(roleName === currentRole ? "selected" : undefined)) #{roleName}
+    .role.input-wrapper
+      label User Role:
+        select(name="role")
+          each role, roleName in userRoles
+            option(value="#{roleName}" selected=(roleName === currentRole ? "selected" : undefined)) #{roleName}
 
-      .current-password
-        label 
-          span.has-tip.tip-right.radius(data-tooltip title="Enter the password of the logged in user.") Your Password:
-          input(type="password" name="currentPassword" required="")
-        small.error Your Password is required.
+    .current-password.input-wrapper
+      label 
+        span.has-tip.tip-right.radius(data-tooltip title="Enter the password of the logged in user.") Your Password:
+        input(type="password" name="currentPassword" required="")
+      small.error Your Password is required.
 
-      .submit
-        .input-icon-button-wrapper
-          i.fi-check.input-icon
-          input.button.icon-button.radius.success(type="submit" value="Save")
-        a.button.icon-button.radius.secondary(href="/admin")
-          i.fi-minus-circle
-          |Cancel
-        a.button.icon-button.radius.alert.right(href="#" data-reveal-id="deleteModal")
+    .submit
+      .input-icon-button-wrapper
+        i.fi-check.input-icon
+        input.button.icon-button.radius.success(type="submit" value="Save")
+      a.button.icon-button.radius.secondary(href="/admin")
+        i.fi-minus-circle
+        |Cancel
+      a.button.icon-button.radius.alert.right(href="#" data-reveal-id="deleteModal")
+        i.fi-trash
+        |Delete
+
+      .reveal-modal#deleteModal(data-reveal data-options="animation: fade;")
+        h3 Are you sure you want to delete this user account?
+        a.button.icon-button.radius.alert(href="/admin/users/#{username}/delete")
           i.fi-trash
           |Delete
-
-        .reveal-modal#deleteModal(data-reveal data-options="animation: fade;")
-          h3 Are you sure you want to delete this user account?
-          a.button.icon-button.radius.alert(href="/admin/users/#{username}/delete")
-            i.fi-trash
-            |Delete
-          a.button.icon-button.radius.secondary.delete-cancel
-            i.fi-minus-circle
-            |Cancel
-          a.close-reveal-modal &#215;
+        a.button.icon-button.radius.secondary.delete-cancel
+          i.fi-minus-circle
+          |Cancel
+        a.close-reveal-modal &#215;
