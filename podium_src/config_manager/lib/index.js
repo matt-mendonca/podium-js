@@ -55,6 +55,12 @@ module.exports = function() {
       },
 
       updateConfig = function(config, updatedConfig) {
+        if(updatedConfig.consoleLog === 'on') {
+          config.consoleLog = true;
+        } else {
+          config.consoleLog = false;
+        }
+
         if(updatedConfig.port && !isNaN(updatedConfig.port)) {
           config.port = updatedConfig.port;
         }

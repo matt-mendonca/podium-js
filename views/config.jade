@@ -6,6 +6,11 @@ block content
   form.config-form(action="/admin/config" data-abide="" method="post")
     h2 #{title}
 
+    .console-log.input-wrapper
+      input(id="console-log" name="consoleLog" type="checkbox" checked=(config.consoleLog ? "checked" : undefined))
+      label(for="console-log")
+        span.has-tip.tip-right.radius(data-tooltip title="This will log various server side data to the console.") Log to Console?
+
     .port.input-wrapper
       label 
         span.has-tip.tip-right.radius(data-tooltip title="The port number the express server will listen to.") Port:

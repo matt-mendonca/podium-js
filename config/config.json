@@ -13,5 +13,6 @@
   "sessionSecret": "podiumJSRocksSessions",
   "jwtSecret": "podiumJSRocksJWT",
   "jwtExpireMinutes": "60",
-  "templateDeck": "/example"
+  "templateDeck": "/example",
+  "consoleLog": false
 }

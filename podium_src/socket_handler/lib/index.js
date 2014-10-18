@@ -6,7 +6,10 @@ var jwt = require('jsonwebtoken');
 module.exports = function() {
   var socketOnRequestSlideDeck = function(socket, slides, data) {
         if(slides[data.route]) {
-          console.log('Sending initial deck data: ' + JSON.stringify(slides[data.route]) );
+          if(config.consoleLog) {
+            console.log('Sending initial deck data: ' + JSON.stringify(slides[data.route]) );
+          }
+
           socket.emit('initialData', slides[data.route]);
         }
       },
@@ -16,7 +19,9 @@ module.exports = function() {
             command = controllerCommand.text,   
             currentDeck = null;
 
-        console.log("Received command: " + JSON.stringify(command));
+        if(config.consoleLog) {
+          console.log("Received command: " + JSON.stringify(command));
+        }
 
         if(slides[route]) {
           currentDeck = slides[route];
@@ -53,11 +58,12 @@ module.exports = function() {
       },
 
       socketOnSlideChanged = function(socket, slides, data) {
-        console.log("Received slide change: " + JSON.stringify(data));
-          
+        if(config.consoleLog) {
+          console.log("Received slide change: " + JSON.stringify(data));
+        }
+
         slides[data.route].indexh = data.indexh;
         slides[data.route].indexv = data.indexv;
-
 
         socket.broadcast.emit('recievedSlideChange', data);
 
@@ -65,7 +71,9 @@ module.exports = function() {
       },
 
       socketOnFragmentShown = function(socket, slides, data) {
-        console.log("Received Fragment shown: " + JSON.stringify(data));
+        if(config.consoleLog) {
+          console.log("Received Fragment shown: " + JSON.stringify(data));
+        }
 
         socket.broadcast.emit('recievedFragmentShown', data);
 
@@ -73,7 +81,9 @@ module.exports = function() {
       },
 
       socketOnFragmentHidden = function(socket, slides, data) {
-        console.log("Received Fragment hidden: " + JSON.stringify(data));
+        if(config.consoleLog) {
+          console.log("Received Fragment hidden: " + JSON.stringify(data));
+        }
 
         socket.broadcast.emit('recievedFragmentHidden', data);
 
@@ -81,7 +91,10 @@ module.exports = function() {
       },
 
       socketOnOverviewShown = function(socket, slides, data) {
-        console.log("Received overview shown: " + JSON.stringify(data));
+        if(config.consoleLog) {
+          console.log("Received overview shown: " + JSON.stringify(data));
+        }
+
         slides[data.route].overview = true;
 
         socket.broadcast.emit('recievedOverviewShown', data);
@@ -90,7 +103,10 @@ module.exports = function() {
       },
 
       socketOnOverviewHidden = function(socket, slides, data) {
-        console.log("Received overview hidden: " + JSON.stringify(data));
+        if(config.consoleLog) {
+          console.log("Received overview hidden: " + JSON.stringify(data));
+        }
+
         slides[data.route].overview = false;
 
         socket.broadcast.emit('recievedOverviewHidden', data);

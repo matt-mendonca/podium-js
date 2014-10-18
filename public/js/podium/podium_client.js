@@ -8,7 +8,9 @@ Podium.client = function() {
       main = function() {
         if(!Podium.queryString.editor) {
           socket.on('connect', function () {
-            console.log("Client connected. Requesting current deck data.");
+            if(Podium.queryString.debug) {
+              console.log("Client connected. Requesting current deck data.");
+            }
             
             // ask the server for the current settings (slide number) for the deck we are 
             // viewing 
@@ -19,7 +21,9 @@ Podium.client = function() {
             socket.on('initialData', function(data) {
               var hash = window.location.hash.replace('#/', '');
 
-              console.log("Initial deck data: " + JSON.stringify(data) );
+              if(Podium.queryString.debug) {
+                console.log("Initial deck data: " + JSON.stringify(data) );
+              }
 
               if(data.route === deckRoute) {
                 if(!hash) {
@@ -34,7 +38,9 @@ Podium.client = function() {
                 
             // when the server sends out command from the controller, adjust our slides
             socket.on('updateData', function(data) {
-              console.log("Received updated data: " + JSON.stringify(data) );
+              if(Podium.queryString.debug) {
+                console.log("Received updated data: " + JSON.stringify(data) );
+              }
                   
               if(data.route == deckRoute) {
                 Reveal.navigateTo(data.indexh, data.indexv);
@@ -42,7 +48,9 @@ Podium.client = function() {
             });
 
             socket.on('recievedSlideChange', function(data) {
-              console.log("Received slidechanged data: " + JSON.stringify(data) );
+              if(Podium.queryString.debug) {
+                console.log("Received slidechanged data: " + JSON.stringify(data) );
+              }
                   
               if(data.route == deckRoute) {
                 Reveal.navigateTo(data.indexh, data.indexv);
@@ -50,19 +58,25 @@ Podium.client = function() {
             });
 
             socket.on('recievedFragmentShown', function(data) {
-              console.log("Received fragment shown data: " + JSON.stringify(data) );
+              if(Podium.queryString.debug) {
+                console.log("Received fragment shown data: " + JSON.stringify(data) );
+              }
                   
               Reveal.nextFragment();
             });
 
             socket.on('recievedFragmentHidden', function(data) {
-              console.log("Received fragment hidden data: " + JSON.stringify(data) );
+              if(Podium.queryString.debug) {
+                console.log("Received fragment hidden data: " + JSON.stringify(data) );
+              }
                   
               Reveal.prevFragment();
             });
 
             socket.on('recievedOverviewShown', function(data) {
-              console.log("Received overview shown data: " + JSON.stringify(data) );
+              if(Podium.queryString.debug) {
+                console.log("Received overview shown data: " + JSON.stringify(data) );
+              }
                   
               if(!Reveal.isOverview()) {
                 Reveal.toggleOverview();
@@ -70,7 +84,9 @@ Podium.client = function() {
             });
 
             socket.on('recievedOverviewHidden', function(data) {
-              console.log("Received overview hidden data: " + JSON.stringify(data) );
+              if(Podium.queryString.debug) {
+                console.log("Received overview hidden data: " + JSON.stringify(data) );
+              }
                   
               if(Reveal.isOverview()) {
                 Reveal.toggleOverview();

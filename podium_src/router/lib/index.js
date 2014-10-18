@@ -67,7 +67,10 @@ module.exports = function() {
           });
         } else {
           // not found everything else
-          console.log("\nWarning: no matching slide deck found for request "+route);
+          if(config.consoleLog) {
+            console.log("\nWarning: no matching slide deck found for request "+route);  
+          }
+          
           res.render(
             'not_found',
             {
