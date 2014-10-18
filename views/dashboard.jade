@@ -6,17 +6,21 @@ block content
   .message
     if message
       h2.error-message #{message}
-  div
-    a.button.border.icon-button.radius.controller-button(href="/admin/controller")
-      i.fi-play-video
-      |Controller
+    
+  if userRoles[user.role]['present']
+    div
+      a.button.border.icon-button.radius.controller-button(href="/admin/controller")
+        i.fi-play-video
+        |Controller
 
-  div
-    a.button.border.icon-button.radius(href="/admin/slide-deck/create")
-      i.fi-page-add
-      |Create Deck
+  if userRoles[user.role]['editDecks']
+    div
+      a.button.border.icon-button.radius(href="/admin/slide-deck/create")
+        i.fi-page-add
+        |Create Deck
 
-  div
-    a.button.border.icon-button.radius(href="/admin/user-account/create")
-      i.fi-torsos
-      |Create User
+  if userRoles[user.role]['manageUsers']
+    div
+      a.button.border.icon-button.radius(href="/admin/user-account/create")
+        i.fi-torsos
+        |Create User
