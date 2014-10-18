@@ -1,7 +1,5 @@
 extends ./layout.jade
 
-block header
-
 block content
   form.edit-slide-form(action="/admin/slides#{slideDeck.route}" data-abide="" method="post")
     h2 #{title}
