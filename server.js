@@ -46,8 +46,7 @@ var express = require('express'),
       fileSystem.readdirAsync(__dirname + '/slides').then(function(directories) {
         // Iterate over the contents of the Slides directory
         directories.forEach(function(slidesDirectory) {
-          if(slidesDirectory !== '.DS_Store') {
-            // OSX garbage
+          if(fileSystem.lstatSync(__dirname + '/slides/'+ slidesDirectory).isDirectory()) {
             if (fileSystem.existsSync(__dirname + "/slides/"+slidesDirectory+"/podium.json")) {
               // parse the podium file and add it to our podium.slides object
               slideDeck = fileSystem.readJsonSync(__dirname + "/slides/"+slidesDirectory+"/podium.json");
