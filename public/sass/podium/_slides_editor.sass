@@ -1,0 +1,77 @@
+i
+  font-style: normal
+
+.right
+  float: right
+
+.button 
+  border: none
+  cursor: pointer
+  font-family: "Open Sans","Helvetica Neue","Helvetica",Helvetica,Arial,sans-serif
+  font-weight: $font-weight-normal
+  line-height: normal
+  margin: 0
+  text-decoration: none
+  text-align: center
+  -webkit-appearance: none
+  padding: 1rem 2rem 1.0625rem
+  font-size: 1rem
+  color: $primary-color
+  transition: border 300ms ease, color 300ms ease
+
+input.icon-button
+  height: 56px
+  padding-left: 2.85rem
+
+.input-icon-button-wrapper
+  margin: 0
+
+  & i
+    color: $success-color
+
+    transition: color 300ms ease
+
+.input-icon
+  top: 19px
+  left: 1rem
+
+.slides-editor-button,
+.controller-back-button
+  position: absolute
+  z-index: 999
+  text-shadow: 0 0 3px rgba(0, 0, 0, 0.35)
+
+.slides-editor-button
+  padding: 0.25rem 1.5rem 0.6rem
+  font-size: 3.5rem
+  font-weight: 400
+
+  &.remove
+    top: 50%
+    left: 16px
+
+  &.add.after
+    top: 50%
+    right: 16px
+
+  &.add.below
+    bottom: 16px
+    left: 47%
+
+.controller-back-button
+  top: 0
+  left: 0
+
+.tool-bar
+  display: inline-block
+  width: 100%
+  background: $jet
+  box-shadow: 0 5px 10px rgba(0, 0, 0, 0.25)
+
+  .slidesMarkup
+    display: none
+
+@media only screen and (max-width: $medium-upper-breakpoint)
+  .input-icon
+    top: 0.25rem
+    left: 0.9rem

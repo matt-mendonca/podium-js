@@ -1,0 +1,121 @@
+.breadcrumbs
+  margin-bottom: 1.5rem
+
+.off-canvas-wrap,
+.inner-wrap,
+.left-off-canvas-menu
+  height: 100%
+
+.main-menu-toggle
+  position: absolute
+  top: -14px
+  font-size: 2.3rem
+
+.main-menu
+  i
+    display: inline-block
+    margin-right: 0.75rem
+    width: 32px
+    padding-right: 0.75rem
+
+    transition: border 250ms ease-out
+
+  .active i
+    border-right: solid 2px $primary-color
+
+  .active:active i
+    border-right: solid 2px $info-color
+
+  ul li a
+    color: $white
+    transition: background 300ms ease, padding 300ms ease
+
+    &:hover,
+    &:focus
+      background: $primary-color
+      padding-left: 0.9rem
+
+    &:active
+      background: $info-color
+
+  .left-submenu
+    -ms-transform: translate(100%, 0)
+    -webkit-transform: translate3d(100%, 0, 0)
+    -moz-transform: translate3d(100%, 0, 0)
+    -ms-transform: translate3d(100%, 0, 0)
+    -o-transform: translate3d(100%, 0, 0)
+    transform: translate3d(100%, 0, 0)
+
+    &.move-right
+      box-shadow: -5px 0 5px 2px rgba(10, 10, 10, 0.25)
+      -ms-transform: translate($menu-icon-width, 0)
+      -webkit-transform: translate3d($menu-icon-width, 0, 0)
+      -moz-transform: translate3d($menu-icon-width, 0, 0)
+      -ms-transform: translate3d($menu-icon-width, 0, 0)
+      -o-transform: translate3d($menu-icon-width, 0, 0)
+      transform: translate3d($menu-icon-width, 0, 0)
+
+    .back > a
+      color: #FFF
+      font-weight: 300
+      text-transform: capitalize
+
+      &:before
+        margin-right: $menu-icon-width - 20
+
+.main-menu-label
+  position: absolute
+  top: 0
+  z-index: 99999
+  width: 15.625rem
+
+.main-content
+  height: 100%
+  padding-top: 1rem
+  overflow: auto
+  background: $white
+
+  transition: transform 500ms ease, opacity 250ms ease-out
+
+.move-right .exit-off-canvas
+  background: rgba(255, 255, 255, 0.05)
+
+.fader
+  opacity: 0
+  transition: opacity 150ms ease-out
+
+  .loaded &
+    opacity: 1
+
+/* Desktop
+
+@media only screen and (min-width: $large-lower-breakpoint)
+  .main-menu
+    -webkit-transform: translate3d(0, 0, 0)
+    -moz-transform: translate3d(0, 0, 0)
+    -ms-transform: translate3d(0, 0, 0)
+    -o-transform: translate3d(0, 0, 0)
+    transform: translate3d(0, 0, 0)
+    
+    & ul li label
+      padding: 0.8rem
+
+  .logged-in .main-content
+    padding-left: 15.625rem
+
+/* Mobile
+
+@media only screen and (max-width: $medium-upper-breakpoint)
+  .main-content
+    padding-bottom: 2rem
+    overflow-y: scroll
+    -webkit-overflow-scrolling: touch
+
+    .move-right &
+      opacity: 0.6
+
+    .move-right &:hover
+      opacity: 0.85
+
+  .breadcrumbs
+    margin-left: 3rem

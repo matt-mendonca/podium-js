@@ -1,0 +1,137 @@
+.button
+  margin-right: 1rem
+  padding-left: 0
+
+  transition: color 300ms ease, border 300ms ease
+
+  &:hover,
+  &:focus
+    border-color: scale-color($primary-color, $lightness: $button-function-factor)
+    color: scale-color($primary-color, $lightness: $button-function-factor)
+
+  &.border
+    border-width: 1px
+    padding-left: 1rem
+
+  &.secondary,
+  &.success,
+  &.alert
+    background: none
+
+  &.secondary
+    color: $secondary-color
+
+    &:hover,
+    &:focus
+      background: transparent
+      border-color: scale-color($secondary-color, $lightness: $button-function-factor)
+      color: scale-color($secondary-color, $lightness: $button-function-factor)
+
+  &.success
+    color: $success-color
+
+    &:hover,
+    &:focus
+      background: transparent
+      border-color: scale-color($success-color, $lightness: $button-function-factor)
+      color: scale-color($success-color, $lightness: $button-function-factor)
+
+  &.alert
+    color: $alert-color
+
+    &:hover,
+    &:focus
+      background: transparent
+      border-color: scale-color($alert-color, $lightness: $button-function-factor)
+      color: scale-color($alert-color, $lightness: $button-function-factor)
+
+  &.right
+    margin-left: 1rem
+    margin-right: 0
+
+.icon-button
+  //padding-left: 1rem
+
+  i
+    display: inline-block
+    margin-right: 0.75rem
+    width: 25px
+    font-size: 1.15rem
+
+.input-icon-button-wrapper
+  display: inline-block
+  position: relative
+  float: left
+  margin-bottom: 2.5rem
+
+.input-icon
+  position: absolute
+  z-index: 1
+  top: 0.95rem
+  color: $success-color
+
+  transition: color 300ms ease
+
+  .input-icon-button-wrapper:hover &
+    color: scale-color($success-color, $lightness: $button-function-factor)
+
+input.icon-button
+  height: 67px
+  padding-left: 1.85rem
+  margin-bottom: 0
+
+  & i
+    display: inline-block
+    margin-right: 0.75rem
+    width: 25px
+    font-size: 1.15rem
+
+@media only screen and (max-width: $medium-upper-breakpoint)
+  .button.icon-button
+    float: left
+    width: 59px
+    height: 56px
+    padding-top: 5px
+    padding-left: 16px
+    color: transparent
+
+    &:hover,
+    &:focus
+      color: transparent
+
+      & i 
+        color: scale-color($primary-color, $lightness: $button-function-factor)
+
+      &.secondary i 
+        color: scale-color($secondary-color, $lightness: $button-function-factor)
+
+      &.success i 
+        color: scale-color($success-color, $lightness: $button-function-factor)
+
+      &.alert i 
+        color: scale-color($alert-color, $lightness: $button-function-factor)
+
+    & i 
+      color: $primary-color
+
+      transition: color 300ms ease
+
+    &.secondary i 
+      color: $secondary-color
+
+    &.success i 
+      color: $success-color
+
+    &.alert i 
+      color: $alert-color
+
+  input.icon-button
+    padding-left: 1rem
+
+  .icon-button i,
+  .input-icon-button-wrapper i 
+    font-size: 1.75rem
+
+  .input-icon
+    top: 0.25rem
+    left: 0.9rem

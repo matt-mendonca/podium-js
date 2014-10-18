@@ -1,0 +1,32 @@
+.nav-buttons
+  margin: 0.75em auto 0
+  clear: both
+  width: 245px
+  text-align: center
+
+  .controller-row
+    height: 80px
+    margin-bottom: 0.5em
+
+  .nav-middle,
+  .button
+    display: inline-block
+    height: 64px
+
+  .nav-middle
+    width: 105px
+
+  .button
+    vertical-align: top
+    width: 70px
+    margin-left: 0
+    margin-right: 0
+    padding: 10px 15px
+    font-size: 30px
+
+    &.right
+      float: right !important
+      margin-right: 0
+
+    &:active
+      background: scale-color($primary-color, $lightness: -50%)
