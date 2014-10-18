@@ -74,10 +74,19 @@ var Podium = Podium || {};
           });
 
           $('input[name="deckZip"]').change(function(event){
+            var fileName = $(this).val(),
+                fileNamePieces = null;
+
             $('.select-file-error').addClass('hide');
             $('.upload-button').removeClass('alert');
 
-            $('.file-name').val($(this).val());
+            // Remove c:\FakePath from file input value
+            if (fileName.indexOf('\\') !== -1) {
+              fileNamePieces = fileName.split('\\');
+              fileName = fileNamePieces[fileNamePieces.length - 1];
+            }
+
+            $('.file-name').val(fileName);
           });
 
           $('.import-slide-form').submit(function(event) {
