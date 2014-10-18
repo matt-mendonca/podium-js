@@ -13,7 +13,7 @@ var gulp = require('gulp'),
 
 // Compass / SASS
   gulp.task('compass', function() {
-    gulp.src('public/sass/*.sass')
+    gulp.src('public/sass/**/*.{sass,scss}')
       .pipe(compass({
         config_file: 'config.rb',
         css: 'public/css',
@@ -23,7 +23,7 @@ var gulp = require('gulp'),
 
 // Lint
   gulp.task('lint', function() {
-    return gulp.src('public/js/podium/*.js')
+    return gulp.src('public/js/podium/**/*.js')
       .pipe(jshint())
       .pipe(jshint.reporter('default'));
   });
@@ -42,7 +42,7 @@ var gulp = require('gulp'),
 
 // Minify JS
   gulp.task('scripts', function() {
-    return gulp.src('public/js/podium/*.js')
+    return gulp.src('public/js/podium/**/*.js')
       .pipe(uglify())
       .pipe(rename({suffix: ".min"}))
       .pipe(gulp.dest('public/js'));
@@ -50,8 +50,8 @@ var gulp = require('gulp'),
 
 // Watch Files For Changes
   gulp.task('watch', function() {
-    gulp.watch('public/sass/*.{sass,scss}', ['compass']);
-    gulp.watch('public/js/podium/*.js', ['lint', 'scripts']);
+    gulp.watch('public/sass/**/*.{sass,scss}', ['compass']);
+    gulp.watch('public/js/podium/**/*.js', ['lint', 'scripts']);
   });
 
 gulp.task('build', ['moveFonts', 'compass', 'lint', 'scripts']);
