@@ -1,0 +1,26 @@
+extends ./layout.jade
+
+block content
+  form.import-slide-form(action="/admin/slide-deck/import" enctype="multipart/form-data" data-abide="" method="post")
+    h2 #{title}
+
+    p Upload a zip archive of the slide deck.
+      
+    h6.select-file-error.error.hide
+      label Please select a file.
+
+    .upload-button.button.border.icon-button.radius
+      i.fi-upload
+      |Select Zip
+
+    input.file-name(type='text' disabled)
+
+    input.hide(type='file' name='deckZip')
+
+    .submit
+      .input-icon-button-wrapper
+        i.fi-check.input-icon
+        input.button.icon-button.radius.success(type="submit" value="Upload")
+      a.button.icon-button.radius.secondary(href="/admin/slides")
+        i.fi-minus-circle
+        |Cancel

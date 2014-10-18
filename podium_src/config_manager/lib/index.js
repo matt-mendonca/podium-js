@@ -6,11 +6,11 @@ var express = require('express'),
     favicon = require('serve-favicon'),
     session = require('express-session'),
     cookieParser = require('cookie-parser'),
-    bodyParser = require('body-parser'),
     flash = require('connect-flash'),
     passport = require('passport'),
     //appsec = require('lusca'),
-    compression = require('compression');
+    compression = require('compression'),
+    busboy = require('express-busboy');
 
 module.exports = function() {
   var setConfig = function (app, server, config, baseDir) {
@@ -18,11 +18,18 @@ module.exports = function() {
 
         app.use(cookieParser(config.cookieParserSecret));
         
+        /*
         app.use(bodyParser.urlencoded({
           extended: true
         }));
 
         app.use(bodyParser.json());
+        */
+
+        busboy.extend(app, {
+          upload: true,
+          path: baseDir + '/temp_uploads'
+        });
 
         app.use(session({
           secret: config.sessionSecret, 
@@ -46,6 +53,7 @@ module.exports = function() {
         app.use(passport.session());
         app.use(flash());
         app.use(favicon(baseDir + config.favicon));
+        
         server.listen(port);
         app.set('views', baseDir + '/views');
         app.set('view engine', 'jade');
@@ -99,7 +107,7 @@ module.exports = function() {
         for (var route in slides) {
           // set the public directory in each slide folder so that express
           // doesn't try to route those requests
-          app.use(express.static(baseDir + slides[route].location + 'public', { maxAge: config.staticCacheMilliseconds }));
+          app.use(express.static(baseDir + slides[route].location + 'podium_public', { maxAge: config.staticCacheMilliseconds }));
         }
       };
 

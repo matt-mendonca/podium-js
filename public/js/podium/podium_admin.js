@@ -68,6 +68,29 @@ var Podium = Podium || {};
           });
         },
 
+        importSlideForm = function() {
+          $('.upload-button').click(function(event) {
+            $('input[name="deckZip"]').click();
+          });
+
+          $('input[name="deckZip"]').change(function(event){
+            $('.select-file-error').addClass('hide');
+            $('.upload-button').removeClass('alert');
+
+            $('.file-name').val($(this).val());
+          });
+
+          $('.import-slide-form').submit(function(event) {
+            if(!$('.file-name').val()) {
+              $('.select-file-error').removeClass('hide');
+            $('.upload-button').addClass('alert');
+
+              return false;
+            }
+          });
+
+        },
+
         deckController = function() {
           var socket = io.connect('/'),
               // helper function to set the url of the 'control in presentation' button 
@@ -100,6 +123,7 @@ var Podium = Podium || {};
       mainMenuHoverLogic: mainMenuHoverLogic,
       slideEditForm: slideEditForm,
       editUserForm: editUserForm,
+      importSlideForm: importSlideForm,
       deckController: deckController
     };
   }();
@@ -124,7 +148,9 @@ var Podium = Podium || {};
       Podium.admin.slideEditForm();
     } else if ($('.edit-user-form').length > 0) {
       Podium.admin.editUserForm();
-    } else if ($('.deck-controller').length > 0) {
+    } else if ($('.import-slide-form').length > 0) {
+      Podium.admin.importSlideForm();
+    }else if ($('.deck-controller').length > 0) {
       Podium.admin.deckController();
     }
   });

@@ -4,14 +4,17 @@
 
 var Promise = require('bluebird'),
     fileSystem = Promise.promisifyAll(require('fs-extra')),
+    express = require('express'),
     ExpressBrute = require('express-brute'),
     store = new ExpressBrute.MemoryStore(),
     passport = require('passport'),
-    bruteforce = new ExpressBrute(store);
+    bruteforce = new ExpressBrute(store)
+    _ = require('lodash'),
+    JSZip = require("jszip");
 
 module.exports = function(app, config, users, slides, baseDir) {
   var slidesManager = require(baseDir + '/podium_src/slides_manager'),
-  permissionsManager = require(baseDir + '/podium_src/user_manager/permissions_manager'),
+      permissionsManager = require(baseDir + '/podium_src/user_manager/permissions_manager'),
       router = require(baseDir + '/podium_src/router');
 
   app.get('/admin/controller', userManager.isLoggedIn, permissionsManager.checkPermission('present'), function(req, res) {
@@ -70,6 +73,130 @@ module.exports = function(app, config, users, slides, baseDir) {
     res.redirect('/admin/slides'); 
   });
 
+  app.get('/admin/slide-deck/import', userManager.isLoggedIn, permissionsManager.checkPermission('editDecks'), function(req, res) {
+    var routeVars = router.setRouteVars(req);
+    
+    res.render(
+      'import_slide_deck',
+      {
+        title: 'Import Slide Deck',
+        loggedIn: routeVars.loggedIn,
+        breadcrumbs: routeVars.breadcrumbs,
+        config: config,
+        userRoles: userRoles,
+        user: req.user,
+        slides: slides,
+        slideDeck: {
+          title: "",
+          route: "",
+          summary: "",
+          published: false
+        },
+        error: routeVars.error,
+        status: routeVars.status
+      }
+    );  
+  });
+
+ /* Clean this mo up, lots of arrow code */
+
+  app.post('/admin/slide-deck/import',
+    userManager.isLoggedIn,
+    permissionsManager.checkPermission('editDecks'),
+    bruteforce.prevent,
+    function(req, res) {
+      var slidesDir = baseDir + "/slides/",
+          deckName = req.files.deckZip.filename,
+          deckFilePath = '';
+
+      deckName = deckName.replace('.zip', '');
+      deckFilePath = slidesDir + deckName + '/';
+
+      fileSystem.exists(deckFilePath, function(deckExists) {
+        if (deckExists) {
+          fileSystem.removeAsync(baseDir + '/temp_uploads/' + req.files.deckZip.uuid).then(function(error) {
+            req.flash('error', 'Slide deck already exists.');
+            res.redirect('/admin/slide-deck/import'); 
+
+            return null;
+          });
+        } else {
+          fileSystem.readFileAsync(req.files.deckZip.file).then(function(slideZip) {
+            var zip = new JSZip(),
+                deckInfo = {},
+                deckRoute = "/" + deckName;
+
+            zip.load(slideZip);
+
+            _(zip.files).forEach(function(file) {
+              if (file.name.indexOf("__MACOSX/") === -1) {
+                // skip osx bo-shi 
+
+                var fileObject = zip.file(file.name);
+
+                if (file._data.uncompressedSize === 0) {
+                  //console.log('probs a directory');
+                  fileSystem.mkdirsSync(slidesDir + file.name);
+                } else {
+                  //console.log('probs a file');
+                  fileSystem.outputFileSync(slidesDir + file.name, fileObject.asNodeBuffer());
+                }
+              }
+            });
+
+            deckInfo = {
+              title: deckName,
+              summary: deckName,
+              published: false
+            };
+
+            // make sure route isn't already taken
+            while (slides.hasOwnProperty(deckRoute)) {
+              deckRoute += '-1';
+            }
+
+            deckInfo.route = deckRoute;
+
+            fileSystem.writeJsonAsync(deckFilePath + 'podium.json', deckInfo).then(function() {
+              
+              slides[deckRoute] = deckInfo;
+              slides[deckRoute].location = '/slides/' + deckName + '/';
+              slides[deckRoute].indexh = 0;  
+              slides[deckRoute].indexv = 0;
+              slides[deckRoute].overview = false;
+
+              fileSystem.ensureDirAsync(deckFilePath + 'podium_public').then(function(err) {
+                //console.log(err); //null
+
+                // setup static assets directory for slide deck
+                fileSystem.readdirAsync(deckFilePath).then(function(directories) {
+                  directories.forEach(function(directory) {
+                    if(fileSystem.lstatSync(deckFilePath + directory).isDirectory() && directory !== 'podium_public') {
+                      fileSystem.renameAsync(deckFilePath + directory, deckFilePath + 'podium_public/' + directory);
+                    }
+                  });
+
+                  fileSystem.removeAsync(baseDir + '/temp_uploads/' + req.files.deckZip.uuid).then(function(error) {
+                    app.use(express.static(deckFilePath + 'podium_public', { maxAge: config.staticCacheMilliseconds }));
+
+                    req.flash('status', 'Slide deck imported.');
+                    res.redirect('/admin/slides/' + deckName);
+
+                    return null;
+                  });
+
+
+                });
+              });
+
+
+            }); 
+          });
+        }
+      });
+    }
+  );
+
   app.get('/admin/slide-deck/create', userManager.isLoggedIn, permissionsManager.checkPermission('editDecks'), function(req, res) {
     var routeVars = router.setRouteVars(req);
     
@@ -106,10 +233,10 @@ module.exports = function(app, config, users, slides, baseDir) {
 
       if(slideDeckCreated.message === 'emptyFields') {
         req.flash('error', 'All fields need to be filled out.');
-        res.redirect('/admin/slides/create-new-slide-deck');  
+        res.redirect('/admin/slide-deck/create');  
       } else if(slideDeckCreated.message === 'routeTaken') {
         req.flash('error', 'Route is taken.');
-        res.redirect('/admin/slides/create-new-slide-deck'); 
+        res.redirect('/admin/slide-deck/create'); 
       } else if (!slideDeckCreated.message) {
         templateDeckLocation = slides[slideDeckCreated.slideInfo.templateDeck].location,
         slides[slideDeckCreated.slideInfo.route] = slideDeckCreated.slideInfo;
