@@ -10,8 +10,8 @@ html.no-js(lang="en")
 
     title #{title}
     link(href='http://fonts.googleapis.com/css?family=Droid+Serif:400|Open+Sans:300italic,400italic,700italic,300,400,700,' rel='stylesheet' type='text/css')
-    link(rel="stylesheet" href="/css/podium.css")
-    script(src="/modernizr/modernizr.js")
+    link(rel="stylesheet" href="/podium/css/podium.css")
+    script(src="/bower/modernizr/modernizr.js")
     
     block header
       
@@ -53,11 +53,11 @@ html.no-js(lang="en")
           if loggedIn
             a.exit-off-canvas.hide-for-large-up
 
-    script(src="/jquery/dist/jquery.min.js")
-    script(src="/foundation/js/foundation.min.js")
-    script(src="/js/podium.min.js")
+    script(src="/bower/jquery/dist/jquery.min.js")
+    script(src="/bower/foundation/js/foundation.min.js")
+    script(src="/podium/js/podium.min.js")
     if loggedIn
-      script(src="/js/podium_admin.min.js")
+      script(src="/podium/js/podium_admin.min.js")
     script.
       $(document).foundation();
       $(window).load(function() {
