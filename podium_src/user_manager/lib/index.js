@@ -8,6 +8,7 @@ var jwt = require('jsonwebtoken'),
 
 module.exports = function() {
   var findByUsername = function(username, users, fn) {
+      // Remove this function woth Passport?
         for (var userID in users) {
           var user = users[userID];
           if (user.username === username) {
@@ -15,6 +16,16 @@ module.exports = function() {
           }
         }
         return fn(null, null);
+      },
+
+      findByName = function(username, users) {
+        for (var userID in users) {
+          var user = users[userID];
+          if (user.username === username) {
+            return user;
+          }
+        }
+        return null;
       },
 
       isLoggedIn = function(req, res, next) {
@@ -107,6 +118,7 @@ module.exports = function() {
 
   return {
     findByUsername: findByUsername,
+    findByName: findByName,
     isLoggedIn: isLoggedIn,
     createUser: createUser,
     updateUser: updateUser,

@@ -1,8 +1,11 @@
 {
   "name": "podium",
   "dependencies": {
+    "animate-css": "3.2.0",
+    "ember": "1.8.1",
+    "ember-data": "v1.0.0-beta.11",
     "ckeditor": "4.4.5",
-    "foundation": "5.4.5",
+    "foundation": "5.4.7",
     "foundation-icon-fonts": null
   }
 }

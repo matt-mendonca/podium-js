@@ -9,7 +9,7 @@ var Promise = require('bluebird'),
     store = new ExpressBrute.MemoryStore(),
     passport = require('passport'),
     bruteforce = new ExpressBrute(store)
-    _ = require('lodash'),
+    _ = require('lodash-node/modern/collections/forEach'),
     JSZip = require("jszip");
 
 module.exports = function(app, config, users, slides, baseDir) {

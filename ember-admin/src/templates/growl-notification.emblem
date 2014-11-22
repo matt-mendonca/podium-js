@@ -1,0 +1,6 @@
+div class="{{unbound view.content.type}}"
+  a.close-notification click="close target='view'"
+    i.fi-x
+    
+  p.message
+    view.content.message

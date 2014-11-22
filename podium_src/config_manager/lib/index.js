@@ -103,6 +103,7 @@ module.exports = function() {
       setStaticDirs = function(app, config, slides, baseDir) {
         app.use('/podium', express.static(baseDir + '/public', { maxAge: config.staticCacheMilliseconds }));
         app.use('/bower', express.static(baseDir + '/bower_components', { maxAge: config.staticCacheMilliseconds }));
+        app.use('/ember-admin', express.static(baseDir + '/ember-admin', { maxAge: config.staticCacheMilliseconds }));
 
         for (var route in slides) {
           // set the public directory in each slide folder so that express

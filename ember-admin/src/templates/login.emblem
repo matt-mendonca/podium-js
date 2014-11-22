@@ -1,0 +1,28 @@
+form.login-form data-abide="" method="post" submit="authenticate"
+  fieldset
+    legend Login
+
+    if message
+      .message
+        h5.error-message #{message}
+
+    .username.input-wrapper
+      label
+        | Username:
+        = input type="text" name="username" valueBinding=username required=""
+      small.error Username is required.
+
+    .password.input-wrapper
+      label 
+        | Password:
+        = input type="password" name="password" valueBinding=password required=""
+      small.error Password is required.
+
+    .submit
+      .input-icon-button-wrapper
+        i.fi-arrow-right.input-icon
+        input.button.icon-button.radius.success type="submit" value="Log In"
+
+    a.button.icon-button.radius.secondary href="/"
+      i.fi-minus-circle
+      |Cancel

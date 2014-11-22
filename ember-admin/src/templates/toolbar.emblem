@@ -1,0 +1,87 @@
+aside.left-off-canvas-menu.main-menu
+  ul.off-canvas-list
+    li
+      a href="/"
+        i.fi-home
+        | Front Page
+
+    li
+      = linkTo "index"
+        i.fi-graph-bar
+        | Dashboard
+    
+    if model.user.userRoles
+      //[user.role]['present']
+      li
+        = linkTo "controller"
+          i.fi-play-video
+          | Controller
+
+    if model.user.userRoles
+      //[user.role]['editDecks'] 
+      li.has-submenu
+        //= linkTo "slides" class="trigger-submenu"
+        a.trigger-submenu
+          i.fi-projection-screen
+          | Slides
+        ul.left-submenu
+          li
+            = linkTo "slides"
+              i.fi-projection-screen
+              | All Decks
+          li
+            = linkTo "slidedeck.create"
+              //a href="#admin/slide-deck/create"
+              i.fi-page-add
+              | Create Deck
+          li
+            = linkTo "slidedeck.import"
+              //a href="#admin/slide-deck/import"
+              i.fi-upload
+              | Import Deck
+          li.back
+            a Close
+
+    li.has-submenu
+      //= linkTo "users" class="trigger-submenu"
+      a.trigger-submenu
+        i.fi-torsos-all
+        | Users
+      ul.left-submenu
+        if model.user.userRoles
+          //[user.role]['manageUsers']
+          li
+            = linkTo "users"
+              i.fi-torsos-all
+              | All Users
+            
+        li
+          = linkTo "myaccount"
+            i.fi-torso
+            | My Account
+
+        if model.user.userRoles
+          //[user.role]['manageUsers']
+          li
+            = linkTo "useraccount.create"
+              //a href="#admin/user-account/create"
+              i.fi-torsos
+              | Create User
+          li
+            = linkTo "userroles"
+              i.fi-key
+              | User Roles
+        li.back
+          a Close
+
+    if model.user.userRoles
+      //[user.role]['manageSiteConfig']
+      li
+        = linkTo "config"
+          i.fi-widget
+          | Configuration
+
+    li
+      = linkTo "logout"
+        i.fi-power
+        | Logout
