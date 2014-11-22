@@ -130,10 +130,30 @@
       notifications: Ember.A(),
 
       push: function(type, message) {
-        var notif;
-        type = type || 'info';
+        var notif,
+            iconClass;
+
+        switch(type) {
+          case 'alert':
+            iconClass = 'fi-alert';
+            break;
+
+          case 'success':
+            iconClass = 'fi-check';
+            break;
+
+          case 'warning':
+            iconClass = 'fi-prohibited';
+            break;
+
+          default:
+            iconClass = 'fi-info';
+            break;
+        }
+
         notif = {
           type: type,
+          iconClass: iconClass,
           message: message,
           closed: false
         };

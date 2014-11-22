@@ -74,7 +74,14 @@ var gulp = require('gulp'),
     gulp.watch('public/js/podium/**/*.js', ['lint', 'scripts']);
   });
 
-gulp.task('build', ['moveFonts', 'compass', 'lint', 'scripts']);
+gulp.task('build', [
+  'moveFonts',
+  'mod-min',
+  'animate-sass',
+  'compass',
+  'lint',
+  'scripts'
+]);
 gulp.task('default', ['build', 'watch']);
 
 /***
@@ -161,6 +168,7 @@ gulp.task('admin-build-app-file', ['admin-templates', 'admin-lint-min'], functio
   });
 
 gulp.task('admin-build', [
+  'moveFonts',
   'mod-min',
   'animate-sass',
   'compass',

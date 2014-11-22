@@ -1,5 +1,9 @@
 <!DOCTYPE html>
-<html>
+<!-- paulirish.com/2008/conditional-stylesheets-vs-css-hacks-answer-neither/ --> 
+<!--[if lt IE 7 ]> <html lang="en" class="no-js lt-ie9 lt-ie8 lt-ie7 ie6"> <![endif]-->
+<!--[if IE 7 ]>    <html lang="en" class="no-js lt-ie9 lt-ie8 ie7"> <![endif]-->
+<!--[if IE 8 ]>    <html lang="en" class="no-js lt-ie9 ie8"> <![endif]-->
+<!--[if (gte IE 9)|!(IE)]><!--> <html lang="en" class="no-js"> <!--<![endif]-->
 <head>
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta charset="utf-8">
@@ -10,8 +14,16 @@
 </head>
 
 <body>
+  
+  <noscript class="alert-box alert">
+    Podium JS requires JavaScript to work. Please enable JavaScript.
+  </noscript>
+
+  <div data-alert class="alert-box warning browser-warning">
+    You appear to be using an outdated browser. <a href="http://browsehappy.com/">Please upgrade for the best experience.</a>
+    <a href="#" class="close">&times;</a>
+  </div>
 
   <script src="/ember-admin/build/app.js"></script>
-  
 </body>
 </html>

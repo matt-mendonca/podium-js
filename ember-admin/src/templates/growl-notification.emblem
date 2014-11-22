@@ -1,6 +1,7 @@
 div class="{{unbound view.content.type}}"
   a.close-notification click="close target='view'"
-    i.fi-x
+    |&times;
     
   p.message
+    i class="{{unbound view.content.iconClass}}"
     view.content.message
