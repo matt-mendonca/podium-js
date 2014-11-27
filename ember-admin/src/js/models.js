@@ -11,6 +11,14 @@
       loggedIn: null
     });
 
+    App.Models.UserRole = Ember.Object.extend({
+      name: null,
+      present: null,
+      editDecks: null,
+      manageUsers: null,
+      manageSiteConfig: null
+    });
+
     App.Models.SlideDeck = Ember.Object.extend({
       id: DS.attr(),
       title: DS.attr(),

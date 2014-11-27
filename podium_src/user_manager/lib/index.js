@@ -114,6 +114,30 @@ module.exports = function() {
         }
 
         return verified;
+      },
+
+
+      // For use with ember - note that this returns JSON
+      checkJWT = function(req, res, next) {
+        var token = req.headers.authorization;
+
+        if(token) {
+          jwt.verify(token, config.jwtSecret, function(err, decoded) {
+
+            if(decoded) {
+              verified = true;
+            }
+          });  
+        }
+
+        if(verified) {
+          next();
+        } else {
+          res.statusCode = 401;
+          res.json({ authenticated: false });
+        }
+
+        return null;
       };
 
   return {
@@ -123,6 +147,7 @@ module.exports = function() {
     createUser: createUser,
     updateUser: updateUser,
     createJWT: createJWT,
-    verifyJWT: verifyJWT
+    verifyJWT: verifyJWT,
+    checkJWT: checkJWT
   };
 }();

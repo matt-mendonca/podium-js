@@ -11,6 +11,7 @@
   require('./mixins');
   require('./controllers');
   require('./models');
+  require('./config');
   require('./router');
   require('./routes');
   require('./growl_notifications');

@@ -5,16 +5,6 @@
   module.exports = function(App) {
     App.ApplicationRoute = Ember.Route.extend({
       model: function(params) {
-        var user = JSON.parse(localStorage.getItem('puser'));
-
-        if(user) {
-          localStorage.setItem('pjwt', user.token);
-        } else {
-          user = { loggedIn: false };
-        }
-
-        App.User = App.Models.AppUser.create(user);
-
         return Ember.RSVP.hash({
           user: App.User
         });

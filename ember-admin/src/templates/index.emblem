@@ -1,1 +1,2 @@
-p Welcome #{model.user.username}!
+h2.title 
+  |Welcome #{model.user.username}!

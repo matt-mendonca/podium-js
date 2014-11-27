@@ -78,6 +78,13 @@ module.exports = function(app, config, userRoles, users, slides, baseDir) {
 
   });
 
+   app.get('/ember-user-roles', userManager.checkJWT, function(req, res) {
+      
+    res.json(userRoles);
+
+    return;
+  });
+
   app.get('/set-jwt', userManager.isLoggedIn, function(req, res) {
     var token = null;
 

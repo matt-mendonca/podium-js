@@ -18,5 +18,6 @@
 
     App.ApplicationAdapter = DS.FixtureAdapter;
     App.Models = {};
+    App.UserRoles = {};
     App.Mixins = {};
   }(App);
