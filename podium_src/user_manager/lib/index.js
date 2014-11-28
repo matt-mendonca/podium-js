@@ -119,9 +119,11 @@ module.exports = function() {
 
       // For use with ember - note that this returns JSON
       checkJWT = function(req, res, next) {
-        var token = req.headers.authorization;
+        var verified = false,
+            token = req.headers.authorization;
 
         if(token) {
+          token = token.replace('Bearer: ', '');
           jwt.verify(token, config.jwtSecret, function(err, decoded) {
 
             if(decoded) {

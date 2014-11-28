@@ -4,11 +4,11 @@
 
 // App Code
   module.exports = function(App) {
+    console.log('config code');
+
     var user = JSON.parse(localStorage.getItem('puser'));
 
-    if(user) {
-      localStorage.setItem('pjwt', user.token);
-    } else {
+    if(!user) {
       user = { loggedIn: false };
     }
 
@@ -16,7 +16,7 @@
 
     Ember.$.ajaxSetup({
       headers: {
-        'Authorization': user.token
+        'Authorization': 'Bearer: ' + user.token
       }
     });
 

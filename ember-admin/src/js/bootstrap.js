@@ -16,6 +16,10 @@
         afterRenderEvent : function(){}
       });
 
+    if (!Date.now) {
+      Date.now = function() { return new Date().getTime(); };
+    }
+
     App.ApplicationAdapter = DS.FixtureAdapter;
     App.Models = {};
     App.UserRoles = {};

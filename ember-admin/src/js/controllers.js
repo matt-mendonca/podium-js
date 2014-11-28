@@ -16,8 +16,9 @@
       success: function(data) {
         data.user.loggedIn = true;
         App.User.setProperties(data.user);
+        // expire in 30 mins
+        data.user.expires = Date.now() + 1800000;
         localStorage.setItem('puser', JSON.stringify(data.user));
-        localStorage.setItem('pjwt', data.user.token);
 
         App.GNM.push('success', 'Log In Successful!');
 
