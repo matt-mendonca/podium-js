@@ -148,6 +148,10 @@ gulp.task('admin-build-app-file', ['admin-templates', 'admin-lint-min'], functio
             jquery: '$'
           }
         },
+        lodash: {
+          path: 'bower_components/lodash/dist/lodash.min.js',
+          exports: '_'
+        },
         templates: {
           path: 'ember-admin/build/js/templates.js',
           exports: 'templates',
@@ -157,6 +161,7 @@ gulp.task('admin-build-app-file', ['admin-templates', 'admin-lint-min'], functio
         }    
       }
     }))
+    //.pipe(uglify())
     .pipe(gulp.dest('ember-admin/build'))
 });
 
