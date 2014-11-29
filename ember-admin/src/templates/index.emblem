@@ -3,18 +3,18 @@ h2.title
 
 if model.userRole.present
   div
-    a.button.border.icon-button.radius.controller-button href="/admin/controller"
+    = linkTo "controller" class="button border icon-button radius"
       i.fi-play-video
-      |Controller
+      | Controller
 
 if model.userRole.editDecks
   div
-    a.button.border.icon-button.radius href="/admin/slide-deck/create"
+    = linkTo "slidedeck.create" class="button border icon-button radius"
       i.fi-page-add
-      |Create Deck
+      | Create Deck
 
 if model.userRole.manageUsers
   div
-    a.button.border.icon-button.radius href="/admin/user-account/create"
+    = linkTo "useraccount.create" class="button border icon-button radius"
       i.fi-torsos
-      |Create User
+      | Create User

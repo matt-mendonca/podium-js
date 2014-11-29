@@ -29,12 +29,10 @@ aside.left-off-canvas-menu.main-menu
               | All Decks
           li
             = linkTo "slidedeck.create"
-              //a href="#admin/slide-deck/create"
               i.fi-page-add
               | Create Deck
           li
             = linkTo "slidedeck.import"
-              //a href="#admin/slide-deck/import"
               i.fi-upload
               | Import Deck
           li.back
@@ -60,7 +58,6 @@ aside.left-off-canvas-menu.main-menu
         if model.userRole.manageUsers
           li
             = linkTo "useraccount.create"
-              //a href="#admin/user-account/create"
               i.fi-torsos
               | Create User
           li

@@ -9,16 +9,6 @@
           if model.user.loggedIn
             a.left-off-canvas-toggle.main-menu-toggle.hide-for-large-up
               i.fi-list
-
-            ul.breadcrumbs
-              li
-                = linkTo "index" | Dashboard
-              //if breadcrumbs
-                each breadcrumbTitle, breadcrumbURL in breadcrumbs
-                  li
-                    //a(href="#{breadcrumbURL}") #{breadcrumbTitle}
-
-                li.current | #{title}
                 
           .notification-container
             = app-growl-notifications
