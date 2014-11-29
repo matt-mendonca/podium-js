@@ -6,14 +6,13 @@
     App.ApplicationRoute = Ember.Route.extend({
       model: function(params) {
         return Ember.RSVP.hash({
-          user: App.User
+          user: App.AppUser
         });
       }
     });
 
     App.LogoutRoute = Ember.Route.extend({
       beforeModel: function() {
-        localStorage.removeItem('pjwt');
         localStorage.removeItem('puser');
 
         window.location.href = window.location.origin;

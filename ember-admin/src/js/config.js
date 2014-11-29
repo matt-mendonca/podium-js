@@ -1,40 +1,70 @@
 // Library Depencies
   var Ember = require('ember'),
-      _ = require('lodash-node');
+      _ = require('lodash');
 
 // App Code
   module.exports = function(App) {
-    console.log('config code');
+    var usertoken = null;
 
-    var user = JSON.parse(localStorage.getItem('puser'));
+    // Token defaults
+    App.config.token = {
+      name: 'puser',
+      // Expire in 30 mins
+      expireLimit: 1800000
+    };
 
-    if(!user) {
-      user = { loggedIn: false };
-    }
+    // User defaults
+    App.config.defaultUser = {
+      loggedIn: false 
+    };
 
-    App.User = App.Models.AppUser.create(user);
-
-    Ember.$.ajaxSetup({
-      headers: {
-        'Authorization': 'Bearer: ' + user.token
+    // Get user role data
+    Ember.$.ajax({
+      url: "/api/user-roles",
+      type: "GET",
+      async: false,
+      success: function(data) {
+        _(data).forEach(function(role, roleName) {
+          role.name = roleName;
+          App.UserRoles[roleName] = App.Models.UserRole.create(role);
+        });
+      },
+      error: function(error) {
+        console.log(error);
       }
     });
 
-    Ember.$.get("/ember-user-roles").then(
-      function(data) {
-        _(data).forEach(function(role, roleName) {
-          
-          role.name = roleName;
+    userToken = JSON.parse(localStorage.getItem(App.config.token.name));
 
-          App.UserRoles[roleName] = App.Models.UserRole.create(role);
-          
-        });
+    // This seems really hacky
+    if(!userToken) {
+      App.AppUser = App.Models.AppUser.create(App.config.defaultUser);
+    } else if (userToken.expiresTime < Date.now()) {
+      // Token expired
+      localStorage.removeItem(App.config.token.name);
+      App.AppUser = App.Models.AppUser.create(App.config.defaultUser);
+      App.GNM.push('warning', 'Session expired.');
+    } else {
+      // Token still good
+      Ember.$.ajax({
+        url: "/api/user/" + userToken.id,
+        type: "GET",
+        async: false,
+        beforeSend: function(request) {
+          request.setRequestHeader('Authorization', 'Bearer: ' + userToken.token);
+        },
+        success: function(data) {
+          data.loggedIn = true;
 
-        App.User.set('role', App.UserRoles[user.role]);
-      },
-      function(err) {
-        console.log(err);
-      }
-    );
+          App.GNM.push('info', 'Session resumed.');
+
+          App.AppUser = App.Models.AppUser.create(data);
+          App.AppUser.logIn(data, userToken);
+        },
+        error: function(error) {
+          console.log(error);
+        }
+      });
+    }
 
   }(App);

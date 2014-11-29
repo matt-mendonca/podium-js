@@ -9,12 +9,12 @@
 // Load Modules
   require('./bootstrap');
   require('./mixins');
-  require('./controllers');
   require('./models');
+  require('./controllers');
+  require('./growl_notifications');
   require('./config');
   require('./router');
   require('./routes');
-  require('./growl_notifications');
   require('./views');
   require('./components');
   require('./templates');

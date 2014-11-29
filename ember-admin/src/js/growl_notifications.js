@@ -18,7 +18,7 @@
       */
       contentBinding: 'App.GNM.notifications',
       attributeBindings: ['style'],
-      showTime: 10000,
+      showTime: 5000,
       /*
       @property {View} Notification view class
       Determines what view class to render for each item in the content array.

@@ -24,4 +24,5 @@
     App.Models = {};
     App.UserRoles = {};
     App.Mixins = {};
+    App.config = {};
   }(App);
