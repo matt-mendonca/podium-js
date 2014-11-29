@@ -12,6 +12,7 @@
 
       model: function(params) {
         return Ember.RSVP.hash({
+          user: App.AppUser,
           userRole: App.AppUser.getRole()
         });
       }

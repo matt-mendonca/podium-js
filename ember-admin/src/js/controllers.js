@@ -4,7 +4,20 @@
 
 // App Code
   module.exports = function(App) {
+    App.ApplicationController = Ember.Controller.extend({
+      actions: {
+        refreshModel: function() {
+          this.set('model', {
+            user: App.AppUser,
+            userRole: App.AppUser.getRole()
+          });
+        }
+      }
+    });
+
     App.LoginController = Ember.Controller.extend({
+      needs: ["application"],
+
       actions: {
         authenticate: function() {
           var request = Ember.$.post("/api/login", this.getProperties("username", "password"));
@@ -16,6 +29,8 @@
       success: function(data) {
         App.AppUser.set('loggedIn', true);
         App.AppUser.logIn(data.user);
+
+        this.get('controllers.application').send('refreshModel');
 
         this.transitionToRoute('index');
       },

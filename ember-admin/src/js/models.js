@@ -60,7 +60,6 @@
           App.AppUserToken = App.Models.UserToken.create(App.config.token);
 
           this.setAjaxHeader();
-
           this.getRoleData();
 
           App.GNM.push('success', 'Log In Successful!');
@@ -68,9 +67,9 @@
       },
 
       logOut: function() {
-        this.get('token').clearToken();
-        this.setPropertiest(App.config.defaultUser);
-        this.destroy();
+        this.getToken().clearToken();
+
+        window.location.href = window.location.origin;
       }
     });
 

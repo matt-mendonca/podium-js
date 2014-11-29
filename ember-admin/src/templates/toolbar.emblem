@@ -10,15 +10,13 @@ aside.left-off-canvas-menu.main-menu
         i.fi-graph-bar
         | Dashboard
     
-    if model.user.userRoles
-      //[user.role]['present']
+    if model.userRole.present
       li
         = linkTo "controller"
           i.fi-play-video
           | Controller
 
-    if model.user.userRoles
-      //[user.role]['editDecks'] 
+    if model.userRole.editDecks 
       li.has-submenu
         //= linkTo "slides" class="trigger-submenu"
         a.trigger-submenu
@@ -48,8 +46,7 @@ aside.left-off-canvas-menu.main-menu
         i.fi-torsos-all
         | Users
       ul.left-submenu
-        if model.user.userRoles
-          //[user.role]['manageUsers']
+        if model.userRole.manageUsers
           li
             = linkTo "users"
               i.fi-torsos-all
@@ -60,8 +57,7 @@ aside.left-off-canvas-menu.main-menu
             i.fi-torso
             | My Account
 
-        if model.user.userRoles
-          //[user.role]['manageUsers']
+        if model.userRole.manageUsers
           li
             = linkTo "useraccount.create"
               //a href="#admin/user-account/create"
@@ -74,8 +70,7 @@ aside.left-off-canvas-menu.main-menu
         li.back
           a Close
 
-    if model.user.userRoles
-      //[user.role]['manageSiteConfig']
+    if model.userRole.manageSiteConfig
       li
         = linkTo "config"
           i.fi-widget
