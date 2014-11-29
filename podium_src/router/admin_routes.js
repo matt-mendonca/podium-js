@@ -42,49 +42,6 @@ module.exports = function(app, config, userRoles, users, slides, baseDir) {
     )
   );
 
-  //app.post('/ember-login', bruteforce.prevent, function(req, res) {
-  app.post('/ember-login', function(req, res) {
-    var user = null,
-        passwordCorrect = false,
-        responseStatus = 401;
-        responseObject = {
-          authenticated: false
-        };
-
-    if (req.body.username && req.body.password) {
-      user = userManager.findByName(req.body.username, users);
-
-      if(user) {
-        passwordCorrect = bcrypt.compareSync(req.body.password, user.password);
-        
-
-        if(passwordCorrect) {
-          responseStatus = 200;
-          responseObject.authenticated = true;
-          responseObject.user = {
-            id: user.id,
-            username: user.username,
-            role: user.role,
-            token: userManager.createJWT(config, user)
-          };
-        }
-      }
-    } 
-
-    res.statusCode = responseStatus;
-    res.json(responseObject);
-
-    return;
-
-  });
-
-   app.get('/ember-user-roles', userManager.checkJWT, function(req, res) {
-      
-    res.json(userRoles);
-
-    return;
-  });
-
   app.get('/set-jwt', userManager.isLoggedIn, function(req, res) {
     var token = null;
 
