@@ -8,6 +8,12 @@
         if (!App.AppUser.loggedIn) {
           this.transitionTo('login');
         }
+      },
+
+      model: function(params) {
+        return Ember.RSVP.hash({
+          userRole: App.AppUser.getRole()
+        });
       }
     });
 

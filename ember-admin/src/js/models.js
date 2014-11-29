@@ -35,16 +35,17 @@
           url: "/api/user-roles",
           type: "GET",
           async: false,
-          success: function(data) {
+        }).then(
+          function(data) {
             _(data).forEach(function(role, roleName) {
               role.name = roleName;
               App.UserRoles[roleName] = App.Models.UserRole.create(role);
             });
           },
-          error: function(error) {
+          function(error) {
             console.log(error);
           }
-        });
+        );
       },
 
       logIn: function(user, token) {

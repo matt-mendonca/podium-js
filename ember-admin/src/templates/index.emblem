@@ -1,2 +1,20 @@
 h2.title 
   |Welcome #{model.user.username}!
+
+if model.userRole.present
+  div
+    a.button.border.icon-button.radius.controller-button href="/admin/controller"
+      i.fi-play-video
+      |Controller
+
+if model.userRole.editDecks
+  div
+    a.button.border.icon-button.radius href="/admin/slide-deck/create"
+      i.fi-page-add
+      |Create Deck
+
+if model.userRole.manageUsers
+  div
+    a.button.border.icon-button.radius href="/admin/user-account/create"
+      i.fi-torsos
+      |Create User
