@@ -24,9 +24,6 @@ module.exports = function(app, config, userRoles, users, slides, baseDir) {
         'public': {
           '/login': {
             'post': 'Post login credentials, returns user data or unauthorized.'
-          },
-          '/user-roles': {
-            'get': 'Returns the user roles and permissions.'
           }
         }, 
         'protected': {
@@ -34,6 +31,9 @@ module.exports = function(app, config, userRoles, users, slides, baseDir) {
             '/userid': {
               'get': 'Returns the user data based on the user id, or not found.'
             }
+          },
+          '/user-roles': {
+            'get': 'Returns the user roles and permissions.'
           }
         }
       }
@@ -104,7 +104,7 @@ module.exports = function(app, config, userRoles, users, slides, baseDir) {
   });
 
   // This should probably be protected by token
-  app.get('/api/user-roles', function(req, res) {
+  app.get('/api/user-roles', userManager.checkJWT, function(req, res) {
       
     res.json(userRoles);
 

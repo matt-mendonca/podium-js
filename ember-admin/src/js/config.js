@@ -1,6 +1,5 @@
 // Library Depencies
-  var Ember = require('ember'),
-      _ = require('lodash');
+  var Ember = require('ember');
 
 // App Code
   module.exports = function(App) {
@@ -17,22 +16,6 @@
     App.config.defaultUser = {
       loggedIn: false 
     };
-
-    // Get user role data
-    Ember.$.ajax({
-      url: "/api/user-roles",
-      type: "GET",
-      async: false,
-      success: function(data) {
-        _(data).forEach(function(role, roleName) {
-          role.name = roleName;
-          App.UserRoles[roleName] = App.Models.UserRole.create(role);
-        });
-      },
-      error: function(error) {
-        console.log(error);
-      }
-    });
 
     userToken = JSON.parse(localStorage.getItem(App.config.token.name));
 

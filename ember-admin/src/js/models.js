@@ -1,5 +1,6 @@
 // Library Depencies
   var Ember = require('ember'),
+      _ = require('lodash');
       DS = require('ember-data');
 
 // App Code
@@ -28,6 +29,24 @@
         });
       },
 
+      getRoleData: function() {
+        //Make async
+        Ember.$.ajax({
+          url: "/api/user-roles",
+          type: "GET",
+          async: false,
+          success: function(data) {
+            _(data).forEach(function(role, roleName) {
+              role.name = roleName;
+              App.UserRoles[roleName] = App.Models.UserRole.create(role);
+            });
+          },
+          error: function(error) {
+            console.log(error);
+          }
+        });
+      },
+
       logIn: function(user, token) {
         token = token || {};
 
@@ -40,6 +59,8 @@
           App.AppUserToken = App.Models.UserToken.create(App.config.token);
 
           this.setAjaxHeader();
+
+          this.getRoleData();
 
           App.GNM.push('success', 'Log In Successful!');
         }
